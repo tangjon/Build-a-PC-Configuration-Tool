@@ -7,7 +7,7 @@ Planning Phase
 ### Backend
 [Django](https://www.djangoproject.com/) - Python Web Framework
 
-### Datbase
+### Database
 [MongoDB](https://www.mongodb.com/) - Non-relational database
 
 [Google Firestore](https://firebase.google.com/docs/firestore/) - Google Real-time Database
