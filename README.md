@@ -13,6 +13,14 @@ Planning Phase
 ### Frontend - TBA
 [Angular 2+](https://angular.io/) - Another Google Framework
 
+Site structure (rough url map)
+- Home
+- Login
+- User settings
+- Build creation page
+- Part browse page, per category basis
+- Part detail page (pricing, comments, reviews)
+
 Project Phase 1:
 - Backbone design completed (Modelling, views, template return plain unformatted html)
 - GPU only but with design accounting for more types of components
