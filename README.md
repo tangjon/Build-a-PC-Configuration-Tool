@@ -8,11 +8,21 @@ Planning Phase
 [Django](https://www.djangoproject.com/) - Python Web Framework
 
 ### Database
-[MongoDB](https://www.mongodb.com/) - Non-relational database
-
-[Google Firestore](https://firebase.google.com/docs/firestore/) - Google Real-time Database
-
 [PostgreSQL](https://www.postgresql.org/) - SQL Relational database 
 
-### Frontend
+### Frontend - TBA
 [Angular 2+](https://angular.io/) - Another Google Framework
+
+Project Phase 1:
+- Backbone design completed (Modelling, views, template return plain unformatted html)
+- GPU only but with design accounting for more types of components
+- Figure out how to generate list of parts
+
+Project Phase 2:
+- Add in UI, basic JS functionality
+- CSS styling (Twitter Bootstrap)
+
+Project PHase 3:
+- Finish adding in other types of components aside from GPUs if desired
+- Bring project online on VPS
+
