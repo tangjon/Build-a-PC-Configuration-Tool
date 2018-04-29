@@ -34,3 +34,5 @@ Project PHase 3:
 - Finish adding in other types of components aside from GPUs if desired
 - Bring project online on VPS
 
+manage.py runserver  --settings=bapccanada.settings.local
+django-admin runserver --settings=bapccanada.settings.dev
