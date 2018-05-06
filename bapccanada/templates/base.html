@@ -3,58 +3,43 @@
 {#{% load compile_static %}#}
 <html>
 <head>
-    <title>{% block title %}{% endblock %} - BAPCCanada</title>
+    <title>{{ title }} - BAPCCanada</title>
     {# STYLESHEETS #}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.less' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.less' |compile %}"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
 </head>
 
 <body>
 {# NAVBAR #}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <img src="{% static 'assets/brand/bootstrap-logo.png' %}" width="30" height="30"
-                 class="d-inline-block align-top">
-            Build A PC Canada
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">Features</a>
-                <a class="nav-item nav-link" href="#">Pricing</a>
-                <a class="nav-item nav-link disabled" href="#">Disabled</a>
-            </div>
-
-            {# TODO Login Configuration #}
-            <div class="navbar-account ml-auto">
-                <button class="btn btn-primary">Sign In</button>
-                <button class="btn btn-secondary">Sign Out</button>
-            </div>
-        </div>
-
-    </div>
-
-</nav>
+{% include 'navbar.html' %}
 {# END NAVBAR #}
 
-<div class="container">
-    {% block body %}
-    {% endblock body %}
+<div class="bapc-header">
+    <div class="container">
+        <div class="bapc-header-title">
+            {% block bapc-header-title %}
+            {% endblock bapc-header-title %}
+        </div>
+        <div class="bapc-header-content">
+            {% block bapc-header-content %}
+            {% endblock bapc-header-content %}
+        </div>
+    </div>
+</div>
+
+<div class="bapc-body">
+    <div class="container">
+        {% block bapc-body %}
+        {% endblock bapc-body %}
+    </div>
 </div>
 
 
-<footer class="footer">
-    <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
-    </div>
-</footer>
+{% include 'footer.html' %}
 
 {# JAVASCRIPT #}
 <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
