@@ -1,0 +1,33 @@
+{% load static %}
+{% url 'home:login' as login_url %}
+{% url 'account:view_profile' as profile_url %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'assets/brand/bootstrap-logo.png' %}" width="30" height="30"
+                 class="d-inline-block align-top">
+            Build A PC Canada
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Features</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            </div>
+
+            {# TODO Login Configuration #}
+            <div class="navbar-account ml-auto">
+                <a class="btn btn-primary" href="{{ login_url }}">Sign In</a>
+                <button class="btn btn-secondary">Sign Out</button>
+                <a href="{{ profile_url }}">preferences</a>
+            </div>
+        </div>
+
+    </div>
+
+</nav>
