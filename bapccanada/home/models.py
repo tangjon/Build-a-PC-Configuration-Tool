@@ -1,7 +1,9 @@
 from django.db import models
 
 import datetime
+
 from django.utils import timezone
+
 from django.contrib.auth.models import User
 
 
@@ -54,7 +56,7 @@ class Build(models.Model):
 
 
 class Review(models.Model):
-    component = models.ForeignKey(Component, on_delete=models.CASCADE)
+    component = models.ForeignKey(GPU, on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
     build = models.ForeignKey(Build, on_delete=models.SET_NULL, null=True)
     content = models.CharField(max_length=1000)
