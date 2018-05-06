@@ -3,20 +3,64 @@
 {#{% load compile_static %}#}
 <html>
 <head>
-    <title>My Project</title>
+    <title>{% block title %}{% endblock %} - BAPCCanada</title>
     {# STYLESHEETS #}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.less' %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
-
-    <link rel="stylesheet" href="{% static 'css/style.less' |compile %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/style.less' |compile %}"/>
 </head>
 
 <body>
-{% block body %}
-{% endblock body %}
+{# NAVBAR #}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'assets/brand/bootstrap-logo.png' %}" width="30" height="30"
+                 class="d-inline-block align-top">
+            Build A PC Canada
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Features</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            </div>
+        </div>
+
+    </div>
+
+</nav>
+{# END NAVBAR #}
+
+<div class="container">
+    {% block body %}
+    {% endblock body %}
+</div>
+
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
+
 {# JAVASCRIPT #}
 <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+{#<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>#}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
 </body>
 </html>
