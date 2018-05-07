@@ -8,5 +8,11 @@ from . import views
 # .. /user/MrPotato/preferences
 app_name = 'account'
 urlpatterns = [
-    path(r'^$', views.view_profile, name='view_profile')
+    path('', views.view_profile, name='view_profile'),
+    path('preferences/', views.view_preferences, name="view_preferences"),
+    path('comments/', views.view_comments, name="view_comments"),
+    path('builds/', views.view_builds, name="view_builds"),
+    path('notifications/', views.view_notifications, name="view_notifications"),
+    path('security/', views.view_security, name="view_security")
+
 ]
