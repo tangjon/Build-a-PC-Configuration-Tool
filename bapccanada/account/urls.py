@@ -1,4 +1,4 @@
-from django.urls import re_path
+from django.urls import re_path, path
 
 from . import views
 
@@ -8,5 +8,5 @@ from . import views
 # .. /user/MrPotato/preferences
 app_name = 'account'
 urlpatterns = [
-    re_path(r'^$', views.view_profile, name='view_profile')
+    path(r'^$', views.view_profile, name='view_profile')
 ]
