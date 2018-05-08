@@ -1,6 +1,9 @@
 from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
+
+from .forms import SignUpForm
 
 
 def home_view(request):
@@ -15,3 +18,16 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'title': 'Login', 'form': form})
+
+
+def signup_view(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = SignUpForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            form.save();
+            return redirect('home:signup')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
