@@ -15,22 +15,22 @@
 {% block bapc-header-content %}
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link {% if slug == 'user' %} active {% endif%}" href="{% url 'account:view_profile' %}"><i class="material-icons pr-1">account_circle</i>Profile</a>
+            <a class="nav-link {% if slug == 'user' %} active {% endif%}" href="{% url 'account:profile' %}"><i class="material-icons pr-1">account_circle</i>Profile</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if slug == 'preferences'%} active {% endif%}" href="{% url 'account:view_preferences' %}"><i class="material-icons pr-1">settings</i>Preferences</a>
+            <a class="nav-link {% if slug == 'preferences'%} active {% endif%}" href="{% url 'account:preferences' %}"><i class="material-icons pr-1">settings</i>Preferences</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if slug == 'comments'%} active {% endif%}" href="{% url 'account:view_comments' %}"><i class="material-icons pr-1">comment</i>Comments</a>
+            <a class="nav-link {% if slug == 'comments'%} active {% endif%}" href="{% url 'account:comments' %}"><i class="material-icons pr-1">comment</i>Comments</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if slug == 'builds'%} active {% endif%}" href="{% url 'account:view_builds' %}"><i class="material-icons pr-1">build</i>Builds</a>
+            <a class="nav-link {% if slug == 'builds'%} active {% endif%}" href="{% url 'account:builds' %}"><i class="material-icons pr-1">build</i>Builds</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if slug == 'notifications'%} active {% endif%}" href="{% url 'account:view_notifications' %}"><i class="material-icons pr-1">priority_high</i>Notifications</a>
+            <a class="nav-link {% if slug == 'notifications'%} active {% endif%}" href="{% url 'account:notifications' %}"><i class="material-icons pr-1">priority_high</i>Notifications</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if slug == 'security'%} active {% endif%}" href="{% url 'account:view_security' %}"><i class="material-icons pr-1">security</i>Security</a>
+            <a class="nav-link {% if slug == 'security'%} active {% endif%}" href="{% url 'account:security' %}"><i class="material-icons pr-1">security</i>Security</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
@@ -38,6 +38,6 @@
     </ul>
 {% endblock %}
 
-{% block bapc-body %}
+{% block bapc-body-content %}
 Default profile page
 {% endblock %}

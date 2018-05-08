@@ -1,6 +1,6 @@
 {% load static %}
 {% url 'home:login' as login_url %}
-{% url 'account:view_profile' as profile_url %}
+{% url 'account:profile' as profile_url %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -22,9 +22,10 @@
 
             {# TODO Login Configuration #}
             <div class="navbar-account ml-auto">
-                <a class="btn btn-primary" href="{{ login_url }}">Sign In</a>
+                <a class="btn btn-primary" href="{% url 'home:login' %}">Sign In</a>
+                <a class="btn btn-danger" href="{% url 'home:signup' %}">Sign Up</a>
                 <button class="btn btn-secondary">Sign Out</button>
-                <a href="{{ profile_url }}">@USER Settings</a>
+                <a href="{% url 'account:profile' %}">@USER Settings</a>
             </div>
         </div>
 

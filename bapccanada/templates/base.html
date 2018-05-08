@@ -14,33 +14,36 @@
 </head>
 
 <body>
-{# NAVBAR #}
-{% include 'navbar.html' %}
-{# END NAVBAR #}
+{% block body %}
 
-<div class="bapc-header">
-    <div class="container">
-        <div class="bapc-header-title">
-            {% block bapc-header-title %}
-            {% endblock bapc-header-title %}
-        </div>
-        <div class="bapc-header-content">
-            {% block bapc-header-content %}
-            {% endblock bapc-header-content %}
+    {# NAVBAR #}
+    {% include 'navbar.html' %}
+    {# END NAVBAR #}
+
+    <div class="bapc-header">
+        <div class="container">
+            <div class="bapc-header-title">
+                {% block bapc-header-title %}
+                {% endblock bapc-header-title %}
+            </div>
+            <div class="bapc-header-content">
+                {% block bapc-header-content %}
+                {% endblock bapc-header-content %}
+            </div>
         </div>
     </div>
-</div>
 
-<div class="bapc-body">
-    <div class="container">
-        {% block bapc-body %}
-        {% endblock bapc-body %}
+    <div class="bapc-body-content">
+        <div class="container">
+            {% block bapc-body-content %}
+            {% endblock bapc-body-content %}
+        </div>
     </div>
-</div>
 
 
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 
+{% endblock body %}
 {# JAVASCRIPT #}
 <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
 {#<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>#}
