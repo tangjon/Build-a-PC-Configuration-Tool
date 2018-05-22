@@ -1,29 +1,63 @@
-from django.shortcuts import render
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 # Create your views here.
-def view_profile(request):
-    return render(request, 'profile.html', {'title': 'Profile', 'slug': 'user'})
+from django.urls import reverse
+from django.views.generic import TemplateView
+from django.contrib.auth.models import User
 
 
-def view_preferences(request):
-    return render(request, 'preferences.html', {'title': 'Preferences', 'slug': 'preferences'})
+class BaseProfileView(TemplateView):
+    title_name = None
+    browse_user = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title_name
+        context['browse_user'] = self.browse_user
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        self.browse_user = get_object_or_404(User, username=kwargs['username'])
+        return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
+
+        # Todo WA: reverse by template name
+        # # Check if this is the current auth user's profile
+        # if request.path == reverse('user:' + self.template_name.split('.html')[0], kwargs={
+        #     'username': request.user.username
+        # }):
+        #     return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
+        # else:
+        #     # Check whether user exist on database
+        #     self.browse_user = get_object_or_404(User, username=kwargs['username'])
+        #     return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
 
 
-def view_comments(request):
-    return render(request, 'comments.html', {'title': 'Preferences', 'slug': 'comments'})
+class ProfileView(BaseProfileView):
+    template_name = 'profile.html'
+    title_name = 'Profile'
 
 
-def view_builds(request):
-    return render(request, 'builds.html', {'title': 'Preferences', 'slug': 'builds'})
+class PreferencesView(BaseProfileView):
+    template_name = 'preferences.html'
+    title_name = 'Preferences'
 
 
-def view_notifications(request):
-    return render(request, 'notifications.html', {'title': 'Preferences', 'slug': 'notifications'})
+class CommentsView(BaseProfileView):
+    template_name = 'comments.html'
+    title_name = 'Comments'
 
 
-def view_security(request):
-    return render(request, 'security.html', {'title': 'Preferences', 'slug': 'security'})
+class BuildsView(BaseProfileView):
+    template_name = 'builds.html'
+    title_name = 'Builds'
 
 
-def view_saved(request):
-    return render(request, 'saved.html', {'title': 'Preferences', 'slug': 'saved'})
+class SecurityView(BaseProfileView):
+    template_name = 'security.html'
+    title_name = 'Security'
+
+
+class SavedView(BaseProfileView):
+    template_name = 'saved.html'
+    title_name = 'Saved Parts'
