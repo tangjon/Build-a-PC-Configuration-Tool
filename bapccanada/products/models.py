@@ -9,14 +9,8 @@ from account.models import UserProfile
 
 class Component(PolymorphicModel):
     manufacturer = models.CharField(max_length=30)
-    model_number = models.CharField(max_length=30, unique=True)
+    model_number = models.CharField(max_length=30)
     serial_number = models.CharField(max_length=30, blank=True)
-    cheapest_store = models.CharField(max_length=30, blank=True)
-    store_link = models.URLField(max_length=300, blank=True)
-
-    price = models.IntegerField(default=0)
-    release_year = models.PositiveIntegerField(default=2000)
-    shipping_cost = models.PositiveIntegerField(default=0)
 
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(blank=True)
@@ -46,28 +40,22 @@ class Review(models.Model):
 
 class GPU(Component):
     clock_rate = models.PositiveIntegerField(default=1000)
+    chipset = models.CharField(max_length=100)
     clock_rate_oc = models.PositiveIntegerField(default=0)
-    cuda_cores = models.PositiveIntegerField(default=2)
+    memory_size = models.PositiveIntegerField(default=10)
     hdmi_ports = models.PositiveIntegerField(default=0)
-    vga_ports = models.PositiveIntegerField(default=0)
     dp_ports = models.PositiveIntegerField(default=0)
-
-    overclocked = models.BooleanField(default=False)
 
 
 class CPU(Component):
     cores = models.PositiveIntegerField(default=2)
     threads = models.PositiveIntegerField(default=4)
-    series = models.CharField(max_length=100)
     socket = models.CharField(max_length=100)
     integrated_graphics = models.CharField(max_length=100, null=True)
     stock_freq = models.CharField(max_length=50)
     boost_freq = models.CharField(max_length=50)
     watts = models.CharField(max_length=50)
     l3_cache = models.CharField(max_length=20)
-
-    def __str__(self):
-        return "{} - {}".format(self.manufacturer, self.series)
 
 
 class Monitor(Component):
@@ -79,3 +67,4 @@ class Monitor(Component):
     g_sync = models.CharField(max_length=100)
     dp_ports = models.IntegerField(default=0)
     hdmi_ports = models.IntegerField(default=0)
+    panel_type = models.CharField(max_length=20)
