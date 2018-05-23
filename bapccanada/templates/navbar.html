@@ -1,5 +1,8 @@
 {% load static %}
 <!--suppress ALL -->
+{% url 'home:home' as url_home %}
+{% url 'build:create' as url_build %}
+{% url 'products:gpu' as url_parts %}
 <nav class="navbar navbar-expand-md bapcNav navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -13,15 +16,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="{% url 'build:create' %}">Build</a>
-                <a class="nav-item nav-link" href="{% url 'products:gpu' %}">Parts</a>
+                <a class="nav-item nav-link {% if request.path == url_home %}active{% endif %}" href={{ url_home }}>Home
+                    <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link {% if request.path == url_build %}active{% endif %}" href="{{ url_build }}">Build</a>
+                <a class="nav-item nav-link {% if request.path == url_parts %}active{% endif %}" href="{{ url_parts }}">Parts</a>
             </div>
 
             {# TODO Login Configuration #}
             <div class="navbar-account d-block ml-auto d-flex align-items-center">
                 {% if user.is_authenticated %}
-                    <h5><span style="font-weight: 300; color: white">Welcome</span> <a class="text-light" href="{% url 'user:profile' user.username %}">{{ user.username }}</a></h5>
+                    <h5><span style="font-weight: 300; color: white">Welcome</span> <a class="text-light"
+                                                                                       href="{% url 'user:profile' user.username %}">{{ user.username }}</a>
+                    </h5>
                     <div class="dropdown">
                         <button class="dropdown-toggle bg-transparent" data-toggle="dropdown"
                                 aria-haspopup="false"
@@ -32,7 +38,7 @@
                                     class="material-icons">account_circle</i>Profile</a>
                             <a class="dropdown-item" href="{% url 'user:preferences' user.username %}"><i
                                     class="material-icons">settings</i>Preferences</a>
-                            <a class="dropdown-item bg-danger text-light" href="{% url 'account:logout'  %}"><i
+                            <a class="dropdown-item bg-danger text-light" href="{% url 'account:logout' %}"><i
                                     class="material-icons">power_settings_new</i>Logout</a>
                         </div>
                     </div>
