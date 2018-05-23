@@ -21,6 +21,15 @@ NAVIGATION BAR
     display: flex;
 }
 
+.bapcNav {
+    background-color: #40a0ee;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.bapcNav a.navbar-brand, .bapcNav a.nav-item.nav-link {
+    font-weight: 500;
+}
+
 /*
 GENERAL CSS
 */

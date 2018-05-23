@@ -1,9 +1,9 @@
 {% load static %}
 <!--suppress ALL -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-md bapcNav navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="{% static 'assets/brand/bootstrap-logo.png' %}" width="30" height="30"
+            <img src="{% static 'assets/brand/bapc-logo.png' %}" width="30" height="30"
                  class="d-inline-block align-top">
             Build A PC Canada
         </a>
@@ -13,7 +13,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="{% url 'build:create' %}">Build</a>
                 <a class="nav-item nav-link" href="{% url 'products:gpu' %}">Parts</a>
             </div>
@@ -21,7 +21,7 @@
             {# TODO Login Configuration #}
             <div class="navbar-account d-block ml-auto d-flex align-items-center">
                 {% if user.is_authenticated %}
-                    <h5>Welcome <a class="" href="{% url 'user:profile' user.username %}">{{ user.username }}</a></h5>
+                    <h5><span style="font-weight: 300; color: white">Welcome</span> <a class="text-light" href="{% url 'user:profile' user.username %}">{{ user.username }}</a></h5>
                     <div class="dropdown">
                         <button class="dropdown-toggle bg-transparent" data-toggle="dropdown"
                                 aria-haspopup="false"
