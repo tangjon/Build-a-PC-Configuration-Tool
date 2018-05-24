@@ -67,5 +67,10 @@ ul {
 
 .productStars span {
     color: orange;
-    font-size: 11px;
+    font-size: 9px;
+}
+
+.bapc-body-content .browseRightColumn .table-sorter-row .productCol {
+    /* required for 5 stars to be on same line */
+    min-width: 70px;
 }
