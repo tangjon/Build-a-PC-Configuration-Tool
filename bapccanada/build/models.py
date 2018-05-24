@@ -3,7 +3,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 
 from products.models import GPU, CPU, Monitor
-from account.models import UserProfile
+from user.models import UserProfile
 
 
 class Build(models.Model):

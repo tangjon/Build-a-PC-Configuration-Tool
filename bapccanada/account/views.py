@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 
 from account.forms import SignUpForm
-from account.models import UserProfile
+from user.models import UserProfile
 from django.contrib.auth import login as auth_login
 
 title = 'User Page'

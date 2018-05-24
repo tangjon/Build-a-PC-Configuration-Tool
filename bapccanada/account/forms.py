@@ -7,7 +7,7 @@ from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.contrib.auth.views import LoginView
 from django.forms import ModelForm
 
-from account.models import UserProfile
+from user.models import UserProfile
 
 
 class SignUpForm(UserCreationForm):

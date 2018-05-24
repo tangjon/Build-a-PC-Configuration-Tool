@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify
 from polymorphic.models import PolymorphicModel
 
 from home.models import Price, Image
-from account.models import UserProfile
+from user.models import UserProfile
 
 
 class Component(PolymorphicModel):
