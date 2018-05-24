@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from .models import GPU
 
 
 def gpu(request):
-    return render(request, 'gpuBrowse.html', {'title': 'Choose a Video Card', 'slug': 'user'})
+    gpu_list = GPU.objects.all()[:50]
+    return render(request, 'categoryBrowse.html', {'title': 'Choose a Video Card', 'components': gpu_list})
 
 
 def monitors(request):

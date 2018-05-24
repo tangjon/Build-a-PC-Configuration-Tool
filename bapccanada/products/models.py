@@ -17,6 +17,7 @@ class Component(PolymorphicModel):
 
     images = models.ManyToManyField(Image)
     prices = models.ManyToManyField(Price)
+    cheapest_price = models.DecimalField(default=0.0)
 
     def __str__(self):
         return "{} - {}".format(self.manufacturer, self.model_number)
