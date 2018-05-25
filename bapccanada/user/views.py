@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 
+from user.forms import BiographyForm, AvatarForm
+
 
 class BaseProfileView(TemplateView):
     title_name = None
@@ -36,6 +38,27 @@ class BaseProfileView(TemplateView):
 class ProfileView(BaseProfileView):
     template_name = 'profile.html'
     title_name = 'Profile'
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        if 'biography' in request.POST:
+            context['biography_form'] = BiographyForm(request.POST, instance=context['browse_user'].userprofile)
+            if context['biography_form'].is_valid():
+                context['biography_form'].save(commit=True)
+        elif 'avatar' in request.FILES:
+            print('hello')
+            context['avatar_form'] = AvatarForm(request.POST, request.FILES,
+                                                instance=context['browse_user'].userprofile)
+            if context['avatar_form'].is_valid():
+                print("avatar form is valid")
+                context['avatar_form'].save(commit=True)
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        context['biography_form'] = BiographyForm(instance=context['browse_user'].userprofile)
+        context['avatar_form'] = AvatarForm(instance=context['browse_user'].userprofile)
+        return context
 
 
 class PreferencesView(BaseProfileView):
