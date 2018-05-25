@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Min
+from django.db.models.signals import m2m_changed
 from django.template.defaultfilters import slugify
 
 from polymorphic.models import PolymorphicModel
@@ -17,7 +19,7 @@ class Component(PolymorphicModel):
 
     images = models.ManyToManyField(Image)
     prices = models.ManyToManyField(Price)
-    cheapest_price = models.DecimalField(default=0.0, max_digits=3, decimal_places=1, blank=True, null=True)
+    cheapest_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return "{} - {}".format(self.manufacturer, self.model_number)
@@ -25,18 +27,6 @@ class Component(PolymorphicModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.model_number)
         super(Component, self).save(*args, **kwargs)
-
-
-class Review(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
-    component = models.ForeignKey(Component, on_delete=models.CASCADE)
-    content = models.CharField(max_length=1000)
-    stars = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
-    time_added = models.DateTimeField(auto_now=True)
-    time_edited = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "{} - {}".format(self.user, self.id)
 
 
 class GPU(Component):
@@ -69,3 +59,28 @@ class Monitor(Component):
     dp_ports = models.IntegerField(default=0)
     hdmi_ports = models.IntegerField(default=0)
     panel_type = models.CharField(max_length=20)
+
+
+def prices_changed(sender, **kwargs):
+    if kwargs["action"] == "post_add" and kwargs["model"] == Price:
+        current_component = kwargs["instance"]
+        current_min_price = current_component.prices.all().aggregate(Min('price'))["price__min"]
+        if current_component.cheapest_price == 0.0 or current_min_price < current_component.cheapest_price:
+            current_component.cheapest_price = current_min_price
+            current_component.save()
+
+
+# many to many handler to update lowest price
+m2m_changed.connect(prices_changed, sender=Component.prices.through)
+
+
+class Review(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+    component = models.ForeignKey(Component, on_delete=models.CASCADE)
+    content = models.CharField(max_length=1000)
+    stars = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
+    time_added = models.DateTimeField(auto_now=True)
+    time_edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} - {}".format(self.user, self.id)
