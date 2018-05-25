@@ -13,7 +13,7 @@
 {% block bapc-header %}
     <div class="bapc-header-title">
         <div class="row">
-            <img src="http://placehold.it/60x60" style="border-radius: 50%"/>
+            <img src="{% if browse_user.userprofile.avatar %} {{ browse_user.userprofile.avatar.url }} {% else %}{% static 'assets/maple_leaf_80x80.png' %} {% endif %}" style="border-radius: 50%; width: 60px; height: 60px"/>
             <div class="user-card">
                 {{ title }}
                 <div>
@@ -88,23 +88,18 @@
             </div>
             <div class="col">
                 <h2 class="mt-2">Profile Settings</h2>
-
                 <h4>Biography</h4>
-                {% if not user.is_authenticated %}
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                        been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                        galley of type and scrambled it to make a type specimen book. It has survived not only five
-                        centuries, but also the leap into electronic typesetting, remaining essentially
-                        unchanged.</p>
-                {% else %}
+                {% if browse_user.username == user.username %}
                     <form>
                         <div class="form-group">
                             <textarea class="form-control" rows="5" id="comment"></textarea>
                         </div>
                         <button class="btn btn-primary">Save</button>
                     </form>
+                {% else %}
+                    <p>{{ browse_user.userprofile.biography }}</p>
                 {% endif %}
-                {% if user.is_authenticated %}
+                {% if browse_user.username == user.username %}
                     <h4>Avatar</h4>
                     <form>
                         <div class="form-group">
