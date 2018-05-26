@@ -4,7 +4,7 @@ from .models import GPU
 
 def gpu(request):
     gpu_list = GPU.objects.all()[:50]
-    return render(request, 'categoryBrowse.html', {'title': 'Choose a Video Card', 'components': gpu_list})
+    return render(request, 'gpuBrowse.html', {'title': 'Choose a Video Card', 'components': gpu_list})
 
 
 def monitors(request):

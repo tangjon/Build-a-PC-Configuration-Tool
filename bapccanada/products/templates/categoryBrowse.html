@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extraStyles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/gpuBrowse.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/categoryBrowse.css' %}"/>
 
 {% endblock extraStyles %}
 
@@ -97,7 +97,8 @@
         </div>
         <div class="browseRightColumn col">
             <div class="browseSearchBar form-inline">
-                Search Video Cards:
+                {% block searchPromptText %}
+                {% endblock searchPromptText %}
                 <input type="text" class="form-control" placeholder=""
                        aria-label="search bar" id="partsBrowseSearchBar">
             </div>
@@ -106,39 +107,13 @@
                 <table class="table table-sm mt-4">
                     <thead>
                     <tr class="table-sorter-row">
-                        <th scope="col"></th>
-                        <th scope="col">Video Card</th>
-                        <th scope="col">Chipset</th>
-                        <th scope="col">Memory</th>
-                        <th scope="col">Core Clock</th>
-                        <th scope="col" class="productCol">Rating</th>
-                        <th scope="col">Price</th>
-                        <th scope="col"></th>
+                        {% block componentSorterRow %}
+                        {% endblock componentSorterRow %}
                     </tr>
                     </thead>
                     <tbody>
-                    {% for component in components %}
-                        <tr>
-                            <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                            <td>{{ component.model_number }}</td>
-                            <td>{{ component.chipset }}</td>
-                            <td>{{ component.memory_size }} GB</td>
-                            <td>{{ component.clock_rate }} Ghz</td>
-                            <td>
-                                <div class="productStars">
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star-half-o checked"></span>
-                                    <span class="fa fa-star-o"></span>
-                                </div>
-                            </td>
-                            <td>$999.99</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Add</button>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                    {% block componentRows %}
+                    {% endblock componentRows %}
                     </tbody>
                 </table>
             </div>

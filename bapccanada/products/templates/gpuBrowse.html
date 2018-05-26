@@ -1,0 +1,42 @@
+{% extends 'categoryBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search Video Cards:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">Video Card</th>
+    <th scope="col">Chipset</th>
+    <th scope="col">Memory</th>
+    <th scope="col">Core Clock</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block componentRows %}
+    {% for component in components %}
+        <tr>
+            <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
+            <td>{{ component.model_number }}</td>
+            <td>{{ component.chipset }}</td>
+            <td>{{ component.memory_size }} GB</td>
+            <td>{{ component.clock_rate }} Ghz</td>
+            <td>
+                <div class="productStars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star-half-o checked"></span>
+                    <span class="fa fa-star-o"></span>
+                </div>
+            </td>
+            <td>${{ component.cheapest_price }}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm">Add</button>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock componentRows %}
