@@ -1,0 +1,42 @@
+{% extends 'categoryBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search Processors:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">CPU</th>
+    <th scope="col">Cores</th>
+    <th scope="col">TDP</th>
+    <th scope="col">Clock Rate</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block componentRows %}
+    {% for component in components %}
+        <tr>
+            <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
+            <td>{{ component.model_number }}</td>
+            <td>{{ component.cores }}</td>
+            <td>{{ component.watts }}W</td>
+            <td>{{ component.stock_freq }}Ghz</td>
+            <td>
+                <div class="productStars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star-half-o checked"></span>
+                    <span class="fa fa-star-o"></span>
+                </div>
+            </td>
+            <td>${{ component.cheapest_price }}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm">Add</button>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock componentRows %}

@@ -45,7 +45,7 @@ class CPU(Component):
     integrated_graphics = models.CharField(max_length=100, null=True)
     stock_freq = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
     boost_freq = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
-    watts = models.CharField(max_length=50)
+    watts = models.PositiveIntegerField(default=0)
     l3_cache = models.CharField(max_length=20)
 
 

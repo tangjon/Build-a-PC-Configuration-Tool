@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import GPU
+from .models import GPU, CPU
 
 
 def gpu(request):
@@ -12,7 +12,8 @@ def monitors(request):
 
 
 def cpu(request):
-    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user'})
+    cpu_list = CPU.objects.all()[:50]
+    return render(request, 'cpuBrowse.html', {'title': 'Choose a Video Card', 'components': cpu_list})
 
 
 def monitor(request):
