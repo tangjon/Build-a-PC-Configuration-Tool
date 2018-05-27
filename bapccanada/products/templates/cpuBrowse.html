@@ -16,34 +16,9 @@
     <th scope="col"></th>
 {% endblock componentSorterRow %}
 
-{% block componentRows %}
-    {% for component in components %}
-        <tr>
-            <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
-            <td><a class="productPageLink" href=#>{{ component.display_name }}</a></td>
-            <td>{{ component.cores }}</td>
-            <td>{{ component.watts }}W</td>
-            <td>{{ component.stock_freq }}Ghz</td>
-            <td>
-                <div class="productStars">
-                    {% for score in rating_range %}
-                        <span class="fa {% if component.average_rating >= score %}
-                                                    fa-star checked
-                                            {% endif %}
-                                     {% if component.average_rating < score or component.average_rating == 0 %}
-                                                    fa-star-o
-                                            {% endif %}
-                                      {% if component.average_rating > forloop.counter0 and component.average_rating < score %}
-                                                    fa-star-half-o checked
-                                            {% endif %}"></span>
-                    {% endfor %}
-                    <span>({{ component.num_ratings }})</span>
-                </div>
-            </td>
-            <td>${{ component.cheapest_price }}</td>
-            <td>
-                <button type="button" class="btn btn-primary btn-sm">Add</button>
-            </td>
-        </tr>
-    {% endfor %}
-{% endblock componentRows %}
+{% block componentSpecificColumns %}
+    <td>{{ component.cores }}</td>
+    <td>{{ component.watts }}W</td>
+    <td>{{ component.stock_freq }}Ghz</td>
+{% endblock componentSpecificColumns %}
+

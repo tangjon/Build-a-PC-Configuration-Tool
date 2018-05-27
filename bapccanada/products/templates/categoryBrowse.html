@@ -112,8 +112,34 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% block componentRows %}
-                    {% endblock componentRows %}
+                    {% for component in components %}
+                        <tr>
+                            <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
+                            <td><a class="productPageLink" href=#>{{ component.display_name }}</a></td>
+                            {% block componentSpecificColumns %}
+                            {% endblock componentSpecificColumns %}
+                            <td>
+                                <div class="productStars">
+                                    {% for score in rating_range %}
+                                        <span class="fa {% if component.average_rating >= score %}
+                                                    fa-star checked
+                                            {% endif %}
+                                     {% if component.average_rating < score or component.average_rating == 0 %}
+                                                    fa-star-o
+                                            {% endif %}
+                                      {% if component.average_rating > forloop.counter0 and component.average_rating < score %}
+                                                    fa-star-half-o checked
+                                            {% endif %}"></span>
+                                    {% endfor %}
+                                    <span>({{ component.num_ratings }})</span>
+                                </div>
+                            </td>
+                            <td>${{ component.cheapest_price }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm">Add</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
