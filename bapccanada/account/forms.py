@@ -1,11 +1,7 @@
 from django import forms
-from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth.models import User
-from django.contrib.auth.validators import ASCIIUsernameValidator
-from django.contrib.auth.views import LoginView
-from django.forms import ModelForm
 
 from user.models import UserProfile
 

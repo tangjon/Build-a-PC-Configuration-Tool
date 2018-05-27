@@ -1,12 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 # Create your views here.
-from django.urls import reverse
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 
-from user.forms import BiographyForm, AvatarForm
+from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm
 
 
 class BaseProfileView(TemplateView):
@@ -22,17 +19,6 @@ class BaseProfileView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.browse_user = get_object_or_404(User, username=kwargs['username'])
         return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
-
-        # Todo WA: reverse by template name
-        # # Check if this is the current auth user's profile
-        # if request.path == reverse('user:' + self.template_name.split('.html')[0], kwargs={
-        #     'username': request.user.username
-        # }):
-        #     return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
-        # else:
-        #     # Check whether user exist on database
-        #     self.browse_user = get_object_or_404(User, username=kwargs['username'])
-        #     return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
 
 
 class ProfileView(BaseProfileView):
@@ -64,6 +50,26 @@ class ProfileView(BaseProfileView):
 class PreferencesView(BaseProfileView):
     template_name = 'preferences.html'
     title_name = 'Preferences'
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        clickSettingsForm = ClickSettingsForm(request.POST, instance=context['browse_user'].userprofile.clicksettings)
+        if clickSettingsForm.is_valid():
+            clickSettingsForm.save()
+        emailSettingsForm = EmailSettingsForm(request.POST, instance=context['browse_user'].userprofile.emailsettings)
+        if emailSettingsForm.is_valid():
+            emailSettingsForm.save()
+        privacySettingsForm = PrivacySettingsForm(request.POST, instance=context['browse_user'].userprofile.privacysettings)
+        if privacySettingsForm:
+            privacySettingsForm.save()
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(PreferencesView, self).get_context_data(**kwargs)
+        context['click_options_form'] = ClickSettingsForm(instance=context['browse_user'].userprofile.clicksettings)
+        context['email_options_form'] = EmailSettingsForm(instance=context['browse_user'].userprofile.emailsettings)
+        context['privacy_settings_form'] = PrivacySettingsForm(instance=context['browse_user'].userprofile.privacysettings)
+        return context
 
 
 class CommentsView(BaseProfileView):
