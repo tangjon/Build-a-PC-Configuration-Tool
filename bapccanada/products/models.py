@@ -1,10 +1,9 @@
 from django.db import models
-from django.db.models import Min
+from django.db.models import Min, Avg
 from django.db.models.signals import m2m_changed
 from django.template.defaultfilters import slugify
 
 from polymorphic.models import PolymorphicModel
-import decimal
 
 from home.models import Price, Image
 from user.models import UserProfile
@@ -34,11 +33,10 @@ class Component(PolymorphicModel):
         self.slug = slugify(self.model_number)
         super(Component, self).save(*args, **kwargs)
 
-    def update_ratings(self, new_rating):
-        previous_score = decimal.Decimal(self.average_rating) * self.num_ratings
-        self.num_ratings += 1
-        new_score = (previous_score + new_rating.stars) / self.num_ratings
-        self.average_rating = new_score
+    def update_ratings(self):
+        num_ratings = Review.objects.filter(component=self)
+        self.num_ratings = num_ratings.count()
+        self.average_rating = num_ratings.aggregate(Avg("stars"))["stars__avg"]
         self.save()
 
 
@@ -100,6 +98,6 @@ class Review(models.Model):
 
     def save(self, *args, **kwargs):
         if self.component:
-            self.component.update_ratings(new_rating=self)
+            self.component.update_ratings()
             self.component.save()
         super(Review, self).save(*args, **kwargs)
