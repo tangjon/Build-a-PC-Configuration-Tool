@@ -30,6 +30,24 @@ NAVIGATION BAR
     font-weight: 500;
 }
 
+
+
+.partsDropDown:hover>.partsDropDown-menu {
+  display: block;
+}
+
+.partsDropDown-toggle::after {
+    display:none;
+}
+
+.partsDropDown .partsDropDown-menu {
+    margin-top: -0.35rem;
+}
+
+.partsDropDown .nav-link {
+    font-weight: 500;
+}
+
 /*
 GENERAL CSS
 */

@@ -83,3 +83,14 @@ ul {
 .bapc-body-content .browseRightColumn .responseTimeEntry {
     text-align: center;
 }
+
+.bapc-body-content .browseRightColumn .productPageLink {
+    color: #252835;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.bapc-body-content .browseRightColumn .productPageLink:hover {
+    color: #2c85c5;
+    text-decoration: none;
+}

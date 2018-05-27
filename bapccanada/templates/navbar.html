@@ -2,7 +2,9 @@
 <!--suppress ALL -->
 {% url 'home:home' as url_home %}
 {% url 'build:create' as url_build %}
-{% url 'products:gpu' as url_parts %}
+{% url 'products:gpu' as url_gpu %}
+{% url 'products:cpu' as url_cpu %}
+{% url 'products:monitors' as url_monitor %}
 <nav class="navbar navbar-expand-md bapcNav navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -19,7 +21,19 @@
                 <a class="nav-item nav-link {% if request.path == url_home %}active{% endif %}" href={{ url_home }}>Home
                     <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link {% if request.path == url_build %}active{% endif %}" href="{{ url_build }}">Build</a>
-                <a class="nav-item nav-link {% if request.path == url_parts %}active{% endif %}" href="{{ url_parts }}">Parts</a>
+                <li class="nav-item dropdown partsDropDown">
+                    <a class="nav-link dropdown-toggle partsDropDown-toggle nav-link
+                       {% if request.path == url_gpu or request.path == url_monitor or request.path == url_cpu %}active{% endif %}"
+                       id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Parts
+                    </a>
+                    <div class="dropdown-menu partsDropDown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ url_cpu }}">Processor</a>
+                        <a class="dropdown-item" href="{{ url_gpu }}">Video Card</a>
+                        <a class="dropdown-item" href="{{ url_monitor }}">Monitor</a>
+                    </div>
+                </li>
             </div>
 
             {# TODO Login Configuration #}

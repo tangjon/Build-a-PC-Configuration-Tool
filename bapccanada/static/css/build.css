@@ -26,6 +26,7 @@
 
 .bapc-body-content .componentListBody .productTitle:hover {
     color: #2c85c5;
+    text-decoration: none;
 }
 
 .bapc-body-content .componentListTable td,

@@ -20,7 +20,7 @@
     {% for component in components %}
         <tr>
             <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
-            <td>{{ component.display_name }}</td>
+            <td><a class="productPageLink" href=#>{{ component.display_name }}</a></td>
             <td>{{ component.cores }}</td>
             <td>{{ component.watts }}W</td>
             <td>{{ component.stock_freq }}Ghz</td>
