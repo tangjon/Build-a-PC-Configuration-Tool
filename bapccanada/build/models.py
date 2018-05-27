@@ -11,7 +11,7 @@ class Build(models.Model):
     cpu = models.ForeignKey(CPU, null=True, on_delete=models.DO_NOTHING)
     monitor = models.ForeignKey(Monitor, null=True, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=100, null=True)
-    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     complete = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
 
