@@ -4,12 +4,41 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from user.models import UserProfile, UserPreferences
+from user.models import UserProfile, UserPreferences, PrivacyOptions, ClickOptions
+
+
+# ===================
+# CUSTOM ADMIN
+# ===================
+
+class ClickOptionsInline(admin.StackedInline):
+    model = PrivacyOptions
+    verbose_name_plural = 'Click Options'
+    fk_name = 'profile'
+
+
+class PrivacyOptionsInline(admin.StackedInline):
+    model = ClickOptions
+    verbose_name_plural = 'Privacy Options'
+    fk_name = 'profile'
+
+
+class UserPreferenceAdmin(admin.ModelAdmin):
+    inlines = (ClickOptionsInline, PrivacyOptionsInline)
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(UserPreferenceAdmin, self).get_inline_instances(request, obj)
+
+
+admin.site.register(UserPreferences, UserPreferenceAdmin)
+
+# ===================
+# STANDARD ADMIN
+# ===================
 
 admin.site.register(UserProfile)
-admin.site.register(UserPreferences)
-
-
 
 # COMBINE EVERYTHING USERPROFILE RELATED
 

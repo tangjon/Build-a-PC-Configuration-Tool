@@ -1,12 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 # Create your views here.
-from django.urls import reverse
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 
-from user.forms import BiographyForm, AvatarForm
+from user.forms import BiographyForm, AvatarForm, PreferencesClickOptionsForm
 
 
 class BaseProfileView(TemplateView):
@@ -64,6 +61,12 @@ class ProfileView(BaseProfileView):
 class PreferencesView(BaseProfileView):
     template_name = 'preferences.html'
     title_name = 'Preferences'
+
+    def get_context_data(self, **kwargs):
+        context = super(PreferencesView, self).get_context_data(**kwargs)
+        context['click_options_form'] = PreferencesClickOptionsForm(instance=context['browse_user'].userprofile.clickoptions)
+        context['privacy_options_form'] = PreferencesClickOptionsForm(instance=context['browse_user'].userprofile.privacyoptions)
+        return context
 
 
 class CommentsView(BaseProfileView):
