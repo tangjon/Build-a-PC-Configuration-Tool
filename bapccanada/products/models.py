@@ -97,7 +97,7 @@ class Review(models.Model):
         return "{} - {}".format(self.user, self.id)
 
     def save(self, *args, **kwargs):
+        # must save first or we cannot find ourselves when updating component stats
+        super(Review, self).save(*args, **kwargs)
         if self.component:
             self.component.update_ratings()
-            self.component.save()
-        super(Review, self).save(*args, **kwargs)
