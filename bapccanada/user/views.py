@@ -51,12 +51,24 @@ class PreferencesView(BaseProfileView):
     template_name = 'preferences.html'
     title_name = 'Preferences'
 
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        clickSettingsForm = ClickSettingsForm(request.POST, instance=context['browse_user'].userprofile.clicksettings)
+        if clickSettingsForm.is_valid():
+            clickSettingsForm.save()
+        emailSettingsForm = EmailSettingsForm(request.POST, instance=context['browse_user'].userprofile.emailsettings)
+        if emailSettingsForm.is_valid():
+            emailSettingsForm.save()
+        privacySettingsForm = PrivacySettingsForm(request.POST, instance=context['browse_user'].userprofile.privacysettings)
+        if privacySettingsForm:
+            privacySettingsForm.save()
+        return self.get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(PreferencesView, self).get_context_data(**kwargs)
         context['click_options_form'] = ClickSettingsForm(instance=context['browse_user'].userprofile.clicksettings)
-        context['privacy_options_form'] = PrivacySettingsForm(
-            instance=context['browse_user'].userprofile.privacysettings)
         context['email_options_form'] = EmailSettingsForm(instance=context['browse_user'].userprofile.emailsettings)
+        context['privacy_settings_form'] = PrivacySettingsForm(instance=context['browse_user'].userprofile.privacysettings)
         return context
 
 

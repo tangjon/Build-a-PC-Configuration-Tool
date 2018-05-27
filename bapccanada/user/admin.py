@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from user.models import UserProfile, PrivacySettings, ClickSettings
+from user.models import UserProfile, PrivacySettings, ClickSettings, EmailSettings
 
 
 # ===================
@@ -23,8 +23,14 @@ class PrivacyOptionsInline(admin.StackedInline):
     fk_name = 'profile'
 
 
+class EmailOptionsInline(admin.StackedInline):
+    model = EmailSettings
+    verbose_name_plural = 'Email Options'
+    fk_name = 'profile'
+
+
 class UserProfileAdmin(admin.ModelAdmin):
-    inlines = (ClickOptionsInline, PrivacyOptionsInline)
+    inlines = (ClickOptionsInline, PrivacyOptionsInline,EmailOptionsInline)
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
@@ -32,7 +38,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         return super(UserProfileAdmin, self).get_inline_instances(request, obj)
 
 
-admin.site.register(UserProfile,UserProfileAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
 
 # ===================
 # STANDARD ADMIN

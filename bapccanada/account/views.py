@@ -15,7 +15,7 @@ title = 'User Page'
 
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(request.POST)
         if form.is_valid():
             return redirect('home:home')
     else:
@@ -30,7 +30,7 @@ class UserCreate(CreateView):
     def post(self, request, *args, **kwargs):
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return redirect('home:home')
         return redirect('account:sign_up')
 

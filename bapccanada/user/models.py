@@ -28,6 +28,17 @@ class ClickSettings(models.Model):
         verbose_name = 'Click Option'
 
 
+class EmailSettings(models.Model):
+    profile = models.OneToOneField(
+        UserProfile,
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    messeges_as_emails = models.BooleanField(default=False)
+    unsubscribe_from_all_emails = models.BooleanField(default=False)
+    send_email_digest = models.BooleanField(default=False)
+
+
 class PrivacySettings(models.Model):
     profile = models.OneToOneField(
         UserProfile,
@@ -39,14 +50,3 @@ class PrivacySettings(models.Model):
 
     class Meta:
         verbose_name = 'Privacy Option'
-
-
-class EmailSettings(models.Model):
-    profile = models.OneToOneField(
-        UserProfile,
-        on_delete=models.CASCADE,
-        primary_key=True
-    )
-    messeges_as_emails = models.BooleanField(default=False)
-    unsubscribe_from_all_emails = models.BooleanField(default=False)
-    send_email_digest = models.BooleanField(default=False)
