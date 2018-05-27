@@ -4,6 +4,7 @@ from django.db.models.signals import m2m_changed
 from django.template.defaultfilters import slugify
 
 from polymorphic.models import PolymorphicModel
+import decimal
 
 from home.models import Price, Image
 from user.models import UserProfile
@@ -21,12 +22,22 @@ class Component(PolymorphicModel):
     prices = models.ManyToManyField(Price)
     cheapest_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
 
+    average_rating = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
+    num_ratings = models.PositiveIntegerField(default=0)
+
     def __str__(self):
         return "{} - {}".format(self.manufacturer, self.model_number)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.model_number)
         super(Component, self).save(*args, **kwargs)
+
+    def update_ratings(self, new_rating):
+        previous_score = decimal.Decimal(self.average_rating) * self.num_ratings
+        self.num_ratings += 1
+        new_score = (previous_score + new_rating.stars) / self.num_ratings
+        self.average_rating = new_score
+        self.save()
 
 
 class GPU(Component):
@@ -53,12 +64,17 @@ class Monitor(Component):
     screen_size = models.PositiveIntegerField(default=10)
     resolution = models.CharField(max_length=100)
     aspect_ratio = models.CharField(max_length=100)
-    response_time = models.CharField(max_length=100)
+    response_time = models.PositiveIntegerField(default=10)
     refresh_rate = models.CharField(max_length=100)
     g_sync = models.CharField(max_length=100)
     dp_ports = models.IntegerField(default=0)
     hdmi_ports = models.IntegerField(default=0)
     panel_type = models.CharField(max_length=20)
+    display_name = models.CharField(max_length=100, default="")
+
+    def save(self, *args, **kwargs):
+        self.display_name = "{} {}".format(self.manufacturer, self.serial_number)
+        super(Monitor, self).save(*args, **kwargs)
 
 
 def prices_changed(sender, **kwargs):
@@ -76,7 +92,7 @@ m2m_changed.connect(prices_changed, sender=Component.prices.through)
 
 class Review(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
-    component = models.ForeignKey(Component, on_delete=models.CASCADE)
+    component = models.ForeignKey(Component, on_delete=models.CASCADE, null=True)
     content = models.CharField(max_length=1000)
     stars = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
     time_added = models.DateTimeField(auto_now=True)
@@ -84,3 +100,9 @@ class Review(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.user, self.id)
+
+    def save(self, *args, **kwargs):
+        if self.component:
+            self.component.update_ratings(new_rating=self)
+            self.component.save()
+        super(Review, self).save(*args, **kwargs)

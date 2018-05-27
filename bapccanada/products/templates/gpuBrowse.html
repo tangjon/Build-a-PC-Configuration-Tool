@@ -26,11 +26,18 @@
             <td>{{ component.clock_rate }} Ghz</td>
             <td>
                 <div class="productStars">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star-half-o checked"></span>
-                    <span class="fa fa-star-o"></span>
+                    {% for score in rating_range %}
+                        <span class="fa {% if component.average_rating >= score %}
+                                                    fa-star checked
+                                            {% endif %}
+                                     {% if component.average_rating < score or component.average_rating == 0 %}
+                                                    fa-star-o
+                                            {% endif %}
+                                      {% if component.average_rating > forloop.counter0 and component.average_rating < score %}
+                                                    fa-star-half-o checked
+                                            {% endif %}"></span>
+                    {% endfor %}
+                    <span>({{ component.num_ratings }})</span>
                 </div>
             </td>
             <td>${{ component.cheapest_price }}</td>

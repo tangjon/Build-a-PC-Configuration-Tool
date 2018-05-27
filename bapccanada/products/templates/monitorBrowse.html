@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block searchPromptText %}
-    Search Processors:
+    Search Monitors:
 {% endblock searchPromptText %}
 
 {% block componentSorterRow %}
     <th scope="col"></th>
-    <th scope="col">CPU</th>
-    <th scope="col">Cores</th>
-    <th scope="col">TDP</th>
-    <th scope="col">Clock Rate</th>
+    <th scope="col">Monitor</th>
+    <th scope="col">Resolution</th>
+    <th scope="col">Size</th>
+    <th scope="col">Resp. Time</th>
     <th scope="col" class="productCol">Rating</th>
     <th scope="col">Price</th>
     <th scope="col"></th>
@@ -21,9 +21,9 @@
         <tr>
             <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
             <td>{{ component.model_number }}</td>
-            <td>{{ component.cores }}</td>
-            <td>{{ component.watts }}W</td>
-            <td>{{ component.stock_freq }}Ghz</td>
+            <td>{{ component.resolution }}</td>
+            <td>{{ component.screen_size }}"</td>
+            <td class="responseTimeEntry">{{ component.response_time }} ms</td>
             <td>
                 <div class="productStars">
                     {% for score in rating_range %}

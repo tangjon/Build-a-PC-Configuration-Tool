@@ -2,7 +2,6 @@ body .bapc-header {
     background-color: #4E5EA6;
 }
 
-
 .bapc-body-content .browseLeftColumn {
     border-right: 1px solid #e3e3e3;
     min-height: 992px;
@@ -65,12 +64,22 @@ ul {
     vertical-align: middle;
 }
 
-.productStars span {
+.productStars span:not(:last-child) {
     color: orange;
     font-size: 9px;
 }
 
+.productStars span:last-child {
+    font-size: 14px;
+    line-height: 16px;
+    padding: 5px;
+}
+
 .bapc-body-content .browseRightColumn .table-sorter-row .productCol {
     /* required for 5 stars to be on same line */
-    min-width: 70px;
+    min-width: 120px;
+}
+
+.bapc-body-content .browseRightColumn .responseTimeEntry {
+    text-align: center;
 }

@@ -9,6 +9,7 @@ class UserSettings(models.Model):
     OPEN_NEW_LINKS3 = models.BooleanField(default=False, blank=True)
 
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_date = models.DateField(null=True, blank=False)
