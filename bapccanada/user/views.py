@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 
-from user.forms import BiographyForm, AvatarForm, PreferencesClickOptionsForm
+from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm
 
 
 class BaseProfileView(TemplateView):
@@ -19,17 +19,6 @@ class BaseProfileView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.browse_user = get_object_or_404(User, username=kwargs['username'])
         return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
-
-        # Todo WA: reverse by template name
-        # # Check if this is the current auth user's profile
-        # if request.path == reverse('user:' + self.template_name.split('.html')[0], kwargs={
-        #     'username': request.user.username
-        # }):
-        #     return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
-        # else:
-        #     # Check whether user exist on database
-        #     self.browse_user = get_object_or_404(User, username=kwargs['username'])
-        #     return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
 
 
 class ProfileView(BaseProfileView):
@@ -64,8 +53,10 @@ class PreferencesView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(PreferencesView, self).get_context_data(**kwargs)
-        context['click_options_form'] = PreferencesClickOptionsForm(instance=context['browse_user'].userprofile.clickoptions)
-        context['privacy_options_form'] = PreferencesClickOptionsForm(instance=context['browse_user'].userprofile.privacyoptions)
+        context['click_options_form'] = ClickSettingsForm(instance=context['browse_user'].userprofile.clicksettings)
+        context['privacy_options_form'] = PrivacySettingsForm(
+            instance=context['browse_user'].userprofile.privacysettings)
+        context['email_options_form'] = EmailSettingsForm(instance=context['browse_user'].userprofile.emailsettings)
         return context
 
 

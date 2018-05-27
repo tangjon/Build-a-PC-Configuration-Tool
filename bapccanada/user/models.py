@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.conf import settings
 
 
 class UserProfile(models.Model):
@@ -17,25 +16,9 @@ class UserProfile(models.Model):
         verbose_name = 'Profile'
 
 
-class UserPreferences(models.Model):
+class ClickSettings(models.Model):
     profile = models.OneToOneField(
         UserProfile,
-        on_delete=models.CASCADE,
-        primary_key=True
-    )
-    serves_hot_dogs = models.BooleanField(default=False)
-    serves_pizza = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.profile.user.username
-
-    class Meta:
-        verbose_name = 'Preference'
-
-
-class ClickOptions(models.Model):
-    profile = models.OneToOneField(
-        UserPreferences,
         on_delete=models.CASCADE,
         primary_key=True
     )
@@ -45,9 +28,9 @@ class ClickOptions(models.Model):
         verbose_name = 'Click Option'
 
 
-class PrivacyOptions(models.Model):
+class PrivacySettings(models.Model):
     profile = models.OneToOneField(
-        UserPreferences,
+        UserProfile,
         on_delete=models.CASCADE,
         primary_key=True
     )
@@ -56,3 +39,14 @@ class PrivacyOptions(models.Model):
 
     class Meta:
         verbose_name = 'Privacy Option'
+
+
+class EmailSettings(models.Model):
+    profile = models.OneToOneField(
+        UserProfile,
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    messeges_as_emails = models.BooleanField(default=False)
+    unsubscribe_from_all_emails = models.BooleanField(default=False)
+    send_email_digest = models.BooleanField(default=False)

@@ -41,10 +41,6 @@ ul.flat-list li {
     margin-bottom: 5px;
 }
 
-.tbl-pref input {
-    margin: 2px .5em 0 0;
-}
-
 /* SECURITY */
 .round-field {
     padding: 11px 11px;
