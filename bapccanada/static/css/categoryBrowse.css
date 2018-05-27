@@ -77,7 +77,7 @@ ul {
 
 .bapc-body-content .browseRightColumn .table-sorter-row .productCol {
     /* required for 5 stars to be on same line */
-    min-width: 120px;
+    min-width: 100px;
 }
 
 .bapc-body-content .browseRightColumn .responseTimeEntry {

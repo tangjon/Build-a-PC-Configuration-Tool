@@ -12,8 +12,9 @@ from user.models import UserProfile
 
 class Component(PolymorphicModel):
     manufacturer = models.CharField(max_length=30)
-    model_number = models.CharField(max_length=30)
+    model_number = models.CharField(max_length=30, blank=True)
     serial_number = models.CharField(max_length=30, blank=True)
+    display_name = models.CharField(max_length=100, default="")
 
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(blank=True)
@@ -29,6 +30,7 @@ class Component(PolymorphicModel):
         return "{} - {}".format(self.manufacturer, self.model_number)
 
     def save(self, *args, **kwargs):
+        self.display_name = "{} {}".format(self.manufacturer, self.serial_number)
         self.slug = slugify(self.model_number)
         super(Component, self).save(*args, **kwargs)
 
@@ -70,11 +72,6 @@ class Monitor(Component):
     dp_ports = models.IntegerField(default=0)
     hdmi_ports = models.IntegerField(default=0)
     panel_type = models.CharField(max_length=20)
-    display_name = models.CharField(max_length=100, default="")
-
-    def save(self, *args, **kwargs):
-        self.display_name = "{} {}".format(self.manufacturer, self.serial_number)
-        super(Monitor, self).save(*args, **kwargs)
 
 
 def prices_changed(sender, **kwargs):
