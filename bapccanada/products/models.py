@@ -14,6 +14,7 @@ class Component(PolymorphicModel):
     model_number = models.CharField(max_length=30, blank=True)
     serial_number = models.CharField(max_length=30, blank=True)
     display_name = models.CharField(max_length=100, default="")
+    display_title = models.CharField(max_length=200, default="")
 
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(blank=True)
@@ -37,6 +38,7 @@ class Component(PolymorphicModel):
             self.slug = slugify(self.serial_number)
 
         self.slug += "-" + slugify(self.id)
+        self.display_title = self.get_page_title()
 
         super(Component, self).save(*args, **kwargs)
 
@@ -46,6 +48,13 @@ class Component(PolymorphicModel):
         self.average_rating = num_ratings.aggregate(Avg("stars"))["stars__avg"]
         self.save()
 
+    # used for component detail title
+    def get_page_title(self):
+        pass
+
+    def get_component_images(self):
+        return self.images.all()
+
 
 class GPU(Component):
     clock_rate = models.DecimalField(default=0.0, max_digits=3, decimal_places=2, blank=True, null=True)
@@ -54,6 +63,10 @@ class GPU(Component):
     memory_size = models.PositiveIntegerField(default=10)
     hdmi_ports = models.PositiveIntegerField(default=0)
     dp_ports = models.PositiveIntegerField(default=0)
+
+    def get_page_title(self):
+        return "{} - {} {}GB {} Video Card".format(self.manufacturer, self.chipset,
+                                                   self.memory_size, self.model_number)
 
 
 class CPU(Component):
@@ -66,17 +79,26 @@ class CPU(Component):
     watts = models.PositiveIntegerField(default=0)
     l3_cache = models.CharField(max_length=20)
 
+    def get_page_title(self):
+        return "{} - {} {}Ghz {}-Core Processor".format(self.manufacturer, self.model_number,
+                                                        self.stock_freq, self.cores)
+
 
 class Monitor(Component):
     screen_size = models.PositiveIntegerField(default=10)
     resolution = models.CharField(max_length=100)
     aspect_ratio = models.CharField(max_length=100)
     response_time = models.PositiveIntegerField(default=10)
-    refresh_rate = models.CharField(max_length=100)
+    refresh_rate = models.PositiveIntegerField(default=60)
     g_sync = models.CharField(max_length=100)
     dp_ports = models.IntegerField(default=0)
     hdmi_ports = models.IntegerField(default=0)
     panel_type = models.CharField(max_length=20)
+
+    def get_page_title(self):
+        resolution = "{}".format(self.resolution).replace(' ', "")
+        return "{} - {} {}\" {} {}Hz Monitor".format(self.manufacturer, self.serial_number, self.screen_size,
+                                                     resolution, self.refresh_rate)
 
 
 def prices_changed(sender, **kwargs):

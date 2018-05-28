@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+
 from .models import GPU, CPU, Monitor
 
 
@@ -9,7 +11,7 @@ def gpu(request):
 
 
 def monitors(request):
-    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
+    return render(request, 'monitorDetails.html', {'title': 'Choose a Video Card', 'slug': 'user',
                                             'rating_range': range(1, 6)})
 
 
@@ -26,16 +28,22 @@ def monitor(request):
 
 
 def gpu_detail(request, slug):
-    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
-                                            'rating_range': range(1, 6)})
+    component = get_object_or_404(GPU, slug=slug)
+    images = component.get_component_images()
+
+    return render(request, 'monitorDetails.html', {'component': component, 'rating_range': range(1, 6),
+                                                   'images': images})
 
 
 def cpu_detail(request, slug):
-    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
-                                            'rating_range': range(1, 6)})
+    component = get_object_or_404(CPU, slug=slug)
+    images = component.get_component_images()
+    return render(request, 'cpuDetails.html', {'component': component, 'rating_range': range(1, 6),
+                                               'images': images})
 
 
 def monitor_detail(request, slug):
-    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
-                                            'rating_range': range(1, 6)})
-
+    component = get_object_or_404(Monitor, slug=slug)
+    images = component.get_component_images()
+    return render(request, 'monitorDetails.html', {'component': component, 'rating_range': range(1, 6),
+                                                   'images': images})
