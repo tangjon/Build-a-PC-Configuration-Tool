@@ -115,7 +115,7 @@
                     {% for component in components %}
                         <tr>
                             <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                            <td><a class="productPageLink" href=#>{{ component.display_name }}</a></td>
+                            <td><a class="productPageLink" href='{% block customSlug %}{% endblock customSlug %}'>{{ component.display_name }}</a></td>
                             {% block componentSpecificColumns %}
                             {% endblock componentSpecificColumns %}
                             <td>

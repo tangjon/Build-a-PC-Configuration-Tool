@@ -16,6 +16,10 @@
     <th scope="col"></th>
 {% endblock componentSorterRow %}
 
+{% block customSlug %}
+{% url 'products:monitor_detail' component.slug %}
+{% endblock customSlug %}
+
 {% block componentSpecificColumns %}
     <td>{{ component.resolution }}</td>
     <td>{{ component.screen_size }}"</td>

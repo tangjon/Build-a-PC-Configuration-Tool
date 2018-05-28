@@ -23,4 +23,19 @@ def monitor(request):
     monitor_list = Monitor.objects.all()[:50]
     return render(request, 'monitorBrowse.html', {'title': 'Choose a Monitor', 'components': monitor_list,
                                                   'rating_range': range(1, 6)})
-# Create your views here.
+
+
+def gpu_detail(request, slug):
+    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
+                                            'rating_range': range(1, 6)})
+
+
+def cpu_detail(request, slug):
+    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
+                                            'rating_range': range(1, 6)})
+
+
+def monitor_detail(request, slug):
+    return render(request, 'monitor.html', {'title': 'Choose a Video Card', 'slug': 'user',
+                                            'rating_range': range(1, 6)})
+

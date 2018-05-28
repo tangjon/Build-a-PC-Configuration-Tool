@@ -16,6 +16,10 @@
     <th scope="col"></th>
 {% endblock componentSorterRow %}
 
+{% block customSlug %}
+{% url 'products:gpu_detail' component.slug %}
+{% endblock customSlug %}
+
 {% block componentSpecificColumns %}
     <td>{{ component.chipset }}</td>
     <td>{{ component.memory_size }} GB</td>

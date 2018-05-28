@@ -29,8 +29,15 @@ class Component(PolymorphicModel):
         return "{} - {}".format(self.manufacturer, self.model_number)
 
     def save(self, *args, **kwargs):
-        self.display_name = "{} {}".format(self.manufacturer, self.serial_number)
-        self.slug = slugify(self.model_number)
+        if self.model_number != "":
+            self.display_name = "{} {}".format(self.manufacturer, self.model_number)
+            self.slug = slugify(self.model_number)
+        else:
+            self.display_name = "{} {}".format(self.manufacturer, self.serial_number)
+            self.slug = slugify(self.serial_number)
+
+        self.slug += "-" + slugify(self.id)
+
         super(Component, self).save(*args, **kwargs)
 
     def update_ratings(self):
