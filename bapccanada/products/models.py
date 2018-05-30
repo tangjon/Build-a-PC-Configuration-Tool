@@ -55,6 +55,13 @@ class Component(PolymorphicModel):
     def get_component_images(self):
         return self.images.all()
 
+    def get_tech_details(self):
+        return {
+            "Manufacturer": self.manufacturer,
+            "Model": self.model_number,
+            "Part #": self.serial_number
+        }
+
 
 class GPU(Component):
     clock_rate = models.DecimalField(default=0.0, max_digits=3, decimal_places=2, blank=True, null=True)
@@ -67,6 +74,19 @@ class GPU(Component):
     def get_page_title(self):
         return "{} - {} {}GB {} Video Card".format(self.manufacturer, self.chipset,
                                                    self.memory_size, self.model_number)
+
+    def get_tech_details(self):
+        main_details = super(GPU, self).get_tech_details()
+        extra_details = {
+            "Chipset": self.chipset,
+            "Memory Size": "{}GB".format(self.memory_size),
+            "Base Clock": "{}Ghz".format(self.clock_rate),
+            "Boost Clock": "{}Ghz".format(self.clock_rate_oc),
+            "Displayport": self.dp_ports,
+            "HDMI": self.hdmi_ports
+        }
+
+        return {**main_details, **extra_details}
 
 
 class CPU(Component):
@@ -82,6 +102,20 @@ class CPU(Component):
     def get_page_title(self):
         return "{} - {} {}Ghz {}-Core Processor".format(self.manufacturer, self.model_number,
                                                         self.stock_freq, self.cores)
+
+    def get_tech_details(self):
+        main_details = super(CPU, self).get_tech_details()
+        extra_details = {
+            "Stock Frequency": "{}Ghz".format(self.stock_freq),
+            "Turbo Frequency": "{}Ghz".format(self.boost_freq),
+            "Cores": self.cores,
+            "Threads": self.threads,
+            "L3 Cache": self.l3_cache,
+            "Power Draw": "{} Watts".format(self.watts),
+            "Integrated Graphics": self.integrated_graphics
+        }
+
+        return {**main_details, **extra_details}
 
 
 class Monitor(Component):
@@ -99,6 +133,22 @@ class Monitor(Component):
         resolution = "{}".format(self.resolution).replace(' ', "")
         return "{} - {} {}\" {} {}Hz Monitor".format(self.manufacturer, self.serial_number, self.screen_size,
                                                      resolution, self.refresh_rate)
+
+    def get_tech_details(self):
+        main_details = super(Monitor, self).get_tech_details()
+        extra_details = {
+            "Screen Size": "{}\"".format(self.screen_size),
+            "Resolution": self.resolution,
+            "Aspect Ratio": self.aspect_ratio,
+            "Response Time": "{}ms".format(self.response_time),
+            "Refresh Rate": "{}Hz".format(self.refresh_rate),
+            "G-Sync": self.g_sync,
+            "Panel Type": self.panel_type,
+            "Displayport": self.dp_ports,
+            "HDMI": self.hdmi_ports
+        }
+
+        return {**main_details, **extra_details}
 
 
 def prices_changed(sender, **kwargs):

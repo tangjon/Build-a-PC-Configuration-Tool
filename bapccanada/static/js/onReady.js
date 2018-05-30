@@ -5,7 +5,7 @@ $(document).ready(function () {
         dots: true,
         dotsEach: 5,
         items: 7,
-        loop: loop,
+        loop: true,
         margin: 10
     });
 });

@@ -30,20 +30,22 @@ def monitor(request):
 def gpu_detail(request, slug):
     component = get_object_or_404(GPU, slug=slug)
     images = component.get_component_images()
-
+    tech_details = component.get_tech_details()
     return render(request, 'monitorDetails.html', {'component': component, 'rating_range': range(1, 6),
-                                                   'images': images})
+                                                   'images': images, 'tech_details': tech_details})
 
 
 def cpu_detail(request, slug):
     component = get_object_or_404(CPU, slug=slug)
     images = component.get_component_images()
+    tech_details = component.get_tech_details()
     return render(request, 'cpuDetails.html', {'component': component, 'rating_range': range(1, 6),
-                                               'images': images})
+                                               'images': images, 'tech_details': tech_details})
 
 
 def monitor_detail(request, slug):
     component = get_object_or_404(Monitor, slug=slug)
     images = component.get_component_images()
+    tech_details = component.get_tech_details()
     return render(request, 'monitorDetails.html', {'component': component, 'rating_range': range(1, 6),
-                                                   'images': images})
+                                                   'images': images, 'tech_details': tech_details})
