@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from .models import GPU, CPU, Monitor
+from .models import GPU, CPU, Monitor, Component
 
 
 def gpu(request):
@@ -11,7 +11,7 @@ def gpu(request):
 
 
 def monitors(request):
-    return render(request, 'monitorDetails.html', {'title': 'Choose a Video Card', 'slug': 'user',
+    return render(request, 'componentDetails.html', {'title': 'Choose a Video Card', 'slug': 'user',
                                             'rating_range': range(1, 6)})
 
 
@@ -27,25 +27,24 @@ def monitor(request):
                                                   'rating_range': range(1, 6)})
 
 
-def gpu_detail(request, slug):
-    component = get_object_or_404(GPU, slug=slug)
+def abstract_details(request, slug, category):
+    component = get_object_or_404(Component, slug=slug)
     images = component.get_component_images()
+    prices = component.get_component_prices()
     tech_details = component.get_tech_details()
-    return render(request, 'monitorDetails.html', {'component': component, 'rating_range': range(1, 6),
-                                                   'images': images, 'tech_details': tech_details})
+    reviews = component.get_component_reviews()
+    return render(request, 'componentDetails.html', {'component': component, 'rating_range': range(1, 6),
+                                                     'images': images, 'tech_details': tech_details,
+                                                     'prices': prices, 'reviews': reviews, 'category': category})
+
+
+def gpu_detail(request, slug):
+    return abstract_details(request, slug, "VIDEO_CARD")
 
 
 def cpu_detail(request, slug):
-    component = get_object_or_404(CPU, slug=slug)
-    images = component.get_component_images()
-    tech_details = component.get_tech_details()
-    return render(request, 'cpuDetails.html', {'component': component, 'rating_range': range(1, 6),
-                                               'images': images, 'tech_details': tech_details})
+    return abstract_details(request, slug, "PROCESSOR")
 
 
 def monitor_detail(request, slug):
-    component = get_object_or_404(Monitor, slug=slug)
-    images = component.get_component_images()
-    tech_details = component.get_tech_details()
-    return render(request, 'monitorDetails.html', {'component': component, 'rating_range': range(1, 6),
-                                                   'images': images, 'tech_details': tech_details})
+    return abstract_details(request, slug, "MONITOR")

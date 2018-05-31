@@ -55,6 +55,12 @@ class Component(PolymorphicModel):
     def get_component_images(self):
         return self.images.all()
 
+    def get_component_prices(self):
+        return self.prices.all()
+
+    def get_component_reviews(self):
+        return Review.objects.filter(component=self)[:5]
+
     def get_tech_details(self):
         return {
             "Manufacturer": self.manufacturer,
@@ -171,6 +177,7 @@ class Review(models.Model):
     stars = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
     time_added = models.DateTimeField(auto_now=True)
     time_edited = models.DateTimeField(auto_now=True)
+    points = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return "{} - {}".format(self.user, self.id)
