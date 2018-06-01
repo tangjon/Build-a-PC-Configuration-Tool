@@ -105,7 +105,7 @@ class GPU(Component):
             'chipset': subtype.objects.order_by('chipset').values_list('chipset', flat=True).distinct(),
             'memory': subtype.objects.order_by('memory_size').values_list('memory_size', flat=True).distinct(),
             'hdmi ports': subtype.objects.order_by('hdmi_ports').values_list('hdmi_ports', flat=True).distinct(),
-            'displayports': subtype.objects.order_by('dp_ports').values_list('dp_ports', flat=True).distinct()
+            'display ports': subtype.objects.order_by('dp_ports').values_list('dp_ports', flat=True).distinct()
         }
 
         return {**base_dimensions, **extra_dimensions}

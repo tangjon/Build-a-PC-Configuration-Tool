@@ -18,14 +18,16 @@ def monitors(request):
 
 def cpu(request):
     cpu_list = CPU.objects.all()[:50]
+    dimensions = cpu_list[0].get_filterable_dimensions(CPU)
     return render(request, 'cpuBrowse.html', {'title': 'Choose a Processor', 'components': cpu_list,
-                                              'rating_range': range(1, 6)})
+                                              'rating_range': range(1, 6), 'dimensions': dimensions})
 
 
 def monitor(request):
     monitor_list = Monitor.objects.all()[:50]
+    dimensions = monitor_list[0].get_filterable_dimensions(Monitor)
     return render(request, 'monitorBrowse.html', {'title': 'Choose a Monitor', 'components': monitor_list,
-                                                  'rating_range': range(1, 6)})
+                                                  'rating_range': range(1, 6), 'dimensions': dimensions})
 
 
 def abstract_details(request, slug, category):
