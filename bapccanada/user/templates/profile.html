@@ -93,23 +93,20 @@
                 <h2 class="mt-2">Profile Settings</h2>
                 <h4>Biography</h4>
                 {% if browse_user.username == user.username %}
-                    <form method="post">
-                        {% csrf_token %}
-                        {% for field in biography_form %}
-                            <div class="form-group">
-                                {{ field.errors }}
-                                {% render_field field class="form-control" %}
-                                {% if field.help_text %}
-                                    <small class="form-text">
-                                        {{ field.help_text|safe }}
-                                    </small>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <button class="btn btn-primary">Save</button>
-
-                    </form>
-
+                    <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in biography_form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            {% render_field field class="form-control" %}
+                            {% if field.help_text %}
+                                <small class="form-text">
+                                    {{ field.help_text|safe }}
+                                </small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {#                    </form>#}
                 {% else %}
                     <p>{{ browse_user.userprofile.biography }}</p>
                 {% endif %}
@@ -119,24 +116,28 @@
                         <img src="{{ browse_user.userprofile.avatar.url }}"
                              style="border-radius: 50%; width: 60px; height: 60px">
                     {% endif %}
-                    <form enctype="multipart/form-data" method="post">
-                        {% csrf_token %}
-                        {% for field in avatar_form %}
-                            <div class="form-group">
-                                {{ field.errors }}
-                                {% render_field field class="form-control" %}
-                                {% if field.help_text %}
-                                    <small class="form-text">
-                                        {{ field.help_text|safe }}
-                                    </small>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <button class="btn btn-primary">Save</button>
+                    {#                    <form id="avatar_form" enctype="multipart/form-data" method="post">#}
+{#                    {% csrf_token %}#}
+                    {% for field in avatar_form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            {% render_field field class="form-control" %}
+                            {% if field.help_text %}
+                                <small class="form-text">
+                                    {{ field.help_text|safe }}
+                                </small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn" id="profile-form-submit">Submit</button>
                     </form>
                 {% endif %}
-
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block extraScripts %}
+    <script>
+    </script>
 {% endblock %}

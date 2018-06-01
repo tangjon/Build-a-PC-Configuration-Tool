@@ -31,12 +31,15 @@ class ProfileView(BaseProfileView):
             context['biography_form'] = BiographyForm(request.POST, instance=context['browse_user'].userprofile)
             if context['biography_form'].is_valid():
                 context['biography_form'].save(commit=True)
-        elif 'avatar' in request.FILES:
-            print('hello')
-            context['avatar_form'] = AvatarForm(request.POST, request.FILES,
+        if 'avatar' in request.FILES:
+            context['avatar_form'] = AvatarForm(files=request.FILES,
                                                 instance=context['browse_user'].userprofile)
             if context['avatar_form'].is_valid():
-                print("avatar form is valid")
+                context['avatar_form'].save(commit=True)
+        if 'avatar-clear' in request.POST:
+            context['avatar_form'] = AvatarForm(request.POST,
+                                                instance=context['browse_user'].userprofile)
+            if context['avatar_form'].is_valid():
                 context['avatar_form'].save(commit=True)
         return self.get(request, *args, **kwargs)
 
@@ -59,7 +62,8 @@ class PreferencesView(BaseProfileView):
         emailSettingsForm = EmailSettingsForm(request.POST, instance=context['browse_user'].userprofile.emailsettings)
         if emailSettingsForm.is_valid():
             emailSettingsForm.save()
-        privacySettingsForm = PrivacySettingsForm(request.POST, instance=context['browse_user'].userprofile.privacysettings)
+        privacySettingsForm = PrivacySettingsForm(request.POST,
+                                                  instance=context['browse_user'].userprofile.privacysettings)
         if privacySettingsForm:
             privacySettingsForm.save()
         return self.get(request, *args, **kwargs)
@@ -68,7 +72,8 @@ class PreferencesView(BaseProfileView):
         context = super(PreferencesView, self).get_context_data(**kwargs)
         context['click_options_form'] = ClickSettingsForm(instance=context['browse_user'].userprofile.clicksettings)
         context['email_options_form'] = EmailSettingsForm(instance=context['browse_user'].userprofile.emailsettings)
-        context['privacy_settings_form'] = PrivacySettingsForm(instance=context['browse_user'].userprofile.privacysettings)
+        context['privacy_settings_form'] = PrivacySettingsForm(
+            instance=context['browse_user'].userprofile.privacysettings)
         return context
 
 

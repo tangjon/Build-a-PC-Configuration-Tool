@@ -1,47 +1,50 @@
 {% extends 'profile.html' %}
 
 {% block bapc-body-content-container %}
-    <form method="post">
-        {% csrf_token %}
-        <div class="container py-3">
-            <table class="tbl-pref">
-                <tbody>
-                <tr>
-                    <th>clicking options</th>
-                    <th class="tbl-pref-options">
-                        {% for field in click_options_form %}
-                            <div>
-                                {{ field }}
-                                {{ field.label }}
-                            </div>
-                        {% endfor %}
-                    </th>
-                </tr>
-                <tr>
-                    <th>email options</th>
-                    <th class="tbl-pref-options">
-                        {% for field in email_options_form %}
-                            <div>
-                                {{ field }}
-                                {{ field.label }}
-                            </div>
-                        {% endfor %}
-                    </th>
-                </tr>
-                <tr>
-                    <th>privacy</th>
-                    <th class="tbl-pref-options">
-                        {% for field in privacy_settings_form %}
-                            <div>
-                                {{ field }}
-                                {{ field.label }}
-                            </div>
-                        {% endfor %}
-                    </th>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="btn btn-primary">Submit</button>
-    </form>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="container py-3">
+                <table class="tbl-pref">
+                    <tbody>
+                    <tr>
+                        <th>clicking options</th>
+                        <th class="tbl-pref-options">
+                            {% for field in click_options_form %}
+                                <div>
+                                    {{ field }}
+                                    {{ field.label }}
+                                </div>
+                            {% endfor %}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>email options</th>
+                        <th class="tbl-pref-options">
+                            {% for field in email_options_form %}
+                                <div>
+                                    {{ field }}
+                                    {{ field.label }}
+                                </div>
+                            {% endfor %}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>privacy</th>
+                        <th class="tbl-pref-options">
+                            {% for field in privacy_settings_form %}
+                                <div>
+                                    {{ field }}
+                                    {{ field.label }}
+                                </div>
+                            {% endfor %}
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn">Submit</button>
+        </form>
+    </div>
+
 {% endblock %}
