@@ -1,4 +1,7 @@
-from django.shortcuts import get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
+from django.shortcuts import get_object_or_404, render, redirect
 # Create your views here.
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -42,6 +45,7 @@ class ProfileView(BaseProfileView):
             if context['avatar_form'].is_valid():
                 context['avatar_form'].save(commit=True)
         return self.get(request, *args, **kwargs)
+        # return super(ProfileView, self).render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -90,6 +94,18 @@ class BuildsView(BaseProfileView):
 class SecurityView(BaseProfileView):
     template_name = 'security.html'
     title_name = 'Security'
+
+    def get_context_data(self, **kwargs):
+        context = super(SecurityView, self).get_context_data(**kwargs)
+        context['change_password_form'] = PasswordChangeForm(context['browse_user'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)  # Important!
+        return self.get(request, *args, **kwargs)
 
 
 class SavedView(BaseProfileView):
