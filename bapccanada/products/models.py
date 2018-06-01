@@ -68,6 +68,11 @@ class Component(PolymorphicModel):
             "Part #": self.serial_number
         }
 
+    def get_filterable_dimensions(self, subtype):
+        return {
+            "Manufacturer": subtype.objects.order_by('manufacturer').values_list('manufacturer', flat=True).distinct()
+        }
+
 
 class GPU(Component):
     clock_rate = models.DecimalField(default=0.0, max_digits=3, decimal_places=2, blank=True, null=True)
@@ -94,6 +99,17 @@ class GPU(Component):
 
         return {**main_details, **extra_details}
 
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(GPU, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'chipset': subtype.objects.order_by('chipset').values_list('chipset', flat=True).distinct(),
+            'memory': subtype.objects.order_by('memory_size').values_list('memory_size', flat=True).distinct(),
+            'hdmi ports': subtype.objects.order_by('hdmi_ports').values_list('hdmi_ports', flat=True).distinct(),
+            'displayports': subtype.objects.order_by('dp_ports').values_list('dp_ports', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
 
 class CPU(Component):
     cores = models.PositiveIntegerField(default=2)
@@ -112,6 +128,7 @@ class CPU(Component):
     def get_tech_details(self):
         main_details = super(CPU, self).get_tech_details()
         extra_details = {
+            "Socket Type": self.socket,
             "Stock Frequency": "{}Ghz".format(self.stock_freq),
             "Turbo Frequency": "{}Ghz".format(self.boost_freq),
             "Cores": self.cores,
@@ -122,6 +139,17 @@ class CPU(Component):
         }
 
         return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(CPU, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'cores': subtype.objects.order_by('cores').values_list('cores', flat=True).distinct(),
+            'socket type': subtype.objects.order_by('socket').values_list('socket', flat=True).distinct(),
+            'integrated graphics': subtype.objects.order_by('integrated_graphics').values_list('integrated_graphics',
+                                                                                       flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
 
 
 class Monitor(Component):
@@ -155,6 +183,17 @@ class Monitor(Component):
         }
 
         return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(Monitor, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'recommended resolution': subtype.objects.order_by('resolution').values_list('resolution', flat=True).distinct(),
+            'response time': subtype.objects.order_by('response_time').values_list('response_time', flat=True).distinct(),
+            'Refresh Rate': subtype.objects.order_by('refresh_rate').values_list('refresh_rate', flat=True).distinct(),
+            'panel type': subtype.objects.order_by('panel_type').values_list('panel_type', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
 
 
 def prices_changed(sender, **kwargs):

@@ -8,4 +8,7 @@ $(document).ready(function () {
         loop: true,
         margin: 10
     });
+
+
 });
+

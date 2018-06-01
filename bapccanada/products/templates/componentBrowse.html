@@ -2,7 +2,7 @@
 {% load static %}
 {% block extraStyles %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/categoryBrowse.css' %}"/>
-
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-slider.min.css' %}"/>
 {% endblock extraStyles %}
 
 {% block bapc-header-title %}{{ title }}{% endblock %}
@@ -12,88 +12,96 @@
         <div class="browseLeftColumn col">
             <div class="panelHeader">Filters</div>
             <div class="filterPanel">
-                <div class="filterPanelTitle">MANUFACTURER</div>
+                <div class="filterPanelTitle">PRICE</div>
+                <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000"
+                       data-slider-step="5" data-slider-value="[250,450]"/>
+            </div>
+
+            <div class="filterPanel">
+                <div class="filterPanelTitle">RATING</div>
                 <ul class="list-group filterPanelListGroup">
                     <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Show All
+                               aria-label="Checkbox for following text input"> All
                     </li>
                     <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> ASUS
+                               aria-label="Checkbox for following text input">
+                        <span class="ratingFilterStars">
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                        </span>
                     </li>
                     <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Zotac
+                               aria-label="Checkbox for following text input">
+                        <span class="ratingFilterStars">
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star-o "></span>
+                        </span>
                     </li>
                     <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> EVGA
+                               aria-label="Checkbox for following text input">
+                        <span class="ratingFilterStars">
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                        </span>
                     </li>
                     <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> GIGABYTE
+                               aria-label="Checkbox for following text input">
+                        <span class="ratingFilterStars">
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                        </span>
+                    </li>
+                    <li><input class="filterPanelCheckbox" type="checkbox"
+                               aria-label="Checkbox for following text input">
+                        <span class="ratingFilterStars">
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                        </span>
+                    </li>
+                    <li><input class="filterPanelCheckbox" type="checkbox"
+                               aria-label="Checkbox for following text input">
+                        <span class="ratingFilterStars">
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                            <span class="fa fa-star-o "></span>
+                        </span>
                     </li>
                 </ul>
             </div>
 
-            <div class="filterPanel">
-                <div class="filterPanelTitle">MANUFACTURER</div>
-                <ul class="list-group filterPanelListGroup">
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Show All
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> ASUS
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Zotac
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> EVGA
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> GIGABYTE
-                    </li>
-                </ul>
-            </div>
+            {% for dimension, values in dimensions.items %}
+                <div class="filterPanel">
+                    <div class="filterPanelTitle">{{ dimension }}</div>
+                    <ul class="list-group filterPanelListGroup">
+                        <li><input class="filterPanelCheckbox" type="checkbox"
+                                   aria-label="Checkbox for following text input"> All
+                        </li>
+                        {% for value in values %}
+                                    <li><input class="filterPanelCheckbox" type="checkbox"
+                                   aria-label="Checkbox for following text input"> {{ value }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
 
-            <div class="filterPanel">
-                <div class="filterPanelTitle">MANUFACTURER</div>
-                <ul class="list-group filterPanelListGroup">
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Show All
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> ASUS
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Zotac
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> EVGA
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> GIGABYTE
-                    </li>
-                </ul>
-            </div>
-
-            <div class="filterPanel">
-                <div class="filterPanelTitle">MANUFACTURER</div>
-                <ul class="list-group filterPanelListGroup">
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Show All
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> ASUS
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> Zotac
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> EVGA
-                    </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
-                               aria-label="Checkbox for following text input"> GIGABYTE
-                    </li>
-                </ul>
-            </div>
         </div>
         <div class="browseRightColumn col">
             <div class="browseSearchBar form-inline">
@@ -115,7 +123,9 @@
                     {% for component in components %}
                         <tr>
                             <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                            <td><a class="productPageLink" href='{% block customSlug %}{% endblock customSlug %}'>{{ component.display_name }}</a></td>
+                            <td><a class="productPageLink" href='
+                                    {% block customSlug %}{% endblock customSlug %}'>{{ component.display_name }}</a>
+                            </td>
                             {% block componentSpecificColumns %}
                             {% endblock componentSpecificColumns %}
                             <td>
@@ -147,3 +157,8 @@
 
     </div>
 {% endblock %}
+
+{% block extraScripts %}
+    <script type="text/javascript" src="{% static "js/bootstrap-slider.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/sliderControl.js" %}"></script>
+{% endblock extraScripts %}

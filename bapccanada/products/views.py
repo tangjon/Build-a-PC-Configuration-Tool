@@ -6,8 +6,9 @@ from .models import GPU, CPU, Monitor, Component
 
 def gpu(request):
     gpu_list = GPU.objects.all()[:50]
+    dimensions = gpu_list[0].get_filterable_dimensions(GPU)
     return render(request, 'gpuBrowse.html', {'title': 'Choose a Video Card', 'components': gpu_list,
-                                              'rating_range': range(1, 6)})
+                                              'rating_range': range(1, 6), 'dimensions': dimensions})
 
 
 def monitors(request):

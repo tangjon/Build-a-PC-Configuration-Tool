@@ -94,3 +94,9 @@ ul {
     color: #2c85c5;
     text-decoration: none;
 }
+
+.slider.slider-horizontal:hover .tooltip.tooltip-main,
+.slider.slider-vertical:hover .tooltip.tooltip-main {
+    opacity: 1 !important;
+
+}
