@@ -103,7 +103,8 @@ class GPU(Component):
         base_dimensions = super(GPU, self).get_filterable_dimensions(subtype)
         extra_dimensions = {
             'chipset': subtype.objects.order_by('chipset').values_list('chipset', flat=True).distinct(),
-            'memory': subtype.objects.order_by('memory_size').values_list('memory_size', flat=True).distinct(),
+            'memory': map(lambda memory: "{}GB".format(memory), subtype.objects.order_by('memory_size')
+                          .values_list('memory_size', flat=True).distinct()),
             'hdmi ports': subtype.objects.order_by('hdmi_ports').values_list('hdmi_ports', flat=True).distinct(),
             'display ports': subtype.objects.order_by('dp_ports').values_list('dp_ports', flat=True).distinct()
         }
@@ -188,8 +189,10 @@ class Monitor(Component):
         base_dimensions = super(Monitor, self).get_filterable_dimensions(subtype)
         extra_dimensions = {
             'recommended resolution': subtype.objects.order_by('resolution').values_list('resolution', flat=True).distinct(),
-            'response time': subtype.objects.order_by('response_time').values_list('response_time', flat=True).distinct(),
-            'Refresh Rate': subtype.objects.order_by('refresh_rate').values_list('refresh_rate', flat=True).distinct(),
+            'response time': map(lambda time: "{}ms".format(time), subtype.objects.order_by('response_time').
+                                 values_list('response_time', flat=True).distinct()),
+            'Refresh Rate': map(lambda rate: "{}Hz".format(rate), subtype.objects.order_by('refresh_rate').
+                                values_list('refresh_rate', flat=True).distinct()),
             'panel type': subtype.objects.order_by('panel_type').values_list('panel_type', flat=True).distinct()
         }
 
