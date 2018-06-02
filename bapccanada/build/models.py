@@ -1,6 +1,8 @@
 from django.db import models
-
 from django.template.defaultfilters import slugify
+
+from functools import reduce
+from decimal import Decimal
 
 from products.models import GPU, CPU, Monitor
 from user.models import UserProfile
@@ -14,13 +16,23 @@ class Build(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     complete = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
+    total_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        self.total_price = self.get_total_price()
         super(Build, self).save(*args, **kwargs)
 
     def __str__(self):
         return "{} - {}".format(self.owner, self.name)
+
+    def get_total_price(self):
+        component_array = [self.gpu, self.cpu, self.monitor]
+        component_array = map(lambda component: 0.0 if not component else (Decimal(component.cheapest_price) +
+                                                                           Decimal(component.cheapest_price_shipping))
+                              , component_array)
+
+        return reduce(lambda total, current: total+current, component_array)
 
     def get_component_dict(self):
         return {
@@ -36,7 +48,7 @@ class Build(models.Model):
             },
             "Monitor": {
                 "object": self.monitor,
-                "category_link": "products:monitor",
+                "category_link": "products:monitors",
                 "detail_link": "products:monitor_detail"
             }
         }

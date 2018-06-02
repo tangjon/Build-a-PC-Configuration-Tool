@@ -20,6 +20,7 @@ class Component(PolymorphicModel):
     slug = models.SlugField(blank=True)
 
     images = models.ManyToManyField(Image)
+
     prices = models.ManyToManyField(Price)
     cheapest_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     cheapest_price_shipping = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)

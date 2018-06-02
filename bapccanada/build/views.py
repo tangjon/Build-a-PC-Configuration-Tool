@@ -4,7 +4,7 @@ from .models import Build
 
 
 def create(request):
-    build = Build.objects.get(pk=999)
+    build = Build.objects.get(pk=2)
     component_list = build.get_component_dict()
 
     return render(request, 'create.html', {'title': 'Current Part List', 'build': build,
