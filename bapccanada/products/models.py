@@ -22,6 +22,9 @@ class Component(PolymorphicModel):
     images = models.ManyToManyField(Image)
     prices = models.ManyToManyField(Price)
     cheapest_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
+    cheapest_price_shipping = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
+    cheapest_price_store_link = models.URLField()
+    cheapest_price_store = models.CharField(max_length=100, default="")
 
     average_rating = models.DecimalField(default=0.0, max_digits=2, decimal_places=1, blank=True, null=True)
     num_ratings = models.PositiveIntegerField(default=0)
@@ -202,9 +205,13 @@ class Monitor(Component):
 def prices_changed(sender, **kwargs):
     if kwargs["action"] == "post_add" and kwargs["model"] == Price:
         current_component = kwargs["instance"]
-        current_min_price = current_component.prices.all().aggregate(Min('price'))["price__min"]
+        current_min_price = current_component.prices.aggregate(Min('price'))["price__min"]
         if current_component.cheapest_price == 0.0 or current_min_price < current_component.cheapest_price:
-            current_component.cheapest_price = current_min_price
+            price_to_use = current_component.prices.filter(price=current_min_price).first()
+            current_component.cheapest_price = price_to_use.price
+            current_component.cheapest_price_shipping = price_to_use.shipping
+            current_component.cheapest_price_store = price_to_use.store
+            current_component.cheapest_price_store_link = price_to_use.store_link
             current_component.save()
 
 

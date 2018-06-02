@@ -6,7 +6,7 @@ from decimal import Decimal
 class Price(models.Model):
     price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     shipping = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
-    store = models.CharField(max_length=100)
+    store = models.CharField(max_length=100, default="")
     store_link = models.URLField()
     availability = models.CharField(max_length=100, default="In Stock")
     total_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)

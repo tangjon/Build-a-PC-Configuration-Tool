@@ -1,63 +1,104 @@
-{% extends 'createWrapper.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% if build.gpu  %}
-    {% block gpu %}
-        <td class="productImage">
-            <div class="imageWrapper">
-                <img src="{% static 'assets/gpu.jpg' %}">
+{% block extraStyles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/build.css' %}"/>
+{% endblock extraStyles %}
+
+{% block bapc-header-title %}{{ title }}{% endblock %}
+
+{% block bapc-body-content %}
+    {# TOOLBAR #}
+    <div class="container buildToolbarTop ">
+        <div class="btn-toolbar mb-3 mt-3" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="btnGroupAddon">Permalink</div>
+                </div>
+                <input type="text" class="form-control" placeholder="https://buildapc.ca/list/thzH29"
+                       aria-label="Input group example" aria-describedby="btnGroupAddon">
             </div>
-        </td>
-        <td><a class="productTitle">{{ build.gpu.display_title }}</a></td>
-        <td><a class="productPrice">{{ build.gpu.price }}</a></td>
-        <td class="shippingCost">FREE</td>
-        <td><a class="productShopLink">Vuugo</a></td>
-        <td>
-            <button type="button" class="btn btn-primary btn-sm">Buy</button>
-        </td>
-        <td>
-            <button type="button" class="close productRemove" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-        </td>
-    {% endblock gpu %}
-{% endif %}
-
-{% block cpu %}
-    <td class="productImage">
-        <div class="imageWrapper">
-            <img src="{% static 'assets/i7.jpg' %}">
+            <div class="mr-2" aria-label="Toolbar Controls">
+                <button type="button" class="btn btn-secondary">Save As</button>
+                <button type="button" class="btn btn-secondary">New Build</button>
+            </div>
         </div>
-    </td>
-    <td><a class="productTitle">Intel - Core i7-8700K 3.7GHz 6-Core Processor</a></td>
-    <td><a class="productPrice">$448.99</a></td>
-    <td class="shippingCost">FREE</td>
-    <td><a class="productShopLink">Mike's Computer Store</a></td>
-    <td>
-        <button type="button" class="btn btn-primary btn-sm">Buy</button>
-    </td>
-    <td>
-        <button type="button" class="close productRemove" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-    </td>
-{% endblock cpu %}
+    </div>
+    {# END TOOLBAR #}
 
-{% block monitor %}
-    <td class="productImage">
-        <div class="imageWrapper">
-            <img src="{% static 'assets/monitor.jpg' %}">
-        </div>
-    </td>
-    <td><a class="productTitle" href="{% url 'products:monitor' %}">Asus - PG279Q ROG Swift 27.0" 2560x1440
-        165Hz Monitor</a>
-    </td>
-    <td><a class="productPrice">$948.99</a></td>
-    <td class="shippingCost">FREE</td>
-    <td><a class="productShopLink">Amazon</a></td>
-    <td>
-        <button type="button" class="btn btn-primary btn-sm">Buy</button>
-    </td>
-    <td>
-        <button type="button" class="close productRemove" aria-label="Close productRemove">
-            <span aria-hidden="true">&times;</span></button>
-    </td>
-{% endblock monitor %}
+
+    {# COMPONENT LIST #}
+    <div>
+        <table class="table table-striped componentListTable">
+            <thead class="componentListTop">
+            <tr>
+                <th scope="col">Component</th>
+                <th scope="col"></th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Shipping</th>
+                <th scope="col">Merchant</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody class="componentListBody">
+            {% for category, component in component_list.items %}
+                <tr>
+                    <th scope="row"><a class="browseCategory"
+                                       href="{% url component.category_link %}">{{ category }}</a></th>
+                    {% if not component.object %}
+                        <td class="productImage"></td>
+                        <td>
+                            <a href="{% url 'products:gpu' %}" class="btn btn-primary btn-sm" role="button">Add a
+                                {{ category }}</a>
+                        </td>
+                        <td></td>
+                        <td class="shippingCost"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% else %}
+                        <td class="productImage">
+                            <div class="imageWrapper">
+                                <img src="{% static 'assets/gpu.jpg' %}">
+                            </div>
+                        </td>
+                        <td><a class="productTitle"
+                               href="{% url component.detail_link component.object.slug %}">{{ component.object.display_title }}</a>
+                        </td>
+                        <td><a class="productPrice" href="{{ component.object.cheapest_price_store_link }}">
+                            ${{ component.object.cheapest_price }}</a>
+                        </td>
+                        <td class="shippingCost">
+                            {% if component.object.cheapest_price_shipping > 0.0 %}
+                                ${{ component.object.cheapest_price_shipping }}
+                            {% endif %}
+                            {% if component.object.cheapest_price_shipping == 0.0 %}
+                                FREE
+                            {% endif %}
+                        </td>
+                        <td><a class="productShopLink" href="{{ component.object.cheapest_price_store_link }}">
+                            {{ component.object.cheapest_price_store }}</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm">Buy</button>
+                        </td>
+                        <td>
+                            <button type="button" class="close productRemove" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            <tr class="totalPriceSummaryRow">
+                <th class="totalPriceSummaryPrefix" colspan="5" scope="row">Total:</th>
+                <td>$1999.99</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {# END COMPONENT LIST #}
+{% endblock %}

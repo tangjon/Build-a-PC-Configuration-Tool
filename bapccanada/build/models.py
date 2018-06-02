@@ -22,6 +22,25 @@ class Build(models.Model):
     def __str__(self):
         return "{} - {}".format(self.owner, self.name)
 
+    def get_component_dict(self):
+        return {
+            "Video Card": {
+                "object": self.gpu,
+                "category_link": "products:gpu",
+                "detail_link": "products:gpu_detail"
+            },
+            "Processor": {
+                "object": self.cpu,
+                "category_link": "products:cpu",
+                "detail_link": "products:cpu_detail"
+            },
+            "Monitor": {
+                "object": self.monitor,
+                "category_link": "products:monitor",
+                "detail_link": "products:monitor_detail"
+            }
+        }
+
 
 
 
