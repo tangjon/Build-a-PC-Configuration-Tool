@@ -8,6 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 
+from build.models import Build
 from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm
 
 
@@ -91,6 +92,19 @@ class CommentsView(BaseProfileView):
 class BuildsView(BaseProfileView):
     template_name = 'builds.html'
     title_name = 'Builds'
+
+    # def get(self, request, *args, **kwargs):
+    #     super().get(request, args, kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(BuildsView, self).get_context_data(**kwargs)
+        context['builds'] = self.browse_user.userprofile.build_set.all()
+        if context['builds'].count():
+            if 'pk' in kwargs:
+                context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])
+            else:
+                context['build'] = self.browse_user.userprofile.build_set.first()
+        return context
 
 
 class SecurityView(LoginRequiredMixin, BaseProfileView):
