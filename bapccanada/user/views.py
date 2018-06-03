@@ -106,6 +106,7 @@ class BuildsView(BaseProfileView):
 
             else:
                 context['build'] = self.browse_user.userprofile.build_set.first()
+                context['component_list'] = Build.get_component_dict(context['build'])
         return context
 
 
