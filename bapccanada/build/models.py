@@ -28,11 +28,35 @@ class Build(models.Model):
 
     def get_total_price(self):
         component_array = [self.gpu, self.cpu, self.monitor]
-        component_array = map(lambda component: 0.0 if not component else (Decimal(component.cheapest_price) +
-                                                                           Decimal(component.cheapest_price_shipping))
+        component_array = map(lambda component: Decimal(0.0) if not component else (Decimal(component.cheapest_price)
+                                                                                    + Decimal(component.cheapest_price_shipping))
                               , component_array)
 
         return reduce(lambda total, current: total+current, component_array)
+
+    def add_component(self, component):
+        component_type = component.get_real_instance_class()
+
+        if component_type == CPU:
+            self.cpu = component
+        elif component_type == GPU:
+            self.gpu = component
+        else:
+            self.monitor = component
+
+        self.save()
+
+    def remove_component(self, component):
+        component_type = component.get_real_instance_class()
+
+        if component_type == CPU:
+            self.cpu = None
+        elif component_type == GPU:
+            self.gpu = None
+        else:
+            self.monitor = None
+
+        self.save()
 
     def get_component_dict(self):
         return {
