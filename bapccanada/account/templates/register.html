@@ -1,8 +1,10 @@
 {% extends 'form_isolated.html' %}
 
-{% block form_title %}Register{% endblock %}
+{% block formTitle %}Create a new account{% endblock %}
 
-{% block form_buttons %}
+{% block formButtons %}
     <button type="submit" class="btn btn-primary">Register</button>
-    <a class="btn btn-secondary" href="{% url 'account:login' %}">Already have an account?</a>
+    <div class="text-center mt-3">
+        <a class="bapc-link " href="{% url 'account:login' %}">Already have an account?</a>
+    </div>
 {% endblock %}

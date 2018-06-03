@@ -3,31 +3,17 @@
 {% load widget_tweaks %}
 
 {% block bapc-body-content-container %}
-    <a href="{% url 'account:password_change' %}">Change password</a>
-    <a href="{% url 'account:password_reset' %}">Password reset</a>
 
-    <div class="container py-3">
+    <div class="container mt-3">
         <h3>Change Password</h3>
-        <form method="post">
-            {% csrf_token %}
-            {% for field in change_password_form %}
-                <div class="form-group">
-                    {{ field.errors }}
-                    {{ field.label }}
-                    {% render_field field class="form-control" %}
-                    {% if field.help_text %}
-                        <small class="form-text">
-                            {{ field.help_text|safe }}
-                        </small>
-                    {% endif %}
-                </div>
-            {% endfor %}
-            <button class="btn">Change Password</button>
-        </form>
-
-
-        <h3>Change Email</h3>
+        <a class="btn btn-primary" href="{% url 'account:password_change' %}">Change password</a>
+        <div class="mt-3">
+            <h3>Reset Password</h3>
+            <a class="btn btn-primary" href="{% url 'account:password_reset' %}">Password reset</a>
+        </div>
 
     </div>
+
+
 
 {% endblock %}

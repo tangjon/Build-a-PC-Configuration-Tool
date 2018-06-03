@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
 # Create your views here.
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 
@@ -91,9 +93,10 @@ class BuildsView(BaseProfileView):
     title_name = 'Builds'
 
 
-class SecurityView(BaseProfileView):
+class SecurityView(LoginRequiredMixin, BaseProfileView):
     template_name = 'security.html'
     title_name = 'Security'
+    login_url = reverse_lazy('account:login')
 
     def get_context_data(self, **kwargs):
         context = super(SecurityView, self).get_context_data(**kwargs)

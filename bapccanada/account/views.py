@@ -24,7 +24,7 @@ def login_view(request):
 
 
 class UserCreate(CreateView):
-    template_name = 'register/templates/register.html'
+    template_name = 'register.html'
     form_class = SignUpForm
 
     def post(self, request, *args, **kwargs):
