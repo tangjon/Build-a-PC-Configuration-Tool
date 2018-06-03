@@ -102,6 +102,8 @@ class BuildsView(BaseProfileView):
         if context['builds'].count():
             if 'pk' in kwargs:
                 context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])
+                context['component_list'] = Build.get_component_dict(context['build'])
+
             else:
                 context['build'] = self.browse_user.userprofile.build_set.first()
         return context

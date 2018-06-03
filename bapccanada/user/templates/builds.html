@@ -1,4 +1,5 @@
 {% extends 'profile.html' %}
+{% load static %}
 
 {% block bapc-body-content-container %}
     <div class="container py-3">
@@ -19,80 +20,82 @@
             </div>
             <div class="col-lg-8">
                 {% if build %}
-                    <table class="table table-striped">
-                        <thead class="componentListTop">
-                        <tr>
-                            <th scope="col">Component</th>
-                            <th scope="col"></th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Shipping</th>
-                            <th scope="col">Merchant</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">Video Card</th>
-                            <td>Pic</td>
-                            <td>{{ build.gpu }}</td>
-                            <td>{{ build.gpu.cheapest_price }}</td>
-                            <td class="shippingCost">{{ build.gpu.cheapest_price_shipping }}</td>
-                            <td>
-                                <a href="{{ build.gpu.cheapest_price_store_link }}">{{ build.gpu.cheapest_price_store }}</a>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Buy</button>
-                            </td>
-                            <td>
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">×</span></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">CPU</th>
-                            <td>Pic</td>
-                            <td>{{ build.cpu }}</td>
-                            <td>{{ build.cpu.cheapest_price }}</td>
-                            <td class="shippingCost">{{ build.gpu.cheapest_price_shipping }}</td>
-                            <td>
-                                <a href="{{ build.cpu.cheapest_price_store_link }}">{{ build.cpu.cheapest_price_store }}</a>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Buy</button>
-                            </td>
-                            <td>
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">×</span></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Monitor</th>
-                            <td>Pic</td>
-                            <td><a href="/products/gpu/monitor">{{ build.monitor }}</a>
-                            </td>
-                            <td>{{ build.monitor.cheapest_price }}</td>
-                            <td class="shippingCost">{{ build.monitor.cheapest_price_shipping }}</td>
-                            <td>
-                                <a href="{{ build.monitor.cheapest_price_store_link }}">{{ build.monitor.cheapest_price_store }}</a>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Buy</button>
-                            </td>
-                            <td>
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">×</span></button>
-                            </td>
-                        </tr>
-                        <tr class="totalPriceSummaryRow">
-                            <th class="totalPriceSummaryPrefix" colspan="5" scope="row">Total:</th>
-                            <td>{{ build.total_price }}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div>
+                        <table class="table table-striped componentListTable">
+                            <thead class="componentListTop">
+                            <tr>
+                                <th scope="col">Component</th>
+                                <th scope="col"></th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Shipping</th>
+                                <th scope="col">Merchant</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="componentListBody">
+                            {% for category, component in component_list.items %}
+                                <tr>
+                                    <th scope="row"><a class="browseCategory"
+                                                       href="{% url component.category_link %}">{{ category }}</a></th>
+                                    {% if not component.object %}
+                                        <td class="productImage"></td>
+                                        <td>
+                                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm"
+                                               role="button">Add a
+                                                {{ category }}</a>
+                                        </td>
+                                        <td></td>
+                                        <td class="shippingCost"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    {% else %}
+                                        <td class="productImage">
+                                            <div class="imageWrapper">
+                                                <img src="{% static 'assets/gpu.jpg' %}">
+                                            </div>
+                                        </td>
+                                        <td><a class="productTitle"
+                                               href="{% url component.detail_link component.object.slug %}">{{ component.object.display_title }}</a>
+                                        </td>
+                                        <td><a class="productPrice"
+                                               href="{{ component.object.cheapest_price_store_link }}">
+                                            ${{ component.object.cheapest_price }}</a>
+                                        </td>
+                                        <td class="shippingCost">
+                                            {% if component.object.cheapest_price_shipping > 0.0 %}
+                                                ${{ component.object.cheapest_price_shipping }}
+                                            {% endif %}
+                                            {% if component.object.cheapest_price_shipping == 0.0 %}
+                                                FREE
+                                            {% endif %}
+                                        </td>
+                                        <td><a class="productShopLink"
+                                               href="{{ component.object.cheapest_price_store_link }}">
+                                            {{ component.object.cheapest_price_store }}</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm">Buy</button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="close productRemove" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            <tr class="totalPriceSummaryRow">
+                                <th class="totalPriceSummaryPrefix" colspan="5" scope="row">Total:</th>
+                                <td>${{ build.total_price }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 {% endif %}
             </div>
         </div>
