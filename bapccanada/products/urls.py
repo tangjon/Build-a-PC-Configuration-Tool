@@ -4,11 +4,10 @@ from . import views
 
 app_name = 'products'
 urlpatterns = [
-    path('gpu/', views.gpu, name='gpu'),
-    re_path(r'^gpu/(?P<slug>[-\w]+)/$', views.gpu_detail, name='gpu_detail'),
-    path('cpu/', views.cpu, name='cpu'),
-    re_path(r'^cpu/(?P<slug>[-\w]+)/$', views.cpu_detail, name='cpu_detail'),
-    path('monitor/', views.monitor, name='monitors'),
-    re_path(r'^monitor/(?P<slug>[-\w]+)/$', views.monitor_detail, name='monitor_detail'),
-    path('gpu/monitor', views.monitors, name='monitor')
+    path('gpu/', views.GPUBrowseView.as_view(), name='gpu'),
+    re_path(r'^gpu/(?P<slug>[-\w]+)/$', views.GPUDetailView.as_view(), name='gpu_detail'),
+    path('cpu/', views.CPUBrowseView.as_view(), name='cpu'),
+    re_path(r'^cpu/(?P<slug>[-\w]+)/$', views.CPUDetailView.as_view(), name='cpu_detail'),
+    path('monitor/', views.MonitorBrowseView.as_view(), name='monitors'),
+    re_path(r'^monitor/(?P<slug>[-\w]+)/$', views.MonitorDetailView.as_view(), name='monitor_detail'),
 ]

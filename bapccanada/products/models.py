@@ -51,7 +51,7 @@ class Component(PolymorphicModel):
 
     def update_cheapest_pricing(self):
         current_min_price = self.get_component_prices().aggregate(Min('price'))["price__min"]
-        if self.cheapest_price == 0.0 or current_min_price < self.cheapest_price:
+        if self.cheapest_price == 0.0 or current_min_price <= self.cheapest_price:
             price_to_use = self.get_component_prices().filter(price=current_min_price).first()
             self.cheapest_price = price_to_use.price
             self.cheapest_price_shipping = price_to_use.shipping
