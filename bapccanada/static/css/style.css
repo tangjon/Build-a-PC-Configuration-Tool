@@ -23,21 +23,19 @@ NAVIGATION BAR
 
 .bapcNav {
     background-color: #40a0ee;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .bapcNav a.navbar-brand, .bapcNav a.nav-item.nav-link {
     font-weight: 500;
 }
 
-
-
-.partsDropDown:hover>.partsDropDown-menu {
-  display: block;
+.partsDropDown:hover > .partsDropDown-menu {
+    display: block;
 }
 
 .partsDropDown-toggle::after {
-    display:none;
+    display: none;
 }
 
 .partsDropDown .partsDropDown-menu {
@@ -57,6 +55,11 @@ a:hover {
 
 .bapc-header-content a {
     color: white;
+}
+
+a.bapc-link {
+    color: #3b4f65;
+    font-weight: 600;
 }
 
 /*
