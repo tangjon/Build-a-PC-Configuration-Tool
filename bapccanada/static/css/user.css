@@ -5,6 +5,13 @@
     vertical-align: middle;
 }
 
+.profile-avatar{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: 5px outset;
+}
+
 /* ACCOUNTS TAB */
 .user-card {
     margin: auto 0;

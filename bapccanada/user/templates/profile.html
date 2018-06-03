@@ -14,9 +14,8 @@
 {% block bapc-header %}
     <div class="bapc-header-title">
         <div class="row">
-            <img src="{% if browse_user.userprofile.avatar %} {{ browse_user.userprofile.avatar.url }}
-                {% else %}{% static 'assets/maple_leaf_80x80.png' %} {% endif %}"
-                 style="border-radius: 50%; width: 60px; height: 60px"/>
+            <img class="profile-avatar" src="{% if browse_user.userprofile.avatar %} {{ browse_user.userprofile.avatar.url }}
+                {% else %}{% static 'assets/maple_leaf_80x80.png' %} {% endif %}"/>
             <div class="user-card">
                 {{ title }}
                 <div>
