@@ -147,7 +147,7 @@
                             <td>${{ component.cheapest_price }}</td>
                             <td>
                                 <a class="btn btn-primary btn-sm addComponentButton" type="submit"
-                                   href="{% url 'build:add_component' component.slug %}">Add</a>
+                                   id="{{ component.slug }}" href="#">Add</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -162,5 +162,5 @@
 {% block extraScripts %}
     <script type="text/javascript" src="{% static "js/bootstrap-slider.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/sliderControl.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/build.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/component.js" %}"></script>
 {% endblock extraScripts %}

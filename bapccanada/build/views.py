@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
+from django.http import JsonResponse
 
 from .models import Build
 from products.models import Component
@@ -18,17 +19,20 @@ class Create(View):
         return self.render(request)
 
 
-class AddComponent(View):
-    def get(self, request, slug):
+def change_component(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        action = request.POST.get('action')
         component = get_object_or_404(Component, slug=slug)
         build = get_object_or_404(Build, pk=999)
-        build.add_component(component)
-        return redirect('build:create')
 
+        if action == 'add':
+            build.add_component(component)
+        else:
+            build.remove_component(component)
 
-class RemoveComponent(View):
-    def get(self, request, slug):
-        component = get_object_or_404(Component, slug=slug)
-        build = get_object_or_404(Build, pk=999)
-        build.remove_component(component)
-        return redirect('build:create')
+        data = {
+            "redirect": "/build"
+        }
+
+        return JsonResponse(data)

@@ -87,7 +87,7 @@
                                href="{{ component.object.cheapest_price_store_link }}">Buy</a>
                         </td>
                         <td>
-                            <a class="close productRemove" aria-label="Close" href="{% url 'build:remove_component' component.object.slug %}">
+                            <a class="close productRemove removeComponentButton" aria-label="Close" href="#" id="{{ component.object.slug }}">
                                 <span aria-hidden="true">&times;</span></a>
                         </td>
                     {% endif %}
@@ -104,3 +104,7 @@
     </div>
     {# END COMPONENT LIST #}
 {% endblock %}
+
+{% block extraScripts %}
+    <script type="text/javascript" src="{% static "js/component.js" %}"></script>
+{% endblock extraScripts %}
