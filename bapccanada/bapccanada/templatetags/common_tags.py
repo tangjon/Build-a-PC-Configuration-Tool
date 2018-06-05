@@ -28,7 +28,6 @@ def get_range(value):
 
 @register.filter
 def get_stars(value):
-    print(value)
     value = int(value)
     html = ""
     for i in range(value):
