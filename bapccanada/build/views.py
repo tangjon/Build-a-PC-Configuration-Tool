@@ -36,3 +36,25 @@ def change_component(request):
         }
 
         return JsonResponse(data)
+
+
+def save_build(request):
+    if request.method == 'POST' and request.POST.get('action') == 'save':
+        desired_name = request.POST.get('build_name')
+
+        if desired_name == "":
+            return JsonResponse({
+                "error": "Name cannot be empty"
+            })
+
+        current_build = get_object_or_404(Build, pk=999)
+        current_build.name = desired_name
+        current_build.save()
+
+        data = {
+            "was_added": True
+        }
+
+        return JsonResponse(data)
+
+    return JsonResponse("Not a valid save request")
