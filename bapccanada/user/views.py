@@ -88,6 +88,11 @@ class CommentsView(BaseProfileView):
     template_name = 'comments.html'
     title_name = 'Comments'
 
+    def get_context_data(self, **kwargs):
+        context = super(CommentsView, self).get_context_data(**kwargs)
+        context['reviews'] = self.browse_user.userprofile.review_set.all()[:10]
+        return context
+
 
 class BuildsView(BaseProfileView):
     template_name = 'builds.html'
