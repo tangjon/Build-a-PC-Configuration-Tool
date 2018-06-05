@@ -5,10 +5,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
 # Create your views here.
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DeleteView
 from django.contrib.auth.models import User
 
 from build.models import Build
+from products.models import Review
 from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm
 
 
@@ -92,6 +93,15 @@ class CommentsView(BaseProfileView):
         context = super(CommentsView, self).get_context_data(**kwargs)
         context['reviews'] = self.browse_user.userprofile.review_set.all()[:10]
         return context
+
+
+class CommentsDeleteView(DeleteView):
+    model = Review
+    template_name = 'comments_delete.html'
+    success_url = reverse_lazy('user:comments')
+
+    def get_success_url(self):
+        return reverse('user:comments', kwargs={'username': self.kwargs['username']})
 
 
 class BuildsView(BaseProfileView):

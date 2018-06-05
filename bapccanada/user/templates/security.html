@@ -3,7 +3,6 @@
 {% load widget_tweaks %}
 
 {% block bapc-body-content-container %}
-
     <div class="container mt-3">
         <h3>Change Password</h3>
         <a class="btn btn-primary" href="{% url 'account:password_change' %}">Change password</a>
@@ -11,9 +10,5 @@
             <h3>Reset Password</h3>
             <a class="btn btn-primary" href="{% url 'account:password_reset' %}">Password reset</a>
         </div>
-
     </div>
-
-
-
 {% endblock %}
