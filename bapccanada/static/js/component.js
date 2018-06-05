@@ -58,4 +58,42 @@ $(document).ready(function () {
             });
         }.bind(button)
     });
+
+    const oSaveBuildButton = $(".save-modal-confirm");
+
+    oSaveBuildButton.on('click', function () {
+        const oSavePromise = $.Deferred();
+
+        $.ajax({
+            type: "POST",
+            url: '/build/save/',
+            data: {
+                "build_name": $(".build-name").val(),
+                "action": "save",
+                'csrfmiddlewaretoken': csrftoken
+            },
+            dataType: "json",
+            success: function (data, textStatus) {
+                if (data.was_added) {
+                    // data.redirect contains the string URL to redirect to
+                    oSavePromise.resolve("Build saved!")
+                } else {
+                    oSavePromise.reject("Server error: " + data.error);
+                }
+            },
+            error: function(error) {
+                oSavePromise.reject("Build saving failed!");
+            }
+        });
+
+        oSavePromise.then((resolvedMsg) => {
+            console.log(resolvedMsg);
+
+        }, (rejectedMsg) => {
+            console.log(rejectedMsg);
+        });
+
+        $(".build-name").val('');
+        $(".save-as-modal").modal('hide');
+    }.bind(oSaveBuildButton))
 });
