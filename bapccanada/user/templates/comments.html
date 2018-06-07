@@ -23,12 +23,18 @@
                             <li>permalink</li>
                             <li>save</li>
                             <li>full comments({{ review.component.num_ratings }})</li>
-                            <li>edit</li>
-                            <li class="text-danger">delete</li>
+                            {% if review.user.user.username == user.username %}
+                                <li>edit</li>
+                                <li class="text-danger"><a href="{{ review.pk }}/delete">delete</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block extraStyles %}
+    <script type="module" src="{% static "js/userProfile.js" %}"></script>
 {% endblock %}
