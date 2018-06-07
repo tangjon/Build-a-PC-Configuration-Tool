@@ -1,3 +1,5 @@
-const COMPONENT_CHANGE = '/build/change/';
-export default COMPONENT_CHANGE;
+
+export const COMPONENT_CHANGE = '/build/change/';
+export const BUILD_SAVE = "/build/save/";
+
 
