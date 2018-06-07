@@ -1,11 +1,12 @@
 {% extends 'profile.html' %}
+{% load static %}
 {% load common_tags %}
 {% block bapc-body-content-container %}
 
 
     <div class="container py-3">
         {% for review in reviews %}
-            <div class="mt-3">
+            <div class="mt-3 review-card">
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="font-weight-bold" style="display: flex;">
@@ -25,7 +26,10 @@
                             <li>full comments({{ review.component.num_ratings }})</li>
                             {% if review.user.user.username == user.username %}
                                 <li>edit</li>
-                                <li class="text-danger"><a href="{{ review.pk }}/delete">delete</a></li>
+                                <li><a class="text-danger" href="{{ review.pk }}/delete">delete</a></li>
+                                <li id="{{ review.pk }}" class="delete_review"><a class="text-danger"
+                                                                                  href="javascript:void(0);">delete2</a>
+                                </li>
                             {% endif %}
                         </ul>
                     </div>
@@ -35,6 +39,6 @@
     </div>
 {% endblock %}
 
-{% block extraStyles %}
+{% block extraScripts %}
     <script type="module" src="{% static "js/userProfile.js" %}"></script>
 {% endblock %}
