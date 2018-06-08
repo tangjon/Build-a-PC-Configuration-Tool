@@ -21,14 +21,13 @@
                         <p class="card-text">{{ review.content }}</p>
 
                         <ul class="flat-list list-inline text-center d-flex">
-                            <li>permalink</li>
-                            <li>save</li>
-                            <li>full comments({{ review.component.num_ratings }})</li>
+{#                            <li><a href="javascript:void(0);">permalink</a></li>#}
+{#                            <li><a href="javascript:void(0);">save</a></li>#}
+{#                            <li><a href="javascript:void(0);">full comments({{ review.component.num_ratings }})</a></li>#}
                             {% if review.user.user.username == user.username %}
-                                <li>edit</li>
-                                <li><a class="text-danger" href="{{ review.pk }}/delete">delete</a></li>
+                                <li><a href="javascript:void(0);">edit</a></li>
                                 <li id="{{ review.pk }}" class="delete_review"><a class="text-danger"
-                                                                                  href="javascript:void(0);">delete2</a>
+                                                                                  href="javascript:void(0);">delete</a>
                                 </li>
                             {% endif %}
                         </ul>
