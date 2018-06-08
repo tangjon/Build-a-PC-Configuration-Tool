@@ -158,7 +158,7 @@ class CPU(Component):
             'cores': subtype.objects.order_by('cores').values_list('cores', flat=True).distinct(),
             'socket type': subtype.objects.order_by('socket').values_list('socket', flat=True).distinct(),
             'integrated graphics': subtype.objects.order_by('integrated_graphics').values_list('integrated_graphics',
-                                                                                       flat=True).distinct()
+                                                                                               flat=True).distinct()
         }
 
         return {**base_dimensions, **extra_dimensions}
@@ -199,7 +199,8 @@ class Monitor(Component):
     def get_filterable_dimensions(self, subtype):
         base_dimensions = super(Monitor, self).get_filterable_dimensions(subtype)
         extra_dimensions = {
-            'recommended resolution': subtype.objects.order_by('resolution').values_list('resolution', flat=True).distinct(),
+            'recommended resolution': subtype.objects.order_by('resolution').values_list('resolution',
+                                                                                         flat=True).distinct(),
             'response time': map(lambda time: "{}ms".format(time), subtype.objects.order_by('response_time').
                                  values_list('response_time', flat=True).distinct()),
             'Refresh Rate': map(lambda rate: "{}Hz".format(rate), subtype.objects.order_by('refresh_rate').
@@ -227,3 +228,7 @@ class Review(models.Model):
         super(Review, self).save(*args, **kwargs)
         if self.component:
             self.component.update_ratings()
+
+    def test(self):
+        return self.objects.all()
+

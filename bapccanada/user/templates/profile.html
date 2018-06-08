@@ -56,7 +56,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if request.path == url_comments %} active {% endif %}"
                    href={{ url_comments }}><i
-                        class="material-icons pr-1">comment</i><span>Comments</span></a>
+                        class="material-icons pr-1">comment</i><span>Reviews</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if request.path == url_saved %} active {% endif %}"
@@ -79,13 +79,11 @@
             <div class="col">
                 <h2 class="mt-2">Account</h2>
                 <h5>COMMENT KARMA</h5>
-                <a href="#">0</a>
-                <h5>COMMENTS</h5>
-                <a href="#">0</a>
-                <h5>POSTS</h5>
-                <a href="#">0</a>
+                <a href="#">{{ browse_user_karma }}</a>
+                <h5>REVIEWS</h5>
+                <a href="#">{{ browse_user.userprofile.review_set.count }}</a>
                 <h5>BUILD GUIDES</h5>
-                <a href="#">0</a>
+                <a href="#">{{ browse_user.userprofile.build_set.count }}</a>
                 <h5>COMPLETED BUILDS</h5>
                 <a href="#">0</a>
                 <h5>JOINED</h5>
