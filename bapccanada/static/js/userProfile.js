@@ -20,9 +20,21 @@ $(document).ready(function () {
         };
     };
 
+    const generate_save_button = function () {
+        return '<li><a href="javascript:void(0)">save</a></li>'
+    }
+
+    const generate_edit_button = function(){
+        return '<li><a href="javascript:void(0)">edit</a></li>'
+    }
+
     $('.edit_review').click(function () {
-        const id = this.id
-        $(`#review-card-${ id } .card-text`).remove();
+        const id = this.id;
+        const card_text = $(`#review-card-${ id } .card-text`);
+        console.log(card_text)
+        const form = `<div class='form-group'><form><textarea class='form-control'>${card_text[0].innerText}</textarea></form></div>`;
+        card_text.replaceWith(form);
+        $(this).replaceWith(generate_save_button())
     });
 
     $('.delete_review').click(function () {
