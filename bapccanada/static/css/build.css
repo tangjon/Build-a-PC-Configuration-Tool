@@ -77,3 +77,36 @@
     color: #103148;
 }
 
+.build-label {
+    margin-right: 1rem;
+}
+
+#errorAlert, #successAlert {
+    display: none;
+}
+
+#errorAlert.visible, #successAlert.visible {
+    display: flex;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.0s;
+    animation: fadein 0.5s, fadeout 0.5s 2.0s;
+}
+
+@-webkit-keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+@keyframes fadeout {
+    from { opacity: 1;}
+    to { opacity: 0;}
+}

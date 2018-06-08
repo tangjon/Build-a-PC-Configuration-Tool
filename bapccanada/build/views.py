@@ -52,6 +52,7 @@ def save_build(request):
         current_build.save()
 
         data = {
+            "saved_name": desired_name,
             "was_added": True
         }
 

@@ -24,11 +24,26 @@ const fnCreateAddAjaxParameters = function (oElement, sAction) {
     };
 };
 
+const fnAlertHandler = function (sAlertId, sMsg) {
+    const oAlert = $("#" + sAlertId);
+    oAlert.text(sMsg);
+    oAlert.addClass("visible");
+    setTimeout(() => {
+        oAlert.removeClass("visible")
+    }, 2500);
+};
+
 const fnSetupSaveModal = function () {
     const oNameInput = $(".build-name");
     const oSaveBuildButton = $(".save-modal-confirm");
     const oSaveModal = $(".save-as-modal");
     const oSaveForm = $(".save-modal-form");
+    const fnHandleReject = function (sErrorMsg) {
+        fnAlertHandler("errorAlert", sErrorMsg);
+    };
+    const fnHandleSuccess = function (sSuccessMsg) {
+        fnAlertHandler("successAlert", sSuccessMsg);
+    };
 
     oSaveForm.bind("keypress", function (event) {
         const iKeycode = (event.keyCode ? event.keyCode : event.which);
@@ -48,22 +63,21 @@ const fnSetupSaveModal = function () {
         };
         const fnSuccess = function (data, textStatus) {
             if (data.was_added) {
-                oSavePromise.resolve("Build saved!")
+                oSavePromise.resolve("Build " + data.saved_name + " saved!");
             } else {
                 oSavePromise.reject("Server error: " + data.error);
             }
         };
         const fnError = function (error) {
-            oSavePromise.reject("Build saving failed!");
+            oSavePromise.reject("Request failed: " + error);
         };
 
         doAjaxPost(oData, BUILD_SAVE, fnSuccess, fnError);
 
-        oSavePromise.then((resolvedMsg) => {
-            console.log(resolvedMsg);
-
-        }, (rejectedMsg) => {
-            console.log(rejectedMsg);
+        oSavePromise.then((sSuccessMessage) => {
+            fnHandleSuccess(sSuccessMessage);
+        }, (sErrorMessage) => {
+            fnHandleReject(sErrorMessage);
         });
 
         oNameInput.val('');

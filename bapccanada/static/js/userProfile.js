@@ -12,7 +12,7 @@ $(document).ready(function () {
         };
         const fnSuccess = function () {
             location.reload()
-        }
+        };
         return {
             oData: oData,
             sUrl: sUrl,

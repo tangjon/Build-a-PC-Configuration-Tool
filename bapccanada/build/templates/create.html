@@ -31,7 +31,7 @@
                             <div class="modal-body">
                                 <form class="form-inline save-modal-form">
                                     <div class="form-group">
-                                        <label for="recipient-name" class="col-form-label">Name:</label>
+                                        <label for="build-name-label" class="col-form-label build-label">Name:</label>
                                         <input type="text" class="form-control build-name">
                                     </div>
                                 </form>
@@ -127,7 +127,18 @@
         </table>
     </div>
     {# END COMPONENT LIST #}
+
 {% endblock %}
+
+{% block alerts %}
+    <div id="errorAlert" class="alert alert-danger">
+        <strong>Error!</strong> <span class="errorAlertContent"></span>
+    </div>
+    <div id="successAlert" class="alert alert-success" role="alert">
+        <strong>Success!</strong> <span class="successAlertContent"></span>
+    </div>
+{% endblock alerts %}
+
 
 {% block extraScripts %}
     <script type="module" src="{% static "js/component.js" %}"></script>
