@@ -16,7 +16,6 @@ urlpatterns = [
     path('preferences/', PreferencesView.as_view(), name="preferences"),
     path('comments/', CommentsView.as_view(), name="comments"),
     path('comments/<int:pk>/delete', CommentsDeleteView.as_view(), name="comments"),
-
     path('builds/', BuildsView.as_view(), name="builds"),
     path('builds/<int:pk>', BuildsView.as_view(), name="builds"),
     path('security/', SecurityView.as_view(), name="security"),
