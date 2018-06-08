@@ -16,12 +16,17 @@ from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySett
 
 class BaseProfileView(TemplateView):
     title_name = None
+    browse_user = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title_name
-        context['browse_user'] = get_object_or_404(User, username=kwargs['username'])
+        context['browse_user'] = self.browse_user
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        self.browse_user = get_object_or_404(User, username=kwargs['username'])
+        return super(BaseProfileView,self).dispatch(request, *args, **kwargs)
 
 
 class ProfileView(BaseProfileView):
@@ -110,14 +115,14 @@ class BuildsView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)
-        context['builds'] = context['browse_user'].userprofile.build_set.all()
+        context['builds'] = self.browse_user.userprofile.build_set.all()
         if context['builds'].count():
             if 'pk' in kwargs:
-                context['build'] = get_object_or_404(context['browse_user'].userprofile.build_set, pk=kwargs['pk'])
+                context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])
                 context['component_list'] = Build.get_component_dict(context['build'])
 
             else:
-                context['build'] = context['browse_user'].userprofile.build_set.first()
+                context['build'] = self.browse_user.userprofile.build_set.first()
                 context['component_list'] = Build.get_component_dict(context['build'])
         return context
 
