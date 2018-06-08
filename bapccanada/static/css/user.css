@@ -56,3 +56,14 @@ ul.flat-list li {
     margin-bottom: 10px;
 }
 
+/* SAVED PARTS TAB */
+
+.active a.bapc-list-item {
+    color: white
+}
+
+.bapc-list-item {
+    color: #3b4f65;
+    font-weight: 600;
+}
+

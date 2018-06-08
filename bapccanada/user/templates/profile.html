@@ -6,7 +6,11 @@
 
 {% block extraStyles %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}"/>
+    {% block extraUserProfileStyles %}
+    {% endblock %}
 {% endblock %}
+
+
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -14,7 +18,8 @@
 {% block bapc-header %}
     <div class="bapc-header-title">
         <div class="row">
-            <img class="profile-avatar" src="{% if browse_user.userprofile.avatar %} {{ browse_user.userprofile.avatar.url }}
+            <img class="profile-avatar"
+                 src="{% if browse_user.userprofile.avatar %} {{ browse_user.userprofile.avatar.url }}
                 {% else %}{% static 'assets/maple_leaf_80x80.png' %} {% endif %}"/>
             <div class="user-card">
                 {{ title }}
@@ -116,7 +121,7 @@
                              style="border-radius: 50%; width: 60px; height: 60px">
                     {% endif %}
                     {#                    <form id="avatar_form" enctype="multipart/form-data" method="post">#}
-{#                    {% csrf_token %}#}
+                    {#                    {% csrf_token %}#}
                     {% for field in avatar_form %}
                         <div class="form-group">
                             {{ field.errors }}
