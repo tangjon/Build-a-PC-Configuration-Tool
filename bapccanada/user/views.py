@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404, render, redirect
 # Create your views here.
 from django.urls import reverse, reverse_lazy
@@ -15,17 +16,12 @@ from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySett
 
 class BaseProfileView(TemplateView):
     title_name = None
-    browse_user = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title_name
-        context['browse_user'] = self.browse_user
+        context['browse_user'] = get_object_or_404(User, username=kwargs['username'])
         return context
-
-    def dispatch(self, request, *args, **kwargs):
-        self.browse_user = get_object_or_404(User, username=kwargs['username'])
-        return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
 
 
 class ProfileView(BaseProfileView):
@@ -53,6 +49,7 @@ class ProfileView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
+        context['browse_user_karma'] = context['browse_user'].userprofile.review_set.all().aggregate(Sum('points'))['points__sum']
         context['biography_form'] = BiographyForm(instance=context['browse_user'].userprofile)
         context['avatar_form'] = AvatarForm(instance=context['browse_user'].userprofile)
         return context
@@ -91,7 +88,7 @@ class CommentsView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(CommentsView, self).get_context_data(**kwargs)
-        context['reviews'] = self.browse_user.userprofile.review_set.all()[:10]
+        context['reviews'] = context['browse_user'].userprofile.review_set.all()[:10]
         return context
 
 
@@ -113,14 +110,14 @@ class BuildsView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)
-        context['builds'] = self.browse_user.userprofile.build_set.all()
+        context['builds'] = context['browse_user'].userprofile.build_set.all()
         if context['builds'].count():
             if 'pk' in kwargs:
-                context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])
+                context['build'] = get_object_or_404(context['browse_user'].userprofile.build_set, pk=kwargs['pk'])
                 context['component_list'] = Build.get_component_dict(context['build'])
 
             else:
-                context['build'] = self.browse_user.userprofile.build_set.first()
+                context['build'] = context['browse_user'].userprofile.build_set.first()
                 context['component_list'] = Build.get_component_dict(context['build'])
         return context
 
