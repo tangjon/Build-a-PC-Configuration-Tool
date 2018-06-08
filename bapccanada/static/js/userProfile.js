@@ -20,6 +20,11 @@ $(document).ready(function () {
         };
     };
 
+    $('.edit_review').click(function () {
+        const id = this.id
+        $(`#review-card-${ id } .card-text`).remove();
+    });
+
     $('.delete_review').click(function () {
 
         if (window.confirm(`Are you sure you want to delete review ${this.id}?`)) {
@@ -27,8 +32,7 @@ $(document).ready(function () {
             doAjaxPost(oParam.oData, oParam.sUrl, oParam.fnSuccess);
             $(this).closest('.review-card').remove();
         }
+    });
 
-    })
 
-
-})
+});
