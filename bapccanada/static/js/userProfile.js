@@ -6,7 +6,6 @@ $(document).ready(function () {
     const fnDeleteReviewParam = function (oElement, sAction) {
         const sUrl = oElement.id + '/delete';
         const oData = {
-            "was_deleted": true,
             "slug": oElement.id,
             "action": sAction,
             'csrfmiddlewaretoken': csrftoken
