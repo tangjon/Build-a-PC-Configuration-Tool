@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 from django.http import JsonResponse
 
 from .models import Build
+from home.constants import FRONT_END_URLS
 from products.models import Component
 
 
@@ -32,7 +34,7 @@ def change_component(request):
             build.remove_component(component)
 
         data = {
-            "redirect": "/build"
+            "redirect": FRONT_END_URLS.BUILD
         }
 
         return JsonResponse(data)

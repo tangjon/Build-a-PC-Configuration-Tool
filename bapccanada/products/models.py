@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import Min, Avg
-from django.db.models.signals import m2m_changed
 from django.template.defaultfilters import slugify
 
 from polymorphic.models import PolymorphicModel
@@ -44,7 +43,7 @@ class Component(PolymorphicModel):
         super(Component, self).save(*args, **kwargs)
 
     def update_ratings(self):
-        num_ratings = Review.objects.filter(component=self)
+        num_ratings = self.review_set.filter(component=self)
         self.num_ratings = num_ratings.count()
         self.average_rating = num_ratings.aggregate(Avg("stars"))["stars__avg"]
         self.save()
@@ -64,7 +63,7 @@ class Component(PolymorphicModel):
         pass
 
     def get_component_reviews(self):
-        return Review.objects.filter(component=self)[:5]
+        return self.review_set.filter(component=self)[:5]
 
     def get_tech_details(self):
         return {

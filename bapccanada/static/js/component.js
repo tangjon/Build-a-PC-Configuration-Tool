@@ -1,6 +1,7 @@
 import doAjaxPost from './AjaxUtility.js';
 import getCookie from './CookieUtility.js';
-import {BUILD_SAVE, COMPONENT_CHANGE} from './LinkConstants.js';
+import fnCheckUserAuthentication from './LoginUtility.js';
+import {BUILD_SAVE, COMPONENT_CHANGE, BUILD_URL} from './LinkConstants.js';
 
 const csrftoken = getCookie('csrftoken');
 const fnCreateAddAjaxParameters = function (oElement, sAction) {
@@ -35,6 +36,7 @@ const fnAlertHandler = function (sAlertId, sMsg) {
 
 const fnSetupSaveModal = function () {
     const oNameInput = $(".build-name");
+    const oSaveAsButton = $(".save-as-button");
     const oSaveBuildButton = $(".save-modal-confirm");
     const oSaveModal = $(".save-as-modal");
     const oSaveForm = $(".save-modal-form");
@@ -44,6 +46,12 @@ const fnSetupSaveModal = function () {
     const fnHandleSuccess = function (sSuccessMsg) {
         fnAlertHandler("successAlert", sSuccessMsg);
     };
+
+    oSaveAsButton.on('click', function () {
+       fnCheckUserAuthentication(() => {
+           oSaveModal.modal('show');
+       }, BUILD_URL);
+    });
 
     oSaveForm.bind("keypress", function (event) {
         const iKeycode = (event.keyCode ? event.keyCode : event.which);
@@ -65,7 +73,7 @@ const fnSetupSaveModal = function () {
             if (data.was_added) {
                 oSavePromise.resolve("Build " + data.saved_name + " saved!");
             } else {
-                oSavePromise.reject("Server error: " + data.error);
+                oSavePromise.reject(data.error + "!");
             }
         };
         const fnError = function (error) {
