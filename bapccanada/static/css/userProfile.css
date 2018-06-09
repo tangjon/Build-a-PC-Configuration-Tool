@@ -21,7 +21,8 @@
 /* COMMENTS TAB */
 .flat-list {
     display: flex;
-    margin-bottom: 0
+    margin-bottom: 0;
+    list-style-type: none;
 }
 
 ul.flat-list li {
@@ -67,3 +68,6 @@ ul.flat-list li {
     font-weight: 600;
 }
 
+textarea.form-control {
+    height: 100px;
+}
