@@ -35,10 +35,10 @@ class UserCreate(CreateView):
         return redirect('account:sign_up')
 
 
-class SignIn(LoginView):
-    template_name = 'login.html'
+class LoginView(LoginView):
+    template_name = "login.html"
     redirect_authenticated_user = True
 
 
-class Logout(LogoutView):
-    next_page = 'home:home'
+class LogoutView(LogoutView):
+    template_name = "logged_out.html"

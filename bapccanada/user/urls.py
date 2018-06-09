@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import re_path, path
 
-from account.views import UserCreate, SignIn, Logout
 from user.views import ProfileView, PreferencesView, BuildsView, CommentsView, SecurityView, SavedView, \
     CommentsDeleteView
 from . import views
