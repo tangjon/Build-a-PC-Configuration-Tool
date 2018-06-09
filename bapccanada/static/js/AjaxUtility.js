@@ -5,8 +5,6 @@ export default function doAjaxPost(oData, sUrl, fnSuccess, fnError) {
         data: oData,
         dataType: "json",
         success: fnSuccess,
-        error: (fnError && typeof fnError === "function") ? fnError : function (error) {
-                console.log("Error! " + error);
-            }
+        error: fnError
     });
 }

@@ -6,32 +6,40 @@ $(document).ready(function () {
     const fnDeleteReviewParam = function (oElement, sAction) {
         const sUrl = oElement.id + '/delete';
         const oData = {
+            "was_deleted": true,
             "slug": oElement.id,
             "action": sAction,
             'csrfmiddlewaretoken': csrftoken
         };
-        const fnSuccess = function () {
-            location.reload()
-        }
+        const fnSuccess = function (e) {
+            $(this).remove();
+            console.log(e.statusText, "success");
+
+        };
+
+        const fnError = function (e) {
+            console.log(e, "error");
+            console.log(e.statusText)
+
+        };
         return {
             oData: oData,
             sUrl: sUrl,
-            fnSuccess: fnSuccess
+            success: fnSuccess,
+            error: fnError
         };
     };
 
     $('.delete_review').click(function () {
-
-        if (window.confirm(`Are you sure you want to delete review ${this.id}?`)) {
-            const oParam = fnDeleteReviewParam(this, "delete");
-            doAjaxPost(oParam.oData, oParam.sUrl, oParam.fnSuccess);
-            $(this).closest('.review-card').remove();
+        const review = $(this).parents('.review-card')[0];
+        if (window.confirm(`Are you sure you want to delete review ${review.id}?`)) {
+            const oParam = fnDeleteReviewParam(review, "delete");
+            doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);
         }
     });
 
     $('.edit_review').click(function () {
         const review = $(this).parents('.review-card');
-        console.log(review)
         review.find('.review-text-body').hide();
         review.find('.review-text-edit').show();
         review.find('.save_review').show();
@@ -41,7 +49,6 @@ $(document).ready(function () {
 
     $('.save_review').click(function () {
         const review = $(this).parents('.review-card');
-        console.log(review)
         review.find('.review-text-edit').hide();
         review.find('.review-text-body').show();
         review.find('.edit_review').show();

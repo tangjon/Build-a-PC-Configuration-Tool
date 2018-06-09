@@ -28,10 +28,10 @@
                             {#                            <li><a href="javascript:void(0);">save</a></li>#}
                             {#                            <li><a href="javascript:void(0);">full comments({{ review.component.num_ratings }})</a></li>#}
                             {% if review.user.user.username == user.username %}
-                                <li id="{{ review.pk }}" style="display: none;" id="{{ review.pk }}" class="save_review"><a
+                                <li style="display: none;" id="{{ review.pk }}" class="save_review"><a
                                         href="javascript:void(0);">save</a></li>
-                                <li id="{{ review.pk }}" class="edit_review"><a href="javascript:void(0);">edit</a></li>
-                                <li id="{{ review.pk }}" class="delete_review"><a class="text-danger"
+                                <li class="edit_review"><a href="javascript:void(0);">edit</a></li>
+                                <li class="delete_review"><a class="text-danger"
                                                                                   href="javascript:void(0);">delete</a>
                                 </li>
                             {% endif %}
