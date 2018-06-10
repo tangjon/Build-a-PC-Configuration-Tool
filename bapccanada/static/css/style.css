@@ -87,6 +87,18 @@ body {
     justify-content: center;
 }
 
+.alertWrapper {
+    left: 50%;
+    position: absolute;
+    bottom: 180px;
+    width: 50%;
+}
+
+.alertInnerWrapper {
+    position: relative;
+    left: -50%;
+}
+
 /* HEADER */
 .bapc-header {
     background-color: #292933;

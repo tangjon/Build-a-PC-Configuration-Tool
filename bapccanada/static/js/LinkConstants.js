@@ -1,5 +1,7 @@
-
-export const COMPONENT_CHANGE = '/build/change/';
-export const BUILD_SAVE = "/build/save/";
-
+export const BUILD_URL = "/build/";
+export const COMPONENT_CHANGE = BUILD_URL + 'change/';
+export const BUILD_SAVE = BUILD_URL + "save/";
+export const LOGIN_URL = "/account/login";
+export const NEXT_URL_PARAMETER_PREFIX = "?next=";
+export const NEW_BUILD_URL = "/build/new/";
 

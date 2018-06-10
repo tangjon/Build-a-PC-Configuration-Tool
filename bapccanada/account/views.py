@@ -9,6 +9,7 @@ from django.views.generic import CreateView
 from account.forms import SignUpForm
 from user.models import UserProfile
 from django.contrib.auth import login as auth_login
+from build.models import Build
 
 title = 'User Page'
 
@@ -35,10 +36,16 @@ class UserCreate(CreateView):
         return redirect('account:sign_up')
 
 
-class SignIn(LoginView):
-    template_name = 'login.html'
+class CustomLoginView(LoginView):
+    template_name = "login.html"
     redirect_authenticated_user = True
 
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        # must transfer before calling super or request's session id will change
+        Build.transfer_anonymous_build(self.request, form.get_user())
+        return super(CustomLoginView, self).form_valid(form)
 
-class Logout(LogoutView):
-    next_page = 'home:home'
+
+class LogoutView(LogoutView):
+    template_name = "logged_out.html"

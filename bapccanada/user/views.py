@@ -21,7 +21,7 @@ class BaseProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title_name
-        context['browse_user'] = self.browse_user
+        context['browse_user'] = get_object_or_404(User, username=kwargs['username'])
         return context
 
     def dispatch(self, request, *args, **kwargs):

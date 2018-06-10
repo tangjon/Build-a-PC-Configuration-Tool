@@ -43,7 +43,6 @@ $(document).ready(function () {
         review.find('.review-text-edit').show();
         review.find('.save_review').show();
         $(this).hide()
-
     });
 
     $('.save_review').click(function () {

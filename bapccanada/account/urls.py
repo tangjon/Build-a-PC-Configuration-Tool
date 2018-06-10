@@ -1,6 +1,6 @@
 from django.urls import re_path, path, include, reverse, reverse_lazy
 from django.contrib.auth import views
-from account.views import UserCreate, SignIn, Logout
+from account.views import UserCreate, CustomLoginView, LogoutView
 
 # lets follow reddit url format
 # i.e /user/MrPotato
@@ -12,8 +12,9 @@ urlpatterns = [
     # re_path(r'^login/$', SignIn.as_view(), name="sign_in"),
     # re_path(r'^logout/$', Logout.as_view(), name="logout"),
     path('signup/', UserCreate.as_view(), name='sign_up'),
-    path('login/', views.LoginView.as_view(template_name="login.html"), name='login'),
-    path('logout/', views.LogoutView.as_view(template_name="logged_out.html"), name='logout'),
+    path('login/', CustomLoginView.as_view(), name='login'),
+
+    path('logout/', LogoutView.as_view(), name='logout'),
     # PASSWORD CHANGE
     path('password_change/', views.PasswordChangeView.as_view(template_name="password_change_form.html",
                                                               success_url=reverse_lazy('account:password_change_done')),
