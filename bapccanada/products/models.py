@@ -58,6 +58,16 @@ class Component(PolymorphicModel):
             self.cheapest_price_store_link = price_to_use.store_link
             self.save()
 
+    def get_actual_class_string(self):
+        actual_class = self.get_real_instance_class()
+
+        if actual_class == CPU:
+            return "cpu"
+        elif actual_class == GPU:
+            return "gpu"
+        else:
+            return "monitor"
+
     # used for component detail title
     def get_page_title(self):
         pass

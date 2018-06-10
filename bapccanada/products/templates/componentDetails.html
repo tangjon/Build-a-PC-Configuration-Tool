@@ -2,6 +2,7 @@
 {% load static %}
 {% block extraStyles %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/productDetails.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome-stars.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/review.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/owlcarousel/owl.carousel.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/owlcarousel/owl.theme.default.min.css' %}">
@@ -118,13 +119,36 @@
                     </div>
                 </div>
             {% endfor %}
+            {% if user.is_authenticated %}
+                <div class="addReviewWrapper">
+                    <div class="form-group">
+                        <label>Add a review: </label>
+                        <textarea class="form-control add-review-text-area" rows="3"></textarea>
+                    </div>
+                    <div class="addReviewFooter">
+                        <button id="{{ component.slug }}" type="button" class="btn btn-primary add-review-save">Save</button>
+                        <select id="star-input-control">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 
 
 {% endblock %}
-
+$("#example").barrating({
+theme: 'fontawesome-stars'
+});
 {% block extraScripts %}
     <script src="{% static 'js/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.barrating.min.js' %}"></script>
     <script type="text/javascript" src="{% static "js/onReady.js" %}"></script>
+    <script type="module" src="{% static "js/componentDetails.js" %}"></script>
 {% endblock extraScripts %}

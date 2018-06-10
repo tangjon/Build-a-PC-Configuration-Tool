@@ -97,3 +97,10 @@
 .inStock {
     color: #50B325;
 }
+
+.bapc-body-content .addReviewWrapper .addReviewFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

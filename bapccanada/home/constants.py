@@ -1,3 +1,4 @@
 FRONT_END_URLS = {
-    "BUILD": "/build/"
+    "BUILD": "/build/",
+    "PRODUCTS": "/products/"
 }
