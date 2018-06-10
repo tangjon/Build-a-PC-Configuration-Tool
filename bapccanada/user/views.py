@@ -158,7 +158,7 @@ class BuildsView(BaseProfileView):
                 context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])
                 context['component_list'] = Build.get_component_dict(context['build'])
 
-            else:
+            else: # default to display first build
                 context['build'] = self.browse_user.userprofile.build_set.first()
                 context['component_list'] = Build.get_component_dict(context['build'])
         return context

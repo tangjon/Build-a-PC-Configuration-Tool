@@ -7,6 +7,7 @@
 
 {% block bapc-body-content-container %}
     <div class="container py-3">
+
         <div class="row">
             <div class="col-lg-4">
                 <h2 class="mt-2">Build List</h2>
@@ -15,7 +16,9 @@
                         {% for item in builds %}
                             <li class="list-group-item {% if pk == item.pk %}active{% endif %}"><a
                                     href="{% url 'user:builds' browse_user.username %}{{ item.id }}"
-                                    class="bapc-list-item bapc-link">Build {{ item.name }}</a></li>
+                                    class="bapc-list-item bapc-link">Build {{ item.name }}</a>
+                            </li>
+
                         {% endfor %}
                     {% else %}
                         <li class="list-group-item {% if pk == item.id %}active{% endif %}">No builds yet. Create one!
@@ -24,18 +27,24 @@
                 </ul>
             </div>
             <div class="col-lg-8">
+
+                <div class="flat-panel">
+                    <div><b>{{ build.name }}</b></div>
+                    <div class="btn-panel">
+                        <button class="btn btn-warning bapc-btn">Edit</button>
+                        <button class="btn btn-danger bapc-btn">Delete</button>
+                    </div>
+                </div>
                 {% if build %}
                     <div>
                         <table class="table table-striped componentListTable">
                             <thead class="componentListTop">
                             <tr>
-                                <th scope="col">Component</th>
-                                <th scope="col"></th>
+                                <th scope="col" colspan="2">Component</th>
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Shipping</th>
                                 <th scope="col">Merchant</th>
-                                <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -53,7 +62,6 @@
                                         </td>
                                         <td></td>
                                         <td class="shippingCost"></td>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                     {% else %}
@@ -84,18 +92,12 @@
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm">Buy</button>
                                         </td>
-                                        <td>
-                                            <button type="button" class="close productRemove" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                        </td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}
                             <tr class="totalPriceSummaryRow">
-                                <th class="totalPriceSummaryPrefix" colspan="5" scope="row">Total:</th>
-                                <td>${{ build.total_price }}</td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="6" class="text-right">Total</td>
+                                <td class="text-center">${{ build.get_total_price }}</td>
                             </tr>
                             </tbody>
                         </table>

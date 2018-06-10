@@ -23,6 +23,7 @@
                 {{ title }}
                 <div>
                     {{ browse_user.username }}
+                     {{ title }} | {{ title_name }}
                 </div>
             </div>
         </div>
@@ -34,37 +35,36 @@
     {% url 'user:saved' username as url_saved %}
     {% url 'user:builds' username as url_builds %}
     {% url 'user:security' username as url_security %}
-
     <div id="prof-tab" class="bapc-header-content">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link {% if request.path == url_profile %} active {% endif %}" href={{ url_profile }}><i
+                <a class="nav-link {% if title == "Profile" %} active {% endif %}" href={{ url_profile }}><i
                         class="material-icons pr-1">account_circle</i><span>Profile</span></a>
             </li>
             {% if browse_user.username == user.username %}
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_preferences %} active {% endif %}"
+                    <a class="nav-link {% if title == "Preferences" %} active {% endif %}"
                        href={{ url_preferences }}><i
                             class="material-icons pr-1">settings</i><span>Preferences</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_security %} active {% endif %}"
+                    <a class="nav-link {% if title == "Security" %} active {% endif %}"
                        href={{ url_security }}><i
                             class="material-icons pr-1">security</i><span>Security</span></a>
                 </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link {% if request.path == url_comments %} active {% endif %}"
+                <a class="nav-link {% if title == "Comments" %} active {% endif %}"
                    href={{ url_comments }}><i
                         class="material-icons pr-1">comment</i><span>Reviews</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.path == url_saved %} active {% endif %}"
+                <a class="nav-link {% if title == "Saved Parts" %} active {% endif %}"
                    href={{ url_saved }}><i
                         class="material-icons pr-1">save</i><span>Saved Parts</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.path == url_builds %} active {% endif %}"
+                <a class="nav-link {% if title == "Builds" %} active {% endif %}"
                    href={{ url_builds }}><i
                         class="material-icons pr-1">build</i><span>Builds</span></a>
             </li>

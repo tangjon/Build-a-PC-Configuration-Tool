@@ -62,6 +62,16 @@ a.bapc-link {
     font-weight: 600;
 }
 
+.bapc-btn {
+    padding: 2px 8px;
+}
+
+.flat-panel {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
 /*
 STICKER FOOTER
 */
