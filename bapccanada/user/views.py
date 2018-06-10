@@ -1,17 +1,17 @@
-from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
-from django.shortcuts import get_object_or_404, render, redirect
-# Create your views here.
-from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView, DeleteView
 from django.contrib.auth.models import User
+from django.db.models import Sum
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+# Create your views here.
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, DeleteView
 
 from build.models import Build
 from products.models import Review
-from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm
+from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm, ReviewForm
 
 
 class BaseProfileView(TemplateView):
@@ -26,7 +26,7 @@ class BaseProfileView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.browse_user = get_object_or_404(User, username=kwargs['username'])
-        return super(BaseProfileView,self).dispatch(request, *args, **kwargs)
+        return super(BaseProfileView, self).dispatch(request, *args, **kwargs)
 
 
 class ProfileView(BaseProfileView):
@@ -54,7 +54,8 @@ class ProfileView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        context['browse_user_karma'] = context['browse_user'].userprofile.review_set.all().aggregate(Sum('points'))['points__sum']
+        context['browse_user_karma'] = context['browse_user'].userprofile.review_set.all().aggregate(Sum('points'))[
+            'points__sum']
         context['biography_form'] = BiographyForm(instance=context['browse_user'].userprofile)
         context['avatar_form'] = AvatarForm(instance=context['browse_user'].userprofile)
         return context
@@ -100,10 +101,46 @@ class CommentsView(BaseProfileView):
 class CommentsDeleteView(DeleteView):
     model = Review
     template_name = 'comments_delete.html'
-    success_url = reverse_lazy('user:comments')
 
     def get_success_url(self):
-        return reverse('user:comments', kwargs={'username': self.kwargs['username']})
+        return JsonResponse({"test": "test"})
+
+
+def review_delete(request, **kwargs):
+    review = get_object_or_404(Review, pk=kwargs['pk'])
+    if request.method == 'POST':
+        review.delete()
+        data = {
+            "was_deleted": True,
+            "pk": kwargs['pk']
+        }
+
+        return JsonResponse(data)
+    else:
+        return JsonResponse({
+            'reponse': 'Not a valid delete request'
+        })
+
+
+def review_update(request, **kwargs):
+    review = get_object_or_404(Review, pk=kwargs['pk'])
+    if request.method == 'POST':
+        form = ReviewForm(data={
+            "content": request.POST['data']
+        })
+        if form.is_valid():
+            review.content = form.cleaned_data['content']
+            review.save()
+            return JsonResponse({
+                "is_updated": True,
+                "pk": kwargs['pk'],
+                "data": {
+                    "content": review.content
+                }
+            })
+    return JsonResponse({
+        'reponse': 'Not a valid update request'
+    })
 
 
 class BuildsView(BaseProfileView):

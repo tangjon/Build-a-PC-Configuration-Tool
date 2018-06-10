@@ -10,7 +10,7 @@
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="font-weight-bold" style="display: flex;">
-                            <a href="">{{ review.component }}</a>
+                            <a class="review-component" href="#">{{ review.component }}</a>
                             <div class="ml-2">- {{ review.time_added }}</div>
                         </div>
                         <div>
@@ -19,6 +19,7 @@
                         <div>{{ review.id }}</div>
                         <b href="#">{{ review.user }}</b>
                         <form>
+                            {{ form }}
                             <p class="review-text-body">{{ review.content }}</p>
                             <textarea style="display: none;" class='form-control review-text-edit'>{{ review.content }}</textarea>
                         </form>

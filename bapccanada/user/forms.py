@@ -1,4 +1,6 @@
 from django import forms
+
+from products.models import Review
 from user.models import UserProfile, ClickSettings, EmailSettings, PrivacySettings
 
 
@@ -33,7 +35,13 @@ class PrivacySettingsForm(forms.ModelForm):
     class Meta:
         model = PrivacySettings
         fields = ['data_for_research', 'index_profile']
-        labels ={
+        labels = {
             'data_for_research': "allow my data to be used for research purposes",
             'index_profile': "don't allow search engines to index my user profile"
         }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['content']

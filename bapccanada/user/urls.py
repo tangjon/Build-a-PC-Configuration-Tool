@@ -1,8 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import re_path, path
 
-from user.views import ProfileView, PreferencesView, BuildsView, CommentsView, SecurityView, SavedView, \
-    CommentsDeleteView
+from user.views import *
 from . import views
 
 # lets follow reddit url format
@@ -14,7 +13,8 @@ urlpatterns = [
     path('', ProfileView.as_view(), name='profile'),
     path('preferences/', PreferencesView.as_view(), name="preferences"),
     path('comments/', CommentsView.as_view(), name="comments"),
-    path('comments/<int:pk>/delete', CommentsDeleteView.as_view(), name="comments"),
+    path('comments/<int:pk>/delete', review_delete, name="comments"),
+    path('comments/<int:pk>/update', review_update, name="comments"),
     path('builds/', BuildsView.as_view(), name="builds"),
     path('builds/<int:pk>', BuildsView.as_view(), name="builds"),
     path('security/', SecurityView.as_view(), name="security"),
