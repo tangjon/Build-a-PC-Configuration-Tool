@@ -90,11 +90,40 @@ class Component(PolymorphicModel):
             "Manufacturer": subtype.objects.order_by('manufacturer').values_list('manufacturer', flat=True).distinct()
         }
 
+    def get_filter_metadata_for_manager(self, subtype):
+        filterable_dimensions = self.get_filterable_dimensions(subtype)
+        button_id_tracker = 1
+
+        for dimension, values in filterable_dimensions.items():
+            # convert each list of values into a format our manager can understand
+            converted_values = []
+            filterable_dimension_name = self.get_filterable_dimension_name(dimension)
+
+            for value in values:
+                converted_values.append({
+                    "checkbox_id": button_id_tracker,
+                    "filter_value": value,
+                    "data_type": type(value).__name__,
+                    "filterable_dimension_name": filterable_dimension_name
+                })
+
+                button_id_tracker += 1
+
+            filterable_dimensions[dimension] = converted_values
+
+        return filterable_dimensions
+
     def get_component_images(self):
         return self.image_set.all()
 
     def get_component_prices(self):
         return self.price_set.all()
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        if ui_dimension_name == "Manufacturer":
+            return "manufacturer"
+        else:
+            return None
 
 
 class GPU(Component):
@@ -133,6 +162,21 @@ class GPU(Component):
         }
 
         return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(GPU, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "chipset":
+                filterable_dimension_name = "chipset"
+            elif ui_dimension_name == "memory":
+                filterable_dimension_name = "memory"
+            elif ui_dimension_name == "hdmi ports":
+                filterable_dimension_name = "hdmi_ports"
+            else:
+                filterable_dimension_name = "dp_ports"
+
+        return filterable_dimension_name
 
 
 class CPU(Component):
@@ -175,6 +219,19 @@ class CPU(Component):
 
         return {**base_dimensions, **extra_dimensions}
 
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(CPU, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "cores":
+                filterable_dimension_name = "cores"
+            elif ui_dimension_name == "socket type":
+                filterable_dimension_name = "socket"
+            else:
+                filterable_dimension_name = "integrated_graphics"
+
+        return filterable_dimension_name
+
 
 class Monitor(Component):
     screen_size = models.PositiveIntegerField(default=10)
@@ -215,12 +272,27 @@ class Monitor(Component):
                                                                                          flat=True).distinct(),
             'response time': map(lambda time: "{}ms".format(time), subtype.objects.order_by('response_time').
                                  values_list('response_time', flat=True).distinct()),
-            'Refresh Rate': map(lambda rate: "{}Hz".format(rate), subtype.objects.order_by('refresh_rate').
+            'refresh rate': map(lambda rate: "{}Hz".format(rate), subtype.objects.order_by('refresh_rate').
                                 values_list('refresh_rate', flat=True).distinct()),
             'panel type': subtype.objects.order_by('panel_type').values_list('panel_type', flat=True).distinct()
         }
 
         return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(Monitor, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "recommended resolution":
+                filterable_dimension_name = "resolution"
+            elif ui_dimension_name == "response time":
+                filterable_dimension_name = "response_time"
+            elif ui_dimension_name == "refresh rate":
+                filterable_dimension_name = "refresh_rate"
+            else:
+                filterable_dimension_name = "panel_type"
+
+        return filterable_dimension_name
 
 
 class Review(models.Model):
@@ -243,4 +315,3 @@ class Review(models.Model):
 
     def test(self):
         return self.objects.all()
-

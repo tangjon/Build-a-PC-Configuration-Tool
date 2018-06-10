@@ -19,7 +19,7 @@ class AbstractComponentBrowseView(ListView):
 
         context['title'] = self.title
         context['rating_range'] = range(1, 6)
-        context['dimensions'] = context['components'][0].get_filterable_dimensions(self.model)
+        context['dimensions'] = context['components'][0].get_filter_metadata_for_manager(self.model)
         context['price_range'] = Price.get_price_range(context['components'][0].get_polymorphic_class_id())
 
         return context

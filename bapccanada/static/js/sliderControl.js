@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#ex2').slider({
+    $('#rangeSliderFilter').slider({
         tooltip: 'always',
         formatter: value => {
             return value;

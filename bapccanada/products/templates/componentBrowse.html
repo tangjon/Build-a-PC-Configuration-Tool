@@ -13,17 +13,17 @@
             <div class="panelHeader">Filters</div>
             <div class="filterPanel">
                 <div class="filterPanelTitle">PRICE</div>
-                <input id="ex2" type="text" class="span2" value="" data-slider-min="{{ price_range.min }}" data-slider-max="{{ price_range.max }}"
+                <input id="rangeSliderFilter" type="text" class="span2" value="" data-slider-min="{{ price_range.min }}" data-slider-max="{{ price_range.max }}"
                        data-slider-step="5" data-slider-value="[{{ price_range.min }},{{ price_range.max }}]"/>
             </div>
 
             <div class="filterPanel">
                 <div class="filterPanelTitle">RATING</div>
                 <ul class="list-group filterPanelListGroup">
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox filterAllCheckBox" type="checkbox"
                                aria-label="Checkbox for following text input"> All
                     </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox star0" type="checkbox"
                                aria-label="Checkbox for following text input">
                         <span class="ratingFilterStars">
                             <span class="fa fa-star"></span>
@@ -33,7 +33,7 @@
                             <span class="fa fa-star "></span>
                         </span>
                     </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox star1" type="checkbox"
                                aria-label="Checkbox for following text input">
                         <span class="ratingFilterStars">
                             <span class="fa fa-star "></span>
@@ -43,7 +43,7 @@
                             <span class="fa fa-star-o "></span>
                         </span>
                     </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox star2" type="checkbox"
                                aria-label="Checkbox for following text input">
                         <span class="ratingFilterStars">
                             <span class="fa fa-star "></span>
@@ -53,7 +53,7 @@
                             <span class="fa fa-star-o "></span>
                         </span>
                     </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox star3" type="checkbox"
                                aria-label="Checkbox for following text input">
                         <span class="ratingFilterStars">
                             <span class="fa fa-star "></span>
@@ -63,7 +63,7 @@
                             <span class="fa fa-star-o "></span>
                         </span>
                     </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox star4" type="checkbox"
                                aria-label="Checkbox for following text input">
                         <span class="ratingFilterStars">
                             <span class="fa fa-star "></span>
@@ -73,7 +73,7 @@
                             <span class="fa fa-star-o "></span>
                         </span>
                     </li>
-                    <li><input class="filterPanelCheckbox" type="checkbox"
+                    <li><input class="filterPanelCheckbox star5" type="checkbox"
                                aria-label="Checkbox for following text input">
                         <span class="ratingFilterStars">
                             <span class="fa fa-star-o "></span>
@@ -90,12 +90,12 @@
                 <div class="filterPanel">
                     <div class="filterPanelTitle">{{ dimension }}</div>
                     <ul class="list-group filterPanelListGroup">
-                        <li><input class="filterPanelCheckbox" type="checkbox"
+                        <li><input class="filterPanelCheckbox filterAllCheckBox" type="checkbox"
                                    aria-label="Checkbox for following text input"> All
                         </li>
                         {% for value in values %}
                             <li><input class="filterPanelCheckbox" type="checkbox"
-                                       aria-label="Checkbox for following text input"> {{ value }}
+                                       aria-label="Checkbox for following text input"> {{ value.filter_value }}
                             </li>
                         {% endfor %}
                     </ul>
