@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Min, Avg
+from django.db.models import Min, Avg, Max
 from django.template.defaultfilters import slugify
 
 from polymorphic.models import PolymorphicModel
@@ -68,12 +68,15 @@ class Component(PolymorphicModel):
         else:
             return "monitor"
 
+    def get_polymorphic_class_id(self):
+        return self.polymorphic_ctype_id
+
     # used for component detail title
     def get_page_title(self):
         pass
 
     def get_component_reviews(self):
-        return self.review_set.filter(component=self)[:5]
+        return self.review_set.order_by('-time_added').filter(component=self)[:10]
 
     def get_tech_details(self):
         return {

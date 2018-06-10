@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from .models import GPU, CPU, Monitor, Component
+from home.models import Price
 
 
 class AbstractComponentBrowseView(ListView):
@@ -19,6 +20,7 @@ class AbstractComponentBrowseView(ListView):
         context['title'] = self.title
         context['rating_range'] = range(1, 6)
         context['dimensions'] = context['components'][0].get_filterable_dimensions(self.model)
+        context['price_range'] = Price.get_price_range(context['components'][0].get_polymorphic_class_id())
 
         return context
 

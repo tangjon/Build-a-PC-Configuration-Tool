@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Min, Max
 
 from decimal import Decimal
 
@@ -22,6 +23,13 @@ class Price(models.Model):
 
     def __str__(self):
         return "{} : {}".format(self.id, self.store_link)
+
+    @staticmethod
+    def get_price_range(component_class_id):
+        return {
+            "min": Price.objects.filter(component__polymorphic_ctype_id=component_class_id).aggregate(Min('price'))["price__min"],
+            "max": Price.objects.filter(component__polymorphic_ctype_id=component_class_id).aggregate(Max('price'))["price__max"]
+        }
 
 
 class Image(models.Model):
