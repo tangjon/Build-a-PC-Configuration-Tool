@@ -1,7 +1,7 @@
 import doAjaxPost from './AjaxUtility.js';
 import getCookie from './CookieUtility.js';
 import fnCheckUserAuthentication from './LoginUtility.js';
-import {BUILD_SAVE, COMPONENT_CHANGE, BUILD_URL} from './LinkConstants.js';
+import {BUILD_SAVE, COMPONENT_CHANGE, BUILD_URL, NEW_BUILD_URL} from './LinkConstants.js';
 
 const csrftoken = getCookie('csrftoken');
 const fnCreateAddAjaxParameters = function (oElement, sAction) {
@@ -48,9 +48,9 @@ const fnSetupSaveModal = function () {
     };
 
     oSaveAsButton.on('click', function () {
-       fnCheckUserAuthentication(() => {
-           oSaveModal.modal('show');
-       }, BUILD_URL);
+        fnCheckUserAuthentication(() => {
+            oSaveModal.modal('show');
+        }, BUILD_URL);
     });
 
     oSaveForm.bind("keypress", function (event) {
@@ -93,6 +93,26 @@ const fnSetupSaveModal = function () {
     }.bind(oSaveBuildButton))
 };
 
+const fnSetupNewBuildButton = function () {
+    const oNewBuildButton = $(".new-build-button");
+
+    oNewBuildButton.on('click', function () {
+        const fnSuccess = function (data, textStatus) {
+            if (data.redirect) {
+                // data.redirect contains the string URL to redirect to
+                window.location.href = data.redirect;
+            }
+        };
+        const oData = {
+            "action": "new",
+            'csrfmiddlewaretoken': csrftoken
+        };
+
+        doAjaxPost(oData, NEW_BUILD_URL, fnSuccess);
+    });
+};
+
+
 $(document).ready(function () {
     $(".addComponentButton").each((index, button) => {
         button.onclick = function () {
@@ -109,4 +129,5 @@ $(document).ready(function () {
     });
 
     fnSetupSaveModal();
+    fnSetupNewBuildButton();
 });

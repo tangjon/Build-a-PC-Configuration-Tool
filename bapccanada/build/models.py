@@ -16,6 +16,7 @@ class Build(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     complete = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
+    anonymous_session = models.CharField(max_length=200, null=True, unique=True)
     total_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -26,36 +27,74 @@ class Build(models.Model):
     def __str__(self):
         return "{} - {}".format(self.owner, self.name)
 
+    @staticmethod
+    def track_current_build(current_user):
+        current_build = CurrentBuild.objects.filter(tracked_user=current_user).first()
+
+        if current_build is None:
+            new_build = Build.objects.create(owner=current_user)
+            current_build = CurrentBuild.objects.create(tracked_user=current_user, tracked_build=new_build)
+
+        return current_build.tracked_build
+
+    @staticmethod
+    def handle_build_tracking(request):
+        if request.user.is_authenticated:
+            build_to_return = Build.track_current_build(request.user.userprofile)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+
+            build_to_return = Build.objects.get_or_create(anonymous_session=request.session.session_key)[0]
+
+        return build_to_return
+
+    @staticmethod
+    def transfer_anonymous_build(request, authenticated_user):
+        session_key = request.session.session_key
+
+        if session_key is not None:
+            anonymous_build = Build.objects.filter(anonymous_session=session_key).first()
+
+            if anonymous_build is not None:
+                # if this user made an anonymous build, transfer it over
+                anonymous_build.anonymous_session = None
+                anonymous_build.owner = authenticated_user.userprofile
+                anonymous_build.save()
+
+                # update authenticated_user's current build so they see it upon clicking build
+                current_build = CurrentBuild.objects.get_or_create(tracked_user=authenticated_user.userprofile)[0]
+                current_build.tracked_build = anonymous_build
+                current_build.save()
+
+    def get_component_array(self):
+        return [self.gpu, self.cpu, self.monitor]
+
     def get_total_price(self):
-        component_array = [self.gpu, self.cpu, self.monitor]
+        component_array = self.get_component_array()
         component_array = map(lambda component: Decimal(0.0) if not component else (Decimal(component.cheapest_price)
                                                                                     + Decimal(component.cheapest_price_shipping))
                               , component_array)
 
         return reduce(lambda total, current: total+current, component_array)
 
-    def add_component(self, component):
+    def modify_component(self, component, modifier):
+        replacement_value = None if modifier == "remove" else component
         component_type = component.get_real_instance_class()
 
         if component_type == CPU:
-            self.cpu = component
+            self.cpu = replacement_value
         elif component_type == GPU:
-            self.gpu = component
+            self.gpu = replacement_value
         else:
-            self.monitor = component
+            self.monitor = replacement_value
 
         self.save()
 
-    def remove_component(self, component):
-        component_type = component.get_real_instance_class()
-
-        if component_type == CPU:
-            self.cpu = None
-        elif component_type == GPU:
-            self.gpu = None
-        else:
-            self.monitor = None
-
+    def clean_build(self):
+        self.cpu = None
+        self.gpu = None
+        self.monitor = None
         self.save()
 
     def get_component_dict(self):
@@ -79,5 +118,5 @@ class Build(models.Model):
 
 
 class CurrentBuild(models.Model):
-    tracked_user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    tracked_user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True)
     tracked_build = models.OneToOneField(Build, on_delete=models.SET_NULL, null=True)
