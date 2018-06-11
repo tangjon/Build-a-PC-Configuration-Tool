@@ -4,16 +4,75 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 
+from build.models import Build
 from products.models import Component, Review
 from .constants import FRONT_END_URLS
 
 
 class HomeView(TemplateView):
     template_name = 'home.html'
+    data = {
+        "0": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "1": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "2": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "3": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "4": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "5": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "6": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "7": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        },
+        "8": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        }
+        ,
+        "9": {
+            "cheapest_price": 584.99,
+            "current_price": 512.99,
+            "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
+        }
 
+    }
 
-def home_view(request):
-    return render(request, 'home.html', {'title': 'Home'})
+    choices = {'key1': 'val1', 'key2': 'val2'}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['deals'] = self.data
+        context['builds'] = Build.objects.all()[:3]
+        return context
 
 
 def add_review(request):
