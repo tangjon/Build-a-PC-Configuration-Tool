@@ -46,7 +46,10 @@
                     <h3>Top bapcsalescanada <img style="width: 40px" src="http://i.imgur.com/sdO8tAw.png"> Posts</h3>
                 </div>
                 <div class="col">
-                    <h3>Recent Builds</h3>
+                    <div class="flat-panel">
+                        <h3>Recent Builds</h3>
+                        <a class="btn btn-primary bapc-link text-white" href="{% url 'build:create' %}">Start a Build</a>
+                    </div>
                     {% for build in builds %}
                         <h4>{{ build.name|default_if_none:""}}</h4>
                         {#                                    <div>{{ build.cpu }}</div>#}
