@@ -114,13 +114,6 @@ const fnSetupNewBuildButton = function () {
 
 
 $(document).ready(function () {
-    $(".addComponentButton").each((index, button) => {
-        button.onclick = function () {
-            const oParam = fnCreateAddAjaxParameters(this, "add");
-            doAjaxPost(oParam.oData, oParam.sUrl, oParam.fnSuccess);
-        }.bind(button)
-    });
-
     $(".removeComponentButton").each((index, button) => {
         button.onclick = function () {
             const oParam = fnCreateAddAjaxParameters(this, "remove");

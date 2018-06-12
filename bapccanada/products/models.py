@@ -104,7 +104,8 @@ class Component(PolymorphicModel):
                     "checkbox_id": button_id_tracker,
                     "filter_value": value,
                     "data_type": type(value).__name__,
-                    "filterable_dimension_name": filterable_dimension_name
+                    "filterable_dimension_name": filterable_dimension_name,
+                    "was_checked": False
                 })
 
                 button_id_tracker += 1

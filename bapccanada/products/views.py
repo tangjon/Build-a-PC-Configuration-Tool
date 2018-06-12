@@ -2,6 +2,8 @@ from django.views.generic import ListView, DetailView
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+import json
+
 from .models import GPU, CPU, Monitor, Component
 from home.models import Price
 
@@ -16,10 +18,12 @@ class AbstractComponentBrowseView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        dimension_data = context['components'][0].get_filter_metadata_for_manager(self.model)
 
         context['title'] = self.title
         context['rating_range'] = range(1, 6)
-        context['dimensions'] = context['components'][0].get_filter_metadata_for_manager(self.model)
+        context['dimensions'] = dimension_data
+        context['filter_metadata'] = json.dumps(dimension_data)
         context['price_range'] = Price.get_price_range(context['components'][0].get_polymorphic_class_id())
 
         return context
