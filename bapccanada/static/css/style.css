@@ -5,26 +5,42 @@ GLOBAL CSS
 */
 
 .color-pallete {
-    color:#f9bf3b
+    color: #f9bf3b
+}
+
+h3.bapc-section-title {
+    /*display: inline-block;*/
+    /*color: white;*/
+    /*padding: 5px 10px;*/
+    /*!*background: repeating-linear-gradient(*!*/
+    /*!*-55deg,*!*/
+    /*!*#222,*!*/
+    /*!*#222 10px,*!*/
+    /*!*#333 10px,*!*/
+    /*!*#333 20px*!*/
+    /*!*);*!*/
+    /*background-color: #243240;*/
+    /*border: #9a9a9a solid 4px;*/
+
+}
+
+hr.bapc {
+    border-top: 3px solid #ffd60c;
 }
 
 /*THEME CSS*/
-
-.active {
-    color: #f9bf3b;
-}
 
 /*
 NAVIGATION BAR
 */
 
 /*.bg-transparent {*/
-    /*background-color: Transparent;*/
-    /*background-repeat: no-repeat;*/
-    /*border: none;*/
-    /*cursor: pointer;*/
-    /*overflow: hidden;*/
-    /*outline: none;*/
+/*background-color: Transparent;*/
+/*background-repeat: no-repeat;*/
+/*border: none;*/
+/*cursor: pointer;*/
+/*overflow: hidden;*/
+/*outline: none;*/
 /*}*/
 
 .bapc-dropdown-menu > a.dropdown-item {
@@ -40,7 +56,7 @@ NAVIGATION BAR
     font-weight: 500;
 }
 
-.bapc-navbar .navbar-dark .navbar-nav .nav-link.active, .bapc-navbar .dropdown-toggle {
+.bapc-navbar.navbar-dark .navbar-nav .nav-link.active, .bapc-navbar .dropdown-toggle {
     color: #f9bf3b;
 }
 
@@ -68,7 +84,6 @@ NAVIGATION BAR
 END NAVIGATION BAR
 */
 
-
 /*
 GENERAL CSS
 */
@@ -92,7 +107,6 @@ a:hover {
 .flat-panel {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
 }
 
 /*

@@ -30,7 +30,7 @@
         }
 
         #my-colors {
-            color:#243240
+            color: #243240
         }
     </style>
 {% endblock %}
@@ -42,20 +42,25 @@
 {% block bapc-header-title %}{{ title }}{% endblock %}
 
 {% block bapc-body-content-container %}
-    <div class="container home-container">
+    <div class="container home-container pt-3">
         <div>
             {# TODO display on if complete       #}
 
             <div class="row">
                 <div class="col">
-                    <h3>Top bapcsalescanada <img style="width: 40px" src="http://i.imgur.com/sdO8tAw.png"> Posts</h3>
+                    <h3 class="bapc-section-title">Top bapcsalescanada <img style="width: 40px"
+                                                                            src="http://i.imgur.com/sdO8tAw.png"> Posts
+                    </h3>
+                    <hr class="bapc">
                 </div>
                 <div class="col">
                     <div class="flat-panel">
-                        <h3>Recent Builds</h3>
+                        <h3 class="bapc-section-title">Recent Builds</h3>
                         <a class="btn btn-primary bapc-link text-white" href="{% url 'build:create' %}">Start a
                             Build</a>
                     </div>
+                    <hr class="bapc">
+
                     {% for build in builds %}
                         <h4>{{ build.name|default_if_none:""}}</h4>
                         {#                                    <div>{{ build.cpu }}</div>#}
@@ -81,7 +86,8 @@
 
 
         <div class="deal-highlight">
-            <h3>Top Deals / Monthly Lows</h3>
+            <h3 class="bapc-section-title">Top Deals / Monthly Lows</h3>
+            <hr class="bapc">
             <div class="deal-grid">
                 {% for key, deal in deals.items %}
                     <div class="deal-block">
