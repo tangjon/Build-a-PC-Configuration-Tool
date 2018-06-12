@@ -18,6 +18,7 @@ class Build(models.Model):
     slug = models.SlugField(blank=True)
     anonymous_session = models.CharField(max_length=200, null=True, unique=True)
     total_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
+    points = models.IntegerField(default=0, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
