@@ -5,7 +5,7 @@
 {% url 'products:gpu' as url_gpu %}
 {% url 'products:cpu' as url_cpu %}
 {% url 'products:monitors' as url_monitor %}
-<nav class="navbar navbar-expand-md bapcNav navbar-dark">
+<nav class="navbar navbar-expand-md bapc-navbar navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="{% static 'assets/brand/bapc-logo.png' %}" width="30" height="30"
@@ -39,14 +39,19 @@
             {# TODO Login Configuration #}
             <div class="navbar-account d-block ml-auto d-flex align-items-center">
                 {% if user.is_authenticated %}
-                    <h5><span style="font-weight: 300; color: white">Welcome</span> <a class="text-light"
-                                                                                       href="{% url 'user:profile' user.username %}">{{ user.username }}</a>
-                    </h5>
-                    <div class="dropdown">
-                        <button class="dropdown-toggle bg-transparent" data-toggle="dropdown"
-                                aria-haspopup="false"
-                                aria-expanded="false">
-                        </button>
+                    {#                    <h5><span style="font-weight: 300; color: white">Welcome</span> <a data-toggle="dropdown"#}
+                    {#                                                                                       class="text-light"#}
+                    {#                                                                                       href="{% url 'user:profile' user.username %}">{{ user.username }}</a>#}
+
+                    <div class="dropdown dropdown-menu-right">
+                        <div class="nav-welcome" data-toggle="dropdown">
+                            <h5 style="font-weight: 300; color: white">Welcome</h5>
+                            <h5 class="ml-1">{{ user.username }}</h5>
+                            <div class="dropdown-toggle"
+                                 aria-haspopup="false"
+                                 aria-expanded="false">
+                            </div>
+                        </div>
                         <div class="dropdown-menu bapc-dropdown-menu">
                             <a class="dropdown-item" href="{% url 'user:profile' user.username %}"><i
                                     class="material-icons">account_circle</i>Profile</a>

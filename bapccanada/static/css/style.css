@@ -4,30 +4,52 @@ GLOBAL CSS
 
 */
 
+.color-pallete {
+    color:#f9bf3b
+}
+
+/*THEME CSS*/
+
+.active {
+    color: #f9bf3b;
+}
+
 /*
 NAVIGATION BAR
 */
 
-.bg-transparent {
-    background-color: Transparent;
-    background-repeat: no-repeat;
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-    outline: none;
-}
+/*.bg-transparent {*/
+    /*background-color: Transparent;*/
+    /*background-repeat: no-repeat;*/
+    /*border: none;*/
+    /*cursor: pointer;*/
+    /*overflow: hidden;*/
+    /*outline: none;*/
+/*}*/
 
 .bapc-dropdown-menu > a.dropdown-item {
     display: flex;
 }
 
-.bapcNav {
-    background-color: #40a0ee;
+.bapc-navbar {
+    background-color: #243240;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.bapcNav a.navbar-brand, .bapcNav a.nav-item.nav-link {
+.bapc-navbar .navbar-brand, .bapc-navbar .nav-link, .bapc-navbar .nav-item {
     font-weight: 500;
+}
+
+.bapc-navbar .navbar-dark .navbar-nav .nav-link.active, .bapc-navbar .dropdown-toggle {
+    color: #f9bf3b;
+}
+
+.nav-welcome {
+    display: flex;
+}
+
+.nav-welcome h5 {
+    color: white;
 }
 
 .partsDropDown:hover > .partsDropDown-menu {
@@ -42,9 +64,10 @@ NAVIGATION BAR
     margin-top: -0.35rem;
 }
 
-.partsDropDown .nav-link {
-    font-weight: 500;
-}
+/*
+END NAVIGATION BAR
+*/
+
 
 /*
 GENERAL CSS

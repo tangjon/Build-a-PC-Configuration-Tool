@@ -5,8 +5,8 @@
     <title>{{ title }} - BAPCCanada</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/brand/bootstrap-logo.png' %}"/>
     {# STYLESHEETS #}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.less' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -21,21 +21,23 @@
     {% include 'navbar.html' %}
     {# END NAVBAR #}
 
-    <div class="bapc-header">
-        <div class="container">
-            {% block bapc-header %}
-                <div class="bapc-header-title">
-                    <h2>{% block bapc-header-title %}
-                    {% endblock bapc-header-title %}</h2>
-                </div>
-                <div class="bapc-header-content">
-                    {% block bapc-header-content %}
-                    {% endblock bapc-header-content %}
-                </div>
-            {% endblock bapc-header %}
+    {% block bapc-header-div %}
+        <div class="bapc-header">
+            <div class="container">
+                {% block bapc-header %}
+                    <div class="bapc-header-title">
+                        <h2>{% block bapc-header-title %}
+                        {% endblock bapc-header-title %}</h2>
+                    </div>
+                    <div class="bapc-header-content">
+                        {% block bapc-header-content %}
+                        {% endblock bapc-header-content %}
+                    </div>
+                {% endblock bapc-header %}
+            </div>
         </div>
+    {% endblock bapc-header-div %}
 
-    </div>
     <div class="carouselWrapper">
         <div class="container">
             {% block carousel %}
