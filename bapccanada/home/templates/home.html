@@ -48,14 +48,20 @@
                 <div class="col">
                     <div class="flat-panel">
                         <h3>Recent Builds</h3>
-                        <a class="btn btn-primary bapc-link text-white" href="{% url 'build:create' %}">Start a Build</a>
+                        <a class="btn btn-primary bapc-link text-white" href="{% url 'build:create' %}">Start a
+                            Build</a>
                     </div>
                     {% for build in builds %}
                         <h4>{{ build.name|default_if_none:""}}</h4>
                         {#                                    <div>{{ build.cpu }}</div>#}
                         <div>{{ build.gpu|default_if_none:""}}</div>
                         <div>{{ build.monitor.get_page_title|default_if_none:""}}</div>
-                        <div>By <a href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a></div>
+                        <div class="flat-panel">
+                            <div>By <a href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a>
+                            </div>
+                            <span>Points {{ build.points }}</span>
+                        </div>
+
                         <hr>
                     {% endfor %}
                 </div>
