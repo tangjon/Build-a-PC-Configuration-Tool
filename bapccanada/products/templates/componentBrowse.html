@@ -91,15 +91,20 @@
                 <div class="filterPanel">
                     <div class="filterPanelTitle">{{ dimension }}</div>
                     <ul class="list-group filterPanelListGroup">
-                        <li><input class="filterPanelCheckbox filterAllCheckBox" type="checkbox"
-                                   aria-label="Checkbox for following text input"> All
-                        </li>
                         {% for value in values %}
-                            <li><input
-                                    class="filterPanelCheckbox filterDimensionCheckbox filterChoice{{ value.checkbox_id }}"
-                                    type="checkbox"
-                                    aria-label="Checkbox for following text input"> {{ value.filter_value }}
-                            </li>
+                            {% if value.filter_value == "ALL" %}
+                                <li><input
+                                        class="filterPanelCheckbox filterDimensionCheckbox filterAllCheckBox{{ value.checkbox_id }}"
+                                        type="checkbox"
+                                        aria-label="Checkbox for following text input"> All
+                                </li>
+                            {% else %}
+                                <li><input
+                                        class="filterPanelCheckbox filterDimensionCheckbox filterChoice{{ value.checkbox_id }}"
+                                        type="checkbox"
+                                        aria-label="Checkbox for following text input"> {{ value.filter_value }}
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>

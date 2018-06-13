@@ -99,6 +99,16 @@ class Component(PolymorphicModel):
             converted_values = []
             filterable_dimension_name = self.get_filterable_dimension_name(dimension)
 
+            # add one entry for "All"
+            converted_values.append({
+                "checkbox_id": button_id_tracker,
+                "filter_value": "ALL",
+                "data_type": "string",
+                "filterable_dimension_name": filterable_dimension_name,
+                "was_checked": False
+            });
+            button_id_tracker += 1
+
             for value in values:
                 converted_values.append({
                     "checkbox_id": button_id_tracker,
