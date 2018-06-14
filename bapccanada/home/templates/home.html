@@ -36,14 +36,19 @@
         }
 
         .cat-block {
-            {#color: white;#}
             display: inline-block;
             text-align: center;
             border: black solid 2px;
             height: 100px;
             flex-grow: 1;
             margin: 0 2px 46px;
-            width: calc(100% * (1 / 3) - 10px - 1px)
+            width: 100%;
+        }
+
+        @media (min-width: 995px) {
+            .cat-block {
+                width: calc(100% * (1 / 3) - 10px - 1px)
+            }
         }
 
         .cat-title {
@@ -53,18 +58,6 @@
         i.cat-image.material-icons {
             font-size: 53px;
         }
-
-        {#div#cpu {#}
-        {#    background-color: rgb(244, 67, 54);#}
-        {#}#}
-        {##}
-        {#div#gpu {#}
-        {#    background-color: #3e50b4;#}
-        {#}#}
-        {##}
-        {#div#monitor {#}
-        {#    background-color: #4bae4f;#}
-        {#}#}
 
         .grow {
             transition: all .2s ease-in-out;
