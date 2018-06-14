@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block extraStyles %}
     <style>
         .deal-grid {
@@ -29,8 +29,53 @@
             color: red;
         }
 
-        #my-colors {
-            color: #243240
+        .component-category {
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+
+        .cat-block {
+            {#color: white;#}
+            display: inline-block;
+            text-align: center;
+            border: black solid 2px;
+            height: 100px;
+            flex-grow: 1;
+            margin: 0 2px 46px;
+            width: calc(100% * (1 / 3) - 10px - 1px)
+        }
+
+        .cat-title {
+
+        }
+
+        i.cat-image.material-icons {
+            font-size: 53px;
+        }
+
+        {#div#cpu {#}
+        {#    background-color: rgb(244, 67, 54);#}
+        {#}#}
+        {##}
+        {#div#gpu {#}
+        {#    background-color: #3e50b4;#}
+        {#}#}
+        {##}
+        {#div#monitor {#}
+        {#    background-color: #4bae4f;#}
+        {#}#}
+
+        .grow {
+            transition: all .2s ease-in-out;
+        }
+
+        .grow:hover {
+            transform: scale(1.03);
+        }
+
+        .cat-block img {
+            height: 95%;
         }
     </style>
 {% endblock %}
@@ -48,10 +93,49 @@
 
             <div class="row">
                 <div class="col">
-                    <h3 class="bapc-section-title">Top bapcsalescanada <img style="width: 40px"
-                                                                            src="http://i.imgur.com/sdO8tAw.png"> Posts
+                    <h3 class="bapc-section-title">PARTS PARTS PARTS!
                     </h3>
                     <hr class="bapc">
+                    <div class="component-category">
+                        <div id="cpu" class="cat-block grow">
+                            <h4 class="cat-title">CPU</h4>
+                            <img src="{% static '/assets/icons/cpu.png' %}">
+                        </div>
+                        <div id="gpu" class="cat-block grow">
+                            <h4 class="cat-title">GPU</h4>
+                            <img src="{% static '/assets/icons/gpu.png' %}">
+                        </div>
+                        <div id="monitor" class="cat-block grow">
+                            <h4 class="cat-title">Monitor</h4>
+                            <img src="{% static '/assets/icons/monitor.png' %}">
+                        </div>
+                        <div class="cat-block grow">
+                            <h4 class="cat-title">Component</h4>
+                            <img src="{% static '/assets/icons/cpu.png' %}">
+                        </div>
+                        <div class="cat-block grow">
+                            <h4 class="cat-title">Component</h4>
+                            <img src="{% static '/assets/icons/gpu.png' %}">
+                        </div>
+                        <div class="cat-block grow">
+                            <h4 class="cat-title">Component</h4>
+                            <img src="{% static '/assets/icons/monitor.png' %}">
+                        </div>
+                        <div class="cat-block grow">
+                            <h4 class="cat-title">Component</h4>
+                            <img src="{% static '/assets/icons/cpu.png' %}">
+                        </div>
+                        <div class="cat-block grow">
+                            <h4 class="cat-title">Component</h4>
+                            <img src="{% static '/assets/icons/gpu.png' %}">
+                        </div>
+                        <div class="cat-block grow">
+                            <h4 class="cat-title">Component</h4>
+                            <img src="{% static '/assets/icons/monitor.png' %}">
+                        </div>
+
+
+                    </div>
                 </div>
                 <div class="col">
                     <div class="flat-panel">
@@ -63,7 +147,7 @@
 
                     {% for build in builds %}
                         <h4>{{ build.name|default_if_none:""}}</h4>
-                        {#                                    <div>{{ build.cpu }}</div>#}
+                        <div>{{ build.cpu }}</div>
                         <div>{{ build.gpu|default_if_none:""}}</div>
                         <div>{{ build.monitor.get_page_title|default_if_none:""}}</div>
                         <div class="flat-panel">
@@ -71,19 +155,11 @@
                             </div>
                             <span>Points {{ build.points }}</span>
                         </div>
-
                         <hr>
                     {% endfor %}
                 </div>
             </div>
-
         </div>
-
-        <div>
-
-
-        </div>
-
 
         <div class="deal-highlight">
             <h3 class="bapc-section-title">Top Deals / Monthly Lows</h3>

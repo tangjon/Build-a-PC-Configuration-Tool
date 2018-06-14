@@ -121,12 +121,10 @@ def review_update(request, **kwargs):
     if request.method == 'POST':
         if 'action' in request.POST and request.POST['action'] == 'update' and 'pk' in request.POST:
             pk = request.POST['pk']
-
             try:
                 review = request.user.userprofile.review_set.get(pk=pk)
             except Review.DoesNotExist:
                 raise Http404()
-
             form = ReviewForm(data={
                 "content": request.POST['data']
             })
@@ -146,9 +144,6 @@ def review_update(request, **kwargs):
 class BuildsView(BaseProfileView):
     template_name = 'builds.html'
     title_name = 'Builds'
-
-    # def get(self, request, *args, **kwargs):
-    #     super().get(request, args, kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)
