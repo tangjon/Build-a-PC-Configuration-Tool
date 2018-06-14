@@ -35,6 +35,11 @@
 
         }
 
+        .cat-block:hover {
+            color: #f9bf3b;
+            background-color: #243240;
+        }
+
         .cat-block {
             display: inline-block;
             text-align: center;
@@ -59,8 +64,6 @@
             font-size: 53px;
         }
 
-
-
         .cat-block img {
             height: 95%;
         }
@@ -84,42 +87,43 @@
                     </h3>
                     <hr class="bapc">
                     <div class="component-category">
-                        <div id="cpu" class="cat-block grow">
+                        <a id="cpu" class="bapc-link cat-block grow" href="{% url 'products:cpu' %}">
                             <h4 class="cat-title">CPU</h4>
                             <img src="{% static '/assets/icons/cpu.png' %}">
-                        </div>
-                        <div id="gpu" class="cat-block grow">
+                        </a>
+
+                        <a id="gpu" class="bapc-link cat-block grow" href="{% url 'products:gpu' %}">
                             <h4 class="cat-title">GPU</h4>
                             <img src="{% static '/assets/icons/gpu.png' %}">
-                        </div>
-                        <div id="monitor" class="cat-block grow">
+                        </a>
+                        <a id="monitor" class="bapc-link cat-block grow" href="{% url 'products:monitors' %}">
                             <h4 class="cat-title">Monitor</h4>
                             <img src="{% static '/assets/icons/monitor.png' %}">
-                        </div>
-                        <div class="cat-block grow">
+                        </a>
+                        <a class="cat-block grow">
                             <h4 class="cat-title">Component</h4>
                             <img src="{% static '/assets/icons/cpu.png' %}">
-                        </div>
-                        <div class="cat-block grow">
+                        </a>
+                        <a class="cat-block grow">
                             <h4 class="cat-title">Component</h4>
                             <img src="{% static '/assets/icons/gpu.png' %}">
-                        </div>
-                        <div class="cat-block grow">
+                        </a>
+                        <a class="cat-block grow">
                             <h4 class="cat-title">Component</h4>
                             <img src="{% static '/assets/icons/monitor.png' %}">
-                        </div>
-                        <div class="cat-block grow">
+                        </a>
+                        <a class="cat-block grow">
                             <h4 class="cat-title">Component</h4>
                             <img src="{% static '/assets/icons/cpu.png' %}">
-                        </div>
-                        <div class="cat-block grow">
+                        </a>
+                        <a class="cat-block grow">
                             <h4 class="cat-title">Component</h4>
                             <img src="{% static '/assets/icons/gpu.png' %}">
-                        </div>
-                        <div class="cat-block grow">
+                        </a>
+                        <a class="cat-block grow">
                             <h4 class="cat-title">Component</h4>
                             <img src="{% static '/assets/icons/monitor.png' %}">
-                        </div>
+                        </a>
 
 
                     </div>
