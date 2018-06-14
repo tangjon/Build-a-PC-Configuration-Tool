@@ -13,15 +13,15 @@
             <div class="panelHeader">Filters</div>
             <div class="filterPanel">
                 <div class="filterPanelTitle">PRICE</div>
-                <input id="rangeSliderFilter" type="text" class="span2" value="" data-slider-min="{{ price_range.min }}"
+                <input class="rangeSliderFilter span2" type="text" value="" data-slider-min="{{ price_range.min }}"
                        data-slider-max="{{ price_range.max }}"
-                       data-slider-step="5" data-slider-value="[{{ price_range.min }},{{ price_range.max }}]"/>
+                       data-slider-step="5" data-slider-value="[{{ price_range.selected_min }},{{ price_range.selected_max }}]"/>
             </div>
 
             <div class="filterPanel">
                 <div class="filterPanelTitle">RATING</div>
                 <ul class="list-group filterPanelListGroup">
-                    <li><input class="filterPanelCheckbox filterAllCheckBox" type="checkbox"
+                    <li><input class="filterPanelCheckbox filterAllCheckBox starA" type="checkbox"
                                aria-label="Checkbox for following text input"> All
                     </li>
                     <li><input class="filterPanelCheckbox  filterDimensionCheckbox star0" type="checkbox"
@@ -170,10 +170,9 @@
 {% block extraScripts %}
     <script>
         const filter_metadata = JSON.parse('{{ filter_metadata | safe }}');
-        const range_metadata = 3;
+        const range_metadata = JSON.parse('{{ price_metadata | safe }}');
     </script>
     <script type="text/javascript" src="{% static "js/bootstrap-slider.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/sliderControl.js" %}"></script>
     <script type="module" src="{% static "js/component.js" %}"></script>
     <script type="module" src="{% static "js/componentBrowse.js" %}"></script>
 {% endblock extraScripts %}

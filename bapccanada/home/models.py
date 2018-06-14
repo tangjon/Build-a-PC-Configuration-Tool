@@ -26,9 +26,14 @@ class Price(models.Model):
 
     @staticmethod
     def get_price_range(component_class_id):
+        # must convert to float for JSON.parse to work
+        minimum = float(Price.objects.filter(component__polymorphic_ctype_id=component_class_id).aggregate(Min('price'))["price__min"])
+        maximum = float(Price.objects.filter(component__polymorphic_ctype_id=component_class_id).aggregate(Max('price'))["price__max"])
         return {
-            "min": Price.objects.filter(component__polymorphic_ctype_id=component_class_id).aggregate(Min('price'))["price__min"],
-            "max": Price.objects.filter(component__polymorphic_ctype_id=component_class_id).aggregate(Max('price'))["price__max"]
+            "min": minimum,
+            "max": maximum,
+            "selected_min": minimum,
+            "selected_max": maximum
         }
 
 

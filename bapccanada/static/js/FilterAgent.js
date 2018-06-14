@@ -1,9 +1,11 @@
 'use strict';
 
-const aRatingIds = ["star0", "star1", "star2", "star3", "star4"];
+const aRatingIds = ["starA", "star0", "star1", "star2", "star3", "star4"];
 const sRangeId = "rangeSliderFilter";
 const sDimensionCheckboxPrefix = "filterChoice";
 const sAllCheckboxPrefix = "filterAllCheckBox";
+const sAllText = "ALL";
+const sAllStar = aRatingIds[0];
 
 export default class FilterAgent {
     constructor(oFilterMetadata) {
@@ -15,7 +17,34 @@ export default class FilterAgent {
     }
 
     initPriceRanges() {
-        this.oRangeFilter = $(sRangeId)[0];
+        const oRangeMetadata = this.getRangeMetadata();
+        const oRangeSlider = FilterAgent.getJqueryObject(sRangeId);
+        this.oRange = $.extend(true, {}, oRangeMetadata);
+        this.oRange.slider_checkbox = oRangeSlider;
+
+        oRangeSlider.slider({
+            tooltip: 'always',
+            formatter: value => {
+                return value;
+            }
+        });
+
+        oRangeSlider.on('change', (oEvent) => {
+            const oNewValue = oEvent && oEvent.value && oEvent.value.newValue;
+
+            if (oNewValue) {
+                this.updatePriceRanges(oNewValue);
+            }
+        });
+    }
+
+    updatePriceRanges(oUpdateTuple) {
+        const oRange = this.oRange;
+
+        if (this.oRange) {
+            oRange.selected_min = oUpdateTuple[0];
+            oRange.selected_max = oUpdateTuple[1];
+        }
     }
 
     /**
@@ -29,14 +58,18 @@ export default class FilterAgent {
                 return {
                     "star_num": parseInt(sRatingId.substr(sRatingId.length - 1)),
                     "star_id": sRatingId,
-                    "star_checkbox": FilterAgent.getJqueryObject(sRatingId)
+                    "star_checkbox": FilterAgent.getJqueryObject(sRatingId),
+                    "was_checked": false
                 };
             });
 
             this.mRatings = new Map();
             aRatings.forEach((oRating) => {
                 this.mRatings.set(oRating.star_id, oRating);
-            })
+            });
+
+            const oAllStarCheckbox = this.mRatings.get(sAllStar).star_checkbox;
+            this.attachAllCheckboxListener(oAllStarCheckbox);
         } else {
             // make sure to recheck appropriate checkboxes to match previous state
         }
@@ -54,7 +87,8 @@ export default class FilterAgent {
 
                 aDimensionEntries.forEach((oDimensionEntry) => {
                     let sSelector = oDimensionEntry.checkbox_id;
-                    if (oDimensionEntry.filter_value === "ALL") {
+                    const bIsAll = oDimensionEntry.filter_value === sAllText;
+                    if (bIsAll) {
                         sSelector = sAllCheckboxPrefix + sSelector;
                     } else {
                         sSelector = sDimensionCheckboxPrefix + sSelector;
@@ -62,6 +96,12 @@ export default class FilterAgent {
 
                     oDimensionEntry.value_checkbox = FilterAgent.getJqueryObject(sSelector);
                     oDimensionEntry.ui_dimension_name = sKey;
+
+                    if (bIsAll) {
+                        // now that we have the jQuery object, attach handler
+                        this.attachAllCheckboxListener(oDimensionEntry.value_checkbox);
+                    }
+
                     this.mDimensions.set(sSelector, oDimensionEntry);
                 });
             });
@@ -76,12 +116,60 @@ export default class FilterAgent {
      */
     restoreCheckboxState(aElementIds) {
         aElementIds.forEach((sElementId) => {
-            const bChecked = this.mDimensions.get(sElementId).was_checked;
+            const oElementEntry = this.mDimensions.get(sElementId);
+            const bChecked = oElementEntry.was_checked;
             if (bChecked) {
-                const oElement = FilterAgent.getJqueryObject(sElementId);
+                const oElement = oElementEntry.value_checkbox;
                 oElement.prop('checked', true);
             }
         })
+    }
+
+    /** Used to set checkboxes in bulk without caring about their present state
+     *  Intended to handle "ALL" checkbox click behaviour
+     *
+     * @param aElementIds     array of checkboxes to check
+     * @param bCheckedState   state to set checkbox to
+     */
+    setCheckboxState(aElementIds, bCheckedState) {
+        aElementIds.forEach((sElementId) => {
+            const oElementEntry = this.mDimensions.get(sElementId);
+            const oElement = oElementEntry.value_checkbox;
+            if (oElement) {
+                oElement.prop('checked', bCheckedState);
+            }
+        })
+    }
+
+    /** UI handler to tick/un-tick all checkboxes, then updates FilterAgent dimension model to match state
+     *
+     * @param oAllCheckbox
+     */
+    attachAllCheckboxListener(oAllCheckbox) {
+        oAllCheckbox.on('click', function (oEvent) {
+            const oClassList = oEvent && oEvent.currentTarget && oEvent.currentTarget.classList;
+
+            if (oClassList) {
+                const bAllChecked = !!oEvent.currentTarget.checked;
+                const aClassList = Array.from(oClassList);
+                const sSelector = aClassList.find((sClassValue) => {
+                    return sClassValue.startsWith(sAllCheckboxPrefix) || sClassValue === sAllStar;
+                });
+
+                // each checkbox contained in a li
+                const aSiblings = FilterAgent.getJqueryObject(sSelector).parent().siblings().children();
+                aSiblings.each((index, sibling) => {
+                    sibling.checked = bAllChecked;
+                });
+
+                this.onAllCheckboxClicked(sSelector);
+            }
+        }.bind(this));
+    }
+
+    // TODO
+    onAllCheckboxClicked(sSelector) {
+        return "";
     }
 
     getFilterMetadata() {

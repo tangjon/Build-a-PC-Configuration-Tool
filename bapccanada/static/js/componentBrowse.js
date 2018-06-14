@@ -33,6 +33,6 @@ $(document).ready(function () {
             doAjaxPost(oParam.oData, oParam.sUrl, oParam.fnSuccess);
         }.bind(button)
     });
-    const oMetadata = prepareMetadataForAgent(filter_metadata);
+    const oMetadata = prepareMetadataForAgent(filter_metadata, range_metadata);
     const oManager = new FilterAgent(oMetadata);
 });
