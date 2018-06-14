@@ -4,10 +4,11 @@ import getCookie from './CookieUtility.js';
 $(document).ready(function () {
     const csrftoken = getCookie('csrftoken');
     const fnDeleteReviewParam = function (oElement, sAction) {
-        const sUrl = oElement.id + '/delete';
+        const sUrl = 'delete';
         const oData = {
             "action": sAction,
-            'csrfmiddlewaretoken': csrftoken
+            'csrfmiddlewaretoken': csrftoken,
+            "pk": oElement.id
         };
         const fnSuccess = function (e) {
 
@@ -27,11 +28,12 @@ $(document).ready(function () {
     };
 
     const fnUpdateReviewParam = function (oElement, kwargs) {
-        const sUrl = kwargs['id'] + '/update';
+        const sUrl = 'update';
         const oData = {
             "action": kwargs['action'],
             "csrfmiddlewaretoken": csrftoken,
-            "data": kwargs['data']
+            "data": kwargs['data'],
+            "pk": kwargs['pk']
         };
         const fnSuccess = function (e) {
             oElement.find('.review-text-edit').hide();
@@ -77,7 +79,7 @@ $(document).ready(function () {
         if (window.confirm(message_confirm)) {
             const oParam = fnUpdateReviewParam($review, {
                 "action": "update",
-                "id": $review[0].id,
+                "pk": $review[0].id,
                 "data": $review.find('.review-text-edit')[0].value
             });
             doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);

@@ -99,42 +99,48 @@ class ReviewView(BaseProfileView):
 
 
 def review_delete(request, **kwargs):
-    try:
-        review = request.user.userprofile.review_set.get(pk=kwargs['pk'])
-    except Review.DoesNotExist:
-        raise Http404()
     if request.method == 'POST':
-        if review.user.pk == request.user.pk:
+        if 'action' in request.POST and request.POST['action'] == 'delete' and 'pk' in request.POST:
+            pk = request.POST['pk']
+            try:
+                # This enforces the review is from request.user and not from someone else
+                review = request.user.userprofile.review_set.get(pk=pk)
+            except Review.DoesNotExist:
+                raise Http404()
+            # At this point its assumed the review is owned by the request.user (the user logged in)
             review.delete()
             data = {
                 "was_deleted": True,
-                "pk": kwargs['pk']
+                "pk": pk
             }
             return JsonResponse(data)
-    return Http404()
+    raise Http404()
 
 
 def review_update(request, **kwargs):
-    try:
-        review = request.user.userprofile.review_set.get(pk=kwargs['pk'])
-    except Review.DoesNotExist:
-        raise Http404()
-
     if request.method == 'POST':
-        form = ReviewForm(data={
-            "content": request.POST['data']
-        })
-        if form.is_valid():
-            review.content = form.cleaned_data['content']
-            review.save()
-            return JsonResponse({
-                "is_updated": True,
-                "pk": kwargs['pk'],
-                "data": {
-                    "content": review.content
-                }
+        if 'action' in request.POST and request.POST['action'] == 'update' and 'pk' in request.POST:
+            pk = request.POST['pk']
+
+            try:
+                review = request.user.userprofile.review_set.get(pk=pk)
+            except Review.DoesNotExist:
+                raise Http404()
+
+            form = ReviewForm(data={
+                "content": request.POST['data']
             })
-    return Http404()
+            if form.is_valid():
+                review.content = form.cleaned_data['content']
+                review.save()
+                return JsonResponse({
+                    "is_updated": True,
+                    "pk": pk,
+                    "data": {
+                        "content": review.content
+                    }
+                })
+    raise Http404()
 
 
 class BuildsView(BaseProfileView):
