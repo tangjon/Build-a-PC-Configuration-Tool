@@ -14,9 +14,10 @@
                     <ul class="list-group">
                         {% if builds %}
                             {% for item in builds %}
-                                <li class="list-group-item {% if pk == item.pk %}active{% endif %}"><a
-                                        href="{% url 'user:builds' browse_user.username %}{{ item.id }}"
-                                        class="bapc-list-item bapc-link">Build {{ item.name }}</a>
+                                <li id="{{ item.pk }}" class="list-group-item {% if pk == item.pk %}active{% endif %}">
+                                    <a
+                                            href="{% url 'user:builds' browse_user.username %}{{ item.id }}"
+                                            class="bapc-list-item bapc-link">Build {{ item.name }}</a>
                                 </li>
 
                             {% endfor %}
@@ -32,8 +33,8 @@
                     <div class="flat-panel">
                         <div><b>{{ build.name }}</b></div>
                         <div class="btn-panel mb-2">
-                            <button class="btn btn-warning bapc-btn">Edit</button>
-                            <button class="btn btn-danger bapc-btn">Delete</button>
+                            <button id="edit_build" class="btn btn-warning bapc-btn">Edit</button>
+                            <button id="delete_build" class="btn btn-danger bapc-btn">Delete</button>
                         </div>
                     </div>
                     {% if build %}

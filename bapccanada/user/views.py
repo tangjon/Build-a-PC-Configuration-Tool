@@ -145,6 +145,9 @@ class BuildsView(BaseProfileView):
     template_name = 'builds.html'
     title_name = 'Builds'
 
+    def post(self, request, *args, **kwargs):
+        pass
+
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)
         context['builds'] = self.browse_user.userprofile.build_set.all()

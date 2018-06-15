@@ -17,6 +17,7 @@ urlpatterns = [
     path('comments/update/', review_update, name="review_update"),
     path('builds/', BuildsView.as_view(), name="builds"),
     path('builds/<int:pk>', BuildsView.as_view(), name="builds"),
+    path('builds/edit', BuildsView.as_view(), name="builds_edit"),
     path('security/', SecurityView.as_view(), name="security"),
     path('saved/', SavedView.as_view(), name="saved")
 ]

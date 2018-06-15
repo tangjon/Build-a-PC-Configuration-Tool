@@ -3,8 +3,15 @@ import getCookie from './CookieUtility.js';
 
 $(document).ready(function () {
     const csrftoken = getCookie('csrftoken');
+
+
+    /*
+    * REVIEWS
+    * - update
+    * - delete
+    * */
     const fnDeleteReviewParam = function (oElement, sAction) {
-        const sUrl = 'delete';
+        const sUrl = 'delete/';
         const oData = {
             "action": sAction,
             'csrfmiddlewaretoken': csrftoken,
@@ -28,7 +35,7 @@ $(document).ready(function () {
     };
 
     const fnUpdateReviewParam = function (oElement, kwargs) {
-        const sUrl = 'update';
+        const sUrl = 'update/';
         const oData = {
             "action": kwargs['action'],
             "csrfmiddlewaretoken": csrftoken,
@@ -84,8 +91,45 @@ $(document).ready(function () {
             });
             doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);
         }
-
     })
 
+
+    /*
+    * BUILDS
+    * - edit
+    * - delete
+    * */
+
+    const fnEditBuildParam = function (oElement, kwargs) {
+        const sUrl = 'edit';
+        const oData = {
+            "action": kwargs['action'],
+            "csrfmiddlewaretoken": csrftoken,
+            "data": kwargs['data'],
+            "pk": kwargs['pk']
+        };
+        const fnSuccess = function (e) {
+
+        };
+
+        const fnError = function (e) {
+            console.log(e);
+        };
+        return {
+            oData: oData,
+            sUrl: sUrl,
+            success: fnSuccess,
+            error: fnError
+        };
+    };
+
+    // $('#edit_build').click(() => {
+    //     const pk = $('.list-group-item.active')[0].id;
+    //     console.log(pk)
+    // });
+
+    $('#edit_build').click(() => {
+        console.log("hello")
+    });
 
 });
