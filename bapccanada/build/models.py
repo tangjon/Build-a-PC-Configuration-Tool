@@ -21,7 +21,8 @@ class Build(models.Model):
     anonymous_session = models.CharField(max_length=200, null=True, unique=True)
     total_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     points = models.IntegerField(default=0, blank=True, null=True)
-    date_published = models.DateTimeField(auto_now_add=True)
+    date_published = models.DateTimeField(default=timezone.now, editable=True)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -77,10 +78,11 @@ class Build(models.Model):
     def get_total_price(self):
         component_array = self.get_component_array()
         component_array = map(lambda component: Decimal(0.0) if not component else (Decimal(component.cheapest_price)
-                                                                                    + Decimal(component.cheapest_price_shipping))
+                                                                                    + Decimal(
+                    component.cheapest_price_shipping))
                               , component_array)
 
-        return reduce(lambda total, current: total+current, component_array)
+        return reduce(lambda total, current: total + current, component_array)
 
     def modify_component(self, component, modifier):
         replacement_value = None if modifier == "remove" else component

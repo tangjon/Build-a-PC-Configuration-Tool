@@ -8,7 +8,7 @@ admin.site.register(Review)
 
 
 class BuildAdmin(admin.ModelAdmin):
-    readonly_fields = ('date_published',)
+    readonly_fields = ('date_created',)
 
 
 admin.site.register(Build, BuildAdmin)
