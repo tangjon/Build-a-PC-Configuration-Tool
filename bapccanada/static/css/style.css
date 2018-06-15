@@ -82,7 +82,7 @@ a:hover {
     font-weight: 600;
 }
 
-.bapc-link:hover {
+.bapc-link.cat-block:hover {
     color: #f9bf3b;
     text-decoration: none;
     background-color: #243240;

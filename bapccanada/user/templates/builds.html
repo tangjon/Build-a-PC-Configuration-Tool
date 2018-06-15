@@ -7,104 +7,112 @@
 
 {% block bapc-body-content-container %}
     <div class="container py-3">
+        {% if builds.count > 0 %}
+            <div class="row">
+                <div class="col-lg-4">
+                    <h2 class="mt-2">Build List</h2>
+                    <ul class="list-group">
+                        {% if builds %}
+                            {% for item in builds %}
+                                <li class="list-group-item {% if pk == item.pk %}active{% endif %}"><a
+                                        href="{% url 'user:builds' browse_user.username %}{{ item.id }}"
+                                        class="bapc-list-item bapc-link">Build {{ item.name }}</a>
+                                </li>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2 class="mt-2">Build List</h2>
-                <ul class="list-group">
-                    {% if builds %}
-                        {% for item in builds %}
-                            <li class="list-group-item {% if pk == item.pk %}active{% endif %}"><a
-                                    href="{% url 'user:builds' browse_user.username %}{{ item.id }}"
-                                    class="bapc-list-item bapc-link">Build {{ item.name }}</a>
-                            </li>
-
-                        {% endfor %}
-                    {% else %}
-                        <li class="list-group-item {% if pk == item.id %}active{% endif %}">No builds yet. Create one!
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-            <div class="col-lg-8">
-
-                <div class="flat-panel">
-                    <div><b>{{ build.name }}</b></div>
-                    <div class="btn-panel mb-2">
-                        <button class="btn btn-warning bapc-btn">Edit</button>
-                        <button class="btn btn-danger bapc-btn">Delete</button>
-                    </div>
-                </div>
-                {% if build %}
-                    <div>
-                        <table class="table table-striped componentListTable">
-                            <thead class="componentListTop">
-                            <tr>
-                                <th scope="col" colspan="2">Component</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Shipping</th>
-                                <th scope="col">Merchant</th>
-                                <th scope="col"></th>
-                            </tr>
-                            </thead>
-                            <tbody class="componentListBody">
-                            {% for category, component in component_list.items %}
-                                <tr>
-                                    <th scope="row"><a class="browseCategory"
-                                                       href="{% url component.category_link %}">{{ category }}</a></th>
-                                    {% if not component.object %}
-                                        <td class="productImage"></td>
-                                        <td>
-                                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm"
-                                               role="button">Add a
-                                                {{ category }}</a>
-                                        </td>
-                                        <td></td>
-                                        <td class="shippingCost"></td>
-                                        <td></td>
-                                        <td></td>
-                                    {% else %}
-                                        <td class="productImage">
-                                            <div class="imageWrapper">
-                                                <img src="{% static 'assets/gpu.jpg' %}">
-                                            </div>
-                                        </td>
-                                        <td><a class="productTitle"
-                                               href="{% url component.detail_link component.object.slug %}">{{ component.object.display_title }}</a>
-                                        </td>
-                                        <td><a class="productPrice"
-                                               href="{{ component.object.cheapest_price_store_link }}">
-                                            ${{ component.object.cheapest_price }}</a>
-                                        </td>
-                                        <td class="shippingCost">
-                                            {% if component.object.cheapest_price_shipping > 0.0 %}
-                                                ${{ component.object.cheapest_price_shipping }}
-                                            {% endif %}
-                                            {% if component.object.cheapest_price_shipping == 0.0 %}
-                                                FREE
-                                            {% endif %}
-                                        </td>
-                                        <td><a class="productShopLink"
-                                               href="{{ component.object.cheapest_price_store_link }}">
-                                            {{ component.object.cheapest_price_store }}</a>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm">Buy</button>
-                                        </td>
-                                    {% endif %}
-                                </tr>
                             {% endfor %}
-                            <tr class="totalPriceSummaryRow">
-                                <td colspan="6" class="text-right">Total</td>
-                                <td class="text-center">${{ build.get_total_price }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        {% else %}
+                            <li class="list-group-item {% if pk == item.id %}active{% endif %}">No builds yet. Create
+                                one!
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-lg-8">
 
-                {% endif %}
+                    <div class="flat-panel">
+                        <div><b>{{ build.name }}</b></div>
+                        <div class="btn-panel mb-2">
+                            <button class="btn btn-warning bapc-btn">Edit</button>
+                            <button class="btn btn-danger bapc-btn">Delete</button>
+                        </div>
+                    </div>
+                    {% if build %}
+                        <div>
+                            <table class="table table-striped componentListTable">
+                                <thead class="componentListTop">
+                                <tr>
+                                    <th scope="col" colspan="2">Component</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Shipping</th>
+                                    <th scope="col">Merchant</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="componentListBody">
+                                {% for category, component in component_list.items %}
+                                    <tr>
+                                        <th scope="row"><a class="browseCategory"
+                                                           href="{% url component.category_link %}">{{ category }}</a>
+                                        </th>
+                                        {% if not component.object %}
+                                            <td class="productImage"></td>
+                                            <td>
+                                                <a href="{% url component.category_link %}"
+                                                   class="btn btn-primary btn-sm"
+                                                   role="button">Add a
+                                                    {{ category }}</a>
+                                            </td>
+                                            <td></td>
+                                            <td class="shippingCost"></td>
+                                            <td></td>
+                                            <td></td>
+                                        {% else %}
+                                            <td class="productImage">
+                                                <div class="imageWrapper">
+                                                    <img src="{% static 'assets/gpu.jpg' %}">
+                                                </div>
+                                            </td>
+                                            <td><a class="productTitle"
+                                                   href="{% url component.detail_link component.object.slug %}">{{ component.object.display_title }}</a>
+                                            </td>
+                                            <td><a class="productPrice"
+                                                   href="{{ component.object.cheapest_price_store_link }}">
+                                                ${{ component.object.cheapest_price }}</a>
+                                            </td>
+                                            <td class="shippingCost">
+                                                {% if component.object.cheapest_price_shipping > 0.0 %}
+                                                    ${{ component.object.cheapest_price_shipping }}
+                                                {% endif %}
+                                                {% if component.object.cheapest_price_shipping == 0.0 %}
+                                                    FREE
+                                                {% endif %}
+                                            </td>
+                                            <td><a class="productShopLink"
+                                                   href="{{ component.object.cheapest_price_store_link }}">
+                                                {{ component.object.cheapest_price_store }}</a>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">Buy</button>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                <tr class="totalPriceSummaryRow">
+                                    <td colspan="6" class="text-right">Total</td>
+                                    <td class="text-center">${{ build.get_total_price }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="row">
+                <p>No builds to show! Create one <a href="{% url 'build:create' %}">here</a>! </p>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

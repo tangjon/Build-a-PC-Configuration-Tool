@@ -50,6 +50,22 @@
             width: 100%;
         }
 
+        .bapc-btn-primary {
+            color: #fff;
+
+            background-color: #ff952f;
+        }
+
+        .bapc-btn-primary:hover {
+            color: #fff;
+            background-color: #ff7e00;
+        }
+
+        .bapc-btn-primary.btn:focus {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgb(255, 227, 201);
+        }
+
         @media (min-width: 995px) {
             .cat-block {
                 width: calc(100% * (1 / 3) - 10px - 1px)
@@ -79,8 +95,6 @@
 {% block bapc-body-content-container %}
     <div class="container home-container pt-3">
         <div>
-            {# TODO display on if complete       #}
-
             <div class="row">
                 <div class="col">
                     <h3 class="bapc-section-title">PARTS PARTS PARTS!
@@ -98,7 +112,7 @@
                 <div class="col">
                     <div class="flat-panel">
                         <h3 class="bapc-section-title">Recent Builds</h3>
-                        <a class="btn btn-primary bapc-link text-white" href="{% url 'build:create' %}">Start a
+                        <a class="btn bapc-link bapc-btn-primary" href="{% url 'build:create' %}">Start a
                             Build</a>
                     </div>
                     <hr class="bapc">
@@ -111,7 +125,7 @@
                         <div class="flat-panel">
                             <div>By <a href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a>
                             </div>
-                                   <div>{{ build.date_published }}</div>
+                            <div>{{ build.date_published }}</div>
                             <span>Points {{ build.points }}</span>
                         </div>
                         <hr>
