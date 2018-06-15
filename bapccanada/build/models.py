@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 from functools import reduce
 from decimal import Decimal
 
+from django.utils import timezone
+
 from products.models import GPU, CPU, Monitor
 from user.models import UserProfile
 
@@ -19,6 +21,7 @@ class Build(models.Model):
     anonymous_session = models.CharField(max_length=200, null=True, unique=True)
     total_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     points = models.IntegerField(default=0, blank=True, null=True)
+    date_published = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

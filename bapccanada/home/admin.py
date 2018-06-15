@@ -5,5 +5,10 @@ from build.models import Build
 # Register your models here.
 admin.site.register(GPU)
 admin.site.register(Review)
-admin.site.register(Build)
 
+
+class BuildAdmin(admin.ModelAdmin):
+    readonly_fields = ('date_published',)
+
+
+admin.site.register(Build, BuildAdmin)

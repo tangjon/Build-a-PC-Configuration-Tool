@@ -91,7 +91,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['deals'] = self.oDeals
         context['components'] = self.components
-        context['builds'] = Build.objects.all().order_by('points')[:3]
+        context['builds'] = Build.objects.all().order_by('date_published')[:3]
         return context
 
 
