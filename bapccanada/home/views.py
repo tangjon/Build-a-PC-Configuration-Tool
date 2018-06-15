@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 
@@ -11,7 +13,7 @@ from .constants import FRONT_END_URLS
 
 class HomeView(TemplateView):
     template_name = 'home.html'
-    data = {
+    oDeals = {
         "0": {
             "cheapest_price": 584.99,
             "current_price": 512.99,
@@ -66,11 +68,29 @@ class HomeView(TemplateView):
 
     }
 
-    choices = {'key1': 'val1', 'key2': 'val2'}
+    components = {
+        "cpu": {
+            "name": "CPU",
+            "url": reverse_lazy('products:cpu'),
+            "img": static('assets/icons/cpu.png')
+        },
+        "gpu": {
+            "name": "GPU",
+            "url": reverse_lazy('products:gpu'),
+            "img": static('assets/icons/gpu.png')
+        },
+        "monitor": {
+            "name": "Monitor",
+            "url": reverse_lazy('products:monitors'),
+            "img": static('assets/icons/monitor.png')
+        },
+
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['deals'] = self.data
+        context['deals'] = self.oDeals
+        context['components'] = self.components
         context['builds'] = Build.objects.all().order_by('points')[:3]
         return context
 
