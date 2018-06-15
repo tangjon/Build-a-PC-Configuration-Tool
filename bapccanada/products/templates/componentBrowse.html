@@ -15,7 +15,8 @@
                 <div class="filterPanelTitle">PRICE</div>
                 <input class="rangeSliderFilter span2" type="text" value="" data-slider-min="{{ price_range.min }}"
                        data-slider-max="{{ price_range.max }}"
-                       data-slider-step="5" data-slider-value="[{{ price_range.selected_min }},{{ price_range.selected_max }}]"/>
+                       data-slider-step="5"
+                       data-slider-value="[{{ price_range.selected_min }},{{ price_range.selected_max }}]"/>
             </div>
 
             <div class="filterPanel">
@@ -109,6 +110,10 @@
                     </ul>
                 </div>
             {% endfor %}
+            <div class="filterControl">
+                <button type="button" class="btn btn-primary filterApplyButton">Apply</button>
+                <button type="button" class="btn btn-secondary filterResetButton">Reset</button>
+            </div>
 
         </div>
         <div class="browseRightColumn col">

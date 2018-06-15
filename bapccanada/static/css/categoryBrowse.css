@@ -64,6 +64,13 @@ ul {
     vertical-align: middle;
 }
 
+.bapc-body-content .filterControl {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: row;
+}
+
 .productStars span:not(:last-child) {
     color: orange;
     font-size: 9px;

@@ -1,19 +1,22 @@
 'use strict';
 
-const aRatingIds = ["starA", "star0", "star1", "star2", "star3", "star4"];
+const aRatingIds = ["starA", "star0", "star1", "star2", "star3", "star4", "star5"];
 const sRangeId = "rangeSliderFilter";
 const sDimensionCheckboxPrefix = "filterChoice";
 const sAllCheckboxPrefix = "filterAllCheckBox";
 const sAllText = "ALL";
 const sAllStar = aRatingIds[0];
+const sResetButton = "filterResetButton";
+const sApplyButton = "filterApplyButton";
 
 export default class FilterAgent {
     constructor(oFilterMetadata) {
-        // do initial setup
         this._filterMetadata = oFilterMetadata;
         this.initRatings();
         this.initPriceRanges();
         this.initDimensionModel();
+
+        this.setupControlButtons();
     }
 
     initPriceRanges() {
@@ -94,6 +97,7 @@ export default class FilterAgent {
                         sSelector = sDimensionCheckboxPrefix + sSelector;
                     }
 
+                    oDimensionEntry.checkbox_id = sSelector;
                     oDimensionEntry.value_checkbox = FilterAgent.getJqueryObject(sSelector);
                     oDimensionEntry.ui_dimension_name = sKey;
 
@@ -133,8 +137,8 @@ export default class FilterAgent {
      */
     setCheckboxState(aElementIds, bCheckedState) {
         aElementIds.forEach((sElementId) => {
-            const oElementEntry = this.mDimensions.get(sElementId);
-            const oElement = oElementEntry.value_checkbox;
+            const oElementEntry = this.mDimensions.get(sElementId) || this.mRatings.get(sElementId);
+            const oElement = oElementEntry.value_checkbox || oElementEntry.star_checkbox;
             if (oElement) {
                 oElement.prop('checked', bCheckedState);
             }
@@ -162,14 +166,34 @@ export default class FilterAgent {
                     sibling.checked = bAllChecked;
                 });
 
-                this.onAllCheckboxClicked(sSelector);
             }
         }.bind(this));
     }
 
-    // TODO
-    onAllCheckboxClicked(sSelector) {
-        return "";
+    setupControlButtons() {
+        this.oResetButton = FilterAgent.getJqueryObject(sResetButton);
+        this.oApplyButton = FilterAgent.getJqueryObject(sApplyButton);
+
+        this.oResetButton.on('click', function() {
+            this.wipeSelections();
+        }.bind(this));
+    }
+
+    wipeSelections() {
+        let oDimensionCheckboxes = Array.from(this.mDimensions.values());
+        oDimensionCheckboxes = oDimensionCheckboxes.map((oDimensionEntry) => {
+            return oDimensionEntry.checkbox_id;
+        });
+
+        let oRatingCheckboxes = Array.from(this.mRatings.values());
+        oRatingCheckboxes = oRatingCheckboxes.map((oRatingEntry) => {
+            return oRatingEntry.star_id;
+        });
+
+        const oAllCheckboxes = oDimensionCheckboxes.concat(oRatingCheckboxes);
+        this.setCheckboxState(oAllCheckboxes, false);
+
+        this.oRange.slider_checkbox.slider('setValue', [this.oRange.min, this.oRange.max], true, true);
     }
 
     getFilterMetadata() {
