@@ -1,6 +1,6 @@
 from django.contrib import admin
 from products.models import GPU, Review
-from build.models import Build
+from build.models import Build, CurrentBuild
 
 # Register your models here.
 admin.site.register(GPU)
@@ -12,3 +12,5 @@ class BuildAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Build, BuildAdmin)
+
+admin.site.register(CurrentBuild)

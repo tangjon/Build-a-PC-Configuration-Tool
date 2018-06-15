@@ -4,12 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.http import JsonResponse, Http404, HttpResponseNotFound
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DeleteView
 
-from build.models import Build
+from build.models import Build, CurrentBuild
 from products.models import Review
 from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm, ReviewForm
 from user.models import UserProfile
@@ -146,7 +146,20 @@ class BuildsView(BaseProfileView):
     title_name = 'Builds'
 
     def post(self, request, *args, **kwargs):
-        pass
+        if 'action' in request.POST and request.POST['action'] == 'edit' and 'build_pk' in request.POST:
+            try:
+                edit_build = request.user.userprofile.build_set.get(pk=request.POST['build_pk'])
+            except Build.DoesNotExist:
+                raise Http404()
+
+            # Replace current build with new edit request
+            currentBuild = CurrentBuild.objects.get(tracked_build=request.user.userprofile.currentbuild.tracked_build)
+            currentBuild.tracked_build = edit_build
+            currentBuild.save()
+            return JsonResponse({
+                "redirect_url": reverse_lazy('build:create')
+            })
+        raise Http404()
 
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)

@@ -100,16 +100,15 @@ $(document).ready(function () {
     * - delete
     * */
 
-    const fnEditBuildParam = function (oElement, kwargs) {
-        const sUrl = 'edit';
+    const fnEditBuildParam = function (kwargs) {
+        const sUrl = 'edit/';
         const oData = {
             "action": kwargs['action'],
             "csrfmiddlewaretoken": csrftoken,
-            "data": kwargs['data'],
-            "pk": kwargs['pk']
+            "build_pk": kwargs['build_pk'],
         };
         const fnSuccess = function (e) {
-
+            window.location = e['redirect_url']
         };
 
         const fnError = function (e) {
@@ -123,13 +122,18 @@ $(document).ready(function () {
         };
     };
 
-    // $('#edit_build').click(() => {
-    //     const pk = $('.list-group-item.active')[0].id;
-    //     console.log(pk)
-    // });
-
     $('#edit_build').click(() => {
-        console.log("hello")
+        const $selected_build = $('.list-group-item.active');
+        if ($selected_build.length) {
+            // this is bad!
+            const build_pk = $selected_build[0].id;
+            const oParam = fnEditBuildParam({
+                'action': 'edit',
+                'build_pk': build_pk,
+            });
+            doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);
+        }
     });
+
 
 });

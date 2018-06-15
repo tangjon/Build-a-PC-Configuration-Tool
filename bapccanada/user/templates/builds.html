@@ -14,7 +14,7 @@
                     <ul class="list-group">
                         {% if builds %}
                             {% for item in builds %}
-                                <li id="{{ item.pk }}" class="list-group-item {% if pk == item.pk %}active{% endif %}">
+                                <li id="{{ item.pk }}" class="{{ user.pk }} list-group-item {% if pk == item.pk %}active{% endif %}">
                                     <a
                                             href="{% url 'user:builds' browse_user.username %}{{ item.id }}"
                                             class="bapc-list-item bapc-link">Build {{ item.name }}</a>
