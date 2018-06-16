@@ -21,12 +21,9 @@ export function doAjaxGet(oData, sUrl, fnSuccess, fnError) {
         type: "GET",
         url: sUrl,
         data: oData,
-        dataType: "json",
+        cache: false,
         success: (fnSuccess && typeof fnSuccess === "function") ? fnSuccess : function (data, textStatus) {
-            if (data.redirect) {
-                // data.redirect contains the string URL to redirect to
-                window.location.href = data.redirect;
-            }
+            $("body").html(data);
         },
         error: (fnError && typeof fnError === "function") ? fnError : function (error) {
             console.log("Error! " + error);

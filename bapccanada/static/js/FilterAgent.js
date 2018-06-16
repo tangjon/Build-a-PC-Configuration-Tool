@@ -1,5 +1,7 @@
 'use strict';
 
+import {doAjaxGet} from "./AjaxUtility.js";
+
 const aRatingIds = ["starA", "star0", "star1", "star2", "star3", "star4", "star5"];
 const sRangeId = "rangeSliderFilter";
 const sDimensionCheckboxPrefix = "filterChoice";
@@ -56,14 +58,19 @@ export default class FilterAgent {
      */
     initRatings() {
         if (!this.getRatingMetadata()) {
+            const oFilterMetadata = this.getFilterMetadata();
+            oFilterMetadata.ratings = {};
             // no rating response from server, create default mapping without checking state
             const aRatings = aRatingIds.map((sRatingId) => {
-                return {
+                const oMappedRating = {
                     "star_num": parseInt(sRatingId.substr(sRatingId.length - 1)),
                     "star_id": sRatingId,
                     "star_checkbox": FilterAgent.getJqueryObject(sRatingId),
                     "was_checked": false
                 };
+
+                oFilterMetadata.ratings[sRatingId] = oMappedRating;
+                return oMappedRating;
             });
 
             this.mRatings = new Map();
@@ -88,7 +95,7 @@ export default class FilterAgent {
             aDimensionKeys.forEach((sKey) => {
                 const aDimensionEntries = $.extend(true, [], oDimensionMetadata[sKey]);
 
-                aDimensionEntries.forEach((oDimensionEntry) => {
+                aDimensionEntries.forEach((oDimensionEntry, iIndex) => {
                     let sSelector = oDimensionEntry.checkbox_id;
                     const bIsAll = oDimensionEntry.filter_value === sAllText;
                     if (bIsAll) {
@@ -97,6 +104,7 @@ export default class FilterAgent {
                         sSelector = sDimensionCheckboxPrefix + sSelector;
                     }
 
+                    oDimensionMetadata[sKey][iIndex].checkbox_id = sSelector;
                     oDimensionEntry.checkbox_id = sSelector;
                     oDimensionEntry.value_checkbox = FilterAgent.getJqueryObject(sSelector);
                     oDimensionEntry.ui_dimension_name = sKey;
@@ -174,26 +182,71 @@ export default class FilterAgent {
         this.oResetButton = FilterAgent.getJqueryObject(sResetButton);
         this.oApplyButton = FilterAgent.getJqueryObject(sApplyButton);
 
-        this.oResetButton.on('click', function() {
+        this.oResetButton.on('click', function () {
             this.wipeSelections();
         }.bind(this));
+
+        this.oApplyButton.on('click', function () {
+            const oQueryJson = this.prepareSelectionsForQuery();
+            doAjaxGet(oQueryJson, window.location.href);
+        }.bind((this)));
     }
 
     wipeSelections() {
-        let oDimensionCheckboxes = Array.from(this.mDimensions.values());
-        oDimensionCheckboxes = oDimensionCheckboxes.map((oDimensionEntry) => {
+        let aDimensionCheckboxes = Array.from(this.mDimensions.values());
+        aDimensionCheckboxes = aDimensionCheckboxes.map((oDimensionEntry) => {
             return oDimensionEntry.checkbox_id;
         });
 
-        let oRatingCheckboxes = Array.from(this.mRatings.values());
-        oRatingCheckboxes = oRatingCheckboxes.map((oRatingEntry) => {
+        let aRatingCheckboxes = Array.from(this.mRatings.values());
+        aRatingCheckboxes = aRatingCheckboxes.map((oRatingEntry) => {
             return oRatingEntry.star_id;
         });
 
-        const oAllCheckboxes = oDimensionCheckboxes.concat(oRatingCheckboxes);
-        this.setCheckboxState(oAllCheckboxes, false);
+        const aAllCheckboxes = aDimensionCheckboxes.concat(aRatingCheckboxes);
+        this.setCheckboxState(aAllCheckboxes, false);
 
         this.oRange.slider_checkbox.slider('setValue', [this.oRange.min, this.oRange.max], true, true);
+    }
+
+    prepareSelectionsForQuery() {
+        let oQueryJson = $.extend(true, {}, this.getFilterMetadata());
+        this.updateDimensionSelectionState(oQueryJson.dimensions);
+        this.updateRatingSelectionState(oQueryJson.ratings);
+        delete this.oRange["slider_checkbox"];
+        oQueryJson.ranges = this.oRange;
+
+        return oQueryJson;
+    }
+
+    updateDimensionSelectionState(oDimensionJson) {
+        const mDimensions = this.mDimensions;
+
+        Object.keys(oDimensionJson).forEach((sKey) => {
+           const oDimension = oDimensionJson[sKey];
+
+           Object.keys(oDimension).forEach((sDimensionKey) => {
+               const oDimensionEntry = mDimensions.get(oDimension[sDimensionKey].checkbox_id);
+
+               if (oDimensionEntry) {
+                   oDimensionJson[sKey][sDimensionKey].was_checked = oDimensionEntry.value_checkbox[0].checked;
+               }
+           })
+        });
+
+    }
+
+    updateRatingSelectionState(oRatingJson) {
+        const mRatings = this.mRatings;
+
+        Object.keys(oRatingJson).forEach((sKey) => {
+            const oDimensionEntry = mRatings.get(sKey);
+
+            if (oDimensionEntry) {
+                oRatingJson[sKey].was_checked =  oDimensionEntry.star_checkbox[0].checked;
+                delete oRatingJson[sKey]["star_checkbox"];
+            }
+        });
     }
 
     getFilterMetadata() {
