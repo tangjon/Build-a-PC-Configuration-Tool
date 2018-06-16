@@ -1,4 +1,4 @@
-import doAjaxPost from './AjaxUtility.js';
+import {doAjaxPost} from './AjaxUtility.js';
 import getCookie from './CookieUtility.js';
 import fnCheckUserAuthentication from './LoginUtility.js';
 import {BUILD_SAVE, COMPONENT_CHANGE, BUILD_URL, NEW_BUILD_URL} from './LinkConstants.js';
@@ -11,17 +11,9 @@ const fnCreateAddAjaxParameters = function (oElement, sAction) {
         "action": sAction,
         'csrfmiddlewaretoken': csrftoken
     };
-    const fnSuccess = function (data, textStatus) {
-        if (data.redirect) {
-            // data.redirect contains the string URL to redirect to
-            window.location.href = data.redirect;
-        }
-    };
-
     return {
         oData: oData,
-        sUrl: sUrl,
-        fnSuccess: fnSuccess
+        sUrl: sUrl
     };
 };
 
@@ -97,18 +89,12 @@ const fnSetupNewBuildButton = function () {
     const oNewBuildButton = $(".new-build-button");
 
     oNewBuildButton.on('click', function () {
-        const fnSuccess = function (data, textStatus) {
-            if (data.redirect) {
-                // data.redirect contains the string URL to redirect to
-                window.location.href = data.redirect;
-            }
-        };
         const oData = {
             "action": "new",
             'csrfmiddlewaretoken': csrftoken
         };
 
-        doAjaxPost(oData, NEW_BUILD_URL, fnSuccess);
+        doAjaxPost(oData, NEW_BUILD_URL);
     });
 };
 
@@ -117,7 +103,7 @@ $(document).ready(function () {
     $(".removeComponentButton").each((index, button) => {
         button.onclick = function () {
             const oParam = fnCreateAddAjaxParameters(this, "remove");
-            doAjaxPost(oParam.oData, oParam.sUrl, oParam.fnSuccess);
+            doAjaxPost(oParam.oData, oParam.sUrl);
         }.bind(button)
     });
 

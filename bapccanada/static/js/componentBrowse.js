@@ -1,4 +1,4 @@
-import doAjaxPost from "./AjaxUtility.js";
+import {doAjaxPost} from "./AjaxUtility.js";
 import {COMPONENT_CHANGE} from "./LinkConstants.js";
 import getCookie from "./CookieUtility.js";
 import FilterAgent from "./FilterAgent.js"
@@ -12,17 +12,9 @@ const fnCreateAddAjaxParameters = function (oElement, sAction) {
         "action": sAction,
         'csrfmiddlewaretoken': csrftoken
     };
-    const fnSuccess = function (data, textStatus) {
-        if (data.redirect) {
-            // data.redirect contains the string URL to redirect to
-            window.location.href = data.redirect;
-        }
-    };
-
     return {
         oData: oData,
-        sUrl: sUrl,
-        fnSuccess: fnSuccess
+        sUrl: sUrl
     };
 };
 
@@ -30,7 +22,7 @@ $(document).ready(function () {
     $(".addComponentButton").each((index, button) => {
         button.onclick = function () {
             const oParam = fnCreateAddAjaxParameters(this, "add");
-            doAjaxPost(oParam.oData, oParam.sUrl, oParam.fnSuccess);
+            doAjaxPost(oParam.oData, oParam.sUrl);
         }.bind(button)
     });
     const oMetadata = prepareMetadataForAgent(filter_metadata, range_metadata);

@@ -1,4 +1,4 @@
-import doAjaxPost from "./AjaxUtility.js"
+import {doAjaxPost} from "./AjaxUtility.js"
 import getCookie from "./CookieUtility.js";
 import {SAVE_REVIEW_URL} from "./LinkConstants.js";
 
@@ -31,14 +31,7 @@ const fnSetupAddReview = function () {
                 'csrfmiddlewaretoken': csrftoken
             };
 
-            const fnSuccess = function (data, textStatus) {
-                if (data.redirect && data.was_added) {
-                    // data.redirect contains the string URL to redirect to
-                    window.location.href = data.redirect;
-                }
-            };
-
-            doAjaxPost(oData, SAVE_REVIEW_URL, fnSuccess)
+            doAjaxPost(oData, SAVE_REVIEW_URL)
         }.bind(oSaveButton));
     }
 };

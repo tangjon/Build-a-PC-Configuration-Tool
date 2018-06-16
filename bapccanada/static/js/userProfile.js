@@ -1,4 +1,4 @@
-import doAjaxPost from './AjaxUtility.js';
+import {doAjaxPost} from './AjaxUtility.js';
 import getCookie from './CookieUtility.js';
 
 $(document).ready(function () {
@@ -44,9 +44,9 @@ $(document).ready(function () {
         };
         const fnSuccess = function (e) {
             oElement.find('.review-text-edit').hide();
-            oElement.find('.save_review').hide()
+            oElement.find('.save_review').hide();
             oElement.find('.edit_review').show();
-            oElement.find('.review-text-body')[0].innerText = e.data.content
+            oElement.find('.review-text-body')[0].innerText = e.data.content;
             oElement.find('.review-text-body').show();
         };
 
