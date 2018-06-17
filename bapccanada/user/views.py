@@ -3,7 +3,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 # Create your views here.
 from django.urls import reverse_lazy
@@ -146,7 +146,7 @@ class BuildsView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)
-        context['builds'] = self.browse_user.userprofile.build_set.all()
+        context['builds'] = self.browse_user.userprofile.build_set.exclude(name="")
         if context['builds'].count():
             if 'pk' in kwargs:
                 context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])
@@ -154,6 +154,7 @@ class BuildsView(BaseProfileView):
 
             else:  # default to display first build
                 context['build'] = self.browse_user.userprofile.build_set.first()
+                context['pk'] = context['build'].pk
                 context['component_list'] = Build.get_component_dict(context['build'])
         return context
 
@@ -184,7 +185,7 @@ def build_delete(request, **kwargs):
                 build.delete()
 
             except Build.DoesNotExist:
-                raise Http404()
+                return HttpResponse(status=400)
 
             # Delete the build
             return JsonResponse({
