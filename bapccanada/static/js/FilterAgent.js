@@ -58,7 +58,7 @@ export default class FilterAgent {
      * if none was given to us, then we know it is a regular page load with no previous state
      */
     initRatings() {
-        if (!this.getRatingMetadata()) {
+        if (!this.isFilterRequest()) {
             const oFilterMetadata = this.getFilterMetadata();
             oFilterMetadata.ratings = {};
             // no rating response from server, create default mapping without checking state
@@ -82,12 +82,23 @@ export default class FilterAgent {
             aRatings.forEach((oRating) => {
                 this.mRatings.set(oRating.star_id, oRating);
             });
-
-            const oAllStarCheckbox = this.mRatings.get(sAllStar).star_checkbox;
-            this.attachAllCheckboxListener(oAllStarCheckbox);
         } else {
             // make sure to recheck appropriate checkboxes to match previous state
+            const mRatingMetadata = this.getRatingMetadata();
+            this.mRatings = new Map();
+
+            Object.keys(mRatingMetadata).forEach((sKey) => {
+                const oClonedRating = $.extend(true, {}, mRatingMetadata[sKey]);
+                oClonedRating.star_checkbox = FilterAgent.getJqueryObject(oClonedRating.star_id);
+                this.mRatings.set(oClonedRating.star_id, oClonedRating);
+            });
+
+            const aRatingIds = Array.from(this.mRatings.keys());
+            this.restoreCheckboxState(aRatingIds, this.mRatings);
         }
+
+        const oAllStarCheckbox = this.mRatings.get(sAllStar).star_checkbox;
+        this.attachAllCheckboxListener(oAllStarCheckbox);
     }
 
     initDimensionModel() {
@@ -103,10 +114,13 @@ export default class FilterAgent {
                 aDimensionEntries.forEach((oDimensionEntry, iIndex) => {
                     let sSelector = oDimensionEntry.checkbox_id;
                     const bIsAll = oDimensionEntry.filter_value === sAllText;
-                    if (bIsAll) {
-                        sSelector = sAllCheckboxPrefix + sSelector;
-                    } else {
-                        sSelector = sDimensionCheckboxPrefix + sSelector;
+
+                    if (!this.isFilterRequest()) {
+                        if (bIsAll) {
+                            sSelector = sAllCheckboxPrefix + sSelector;
+                        } else {
+                            sSelector = sDimensionCheckboxPrefix + sSelector;
+                        }
                     }
 
                     oDimensionMetadata[sKey][iIndex].checkbox_id = sSelector;
@@ -123,7 +137,7 @@ export default class FilterAgent {
                 });
             });
 
-            this.restoreCheckboxState(Array.from(this.mDimensions.keys()));
+            this.restoreCheckboxState(Array.from(this.mDimensions.keys()), this.mDimensions);
         }
     }
 
@@ -131,12 +145,12 @@ export default class FilterAgent {
      *
      * @param aElementIds     array of checkboxes to check
      */
-    restoreCheckboxState(aElementIds) {
+    restoreCheckboxState(aElementIds, mMap) {
         aElementIds.forEach((sElementId) => {
-            const oElementEntry = this.mDimensions.get(sElementId);
+            const oElementEntry = mMap.get(sElementId);
             const bChecked = oElementEntry.was_checked;
             if (bChecked) {
-                const oElement = oElementEntry.value_checkbox;
+                const oElement = oElementEntry.value_checkbox || oElementEntry.star_checkbox;
                 oElement.prop('checked', true);
             }
         })
@@ -259,6 +273,10 @@ export default class FilterAgent {
                 delete oRatingJson[sKey]["star_checkbox"];
             }
         });
+    }
+
+    isFilterRequest() {
+        return !!this._bIsFilterRequest;
     }
 
     getFilterMetadata() {

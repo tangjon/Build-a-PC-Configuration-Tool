@@ -32,6 +32,6 @@ $(document).ready(function () {
             doAjaxPost(oParam.oData, oParam.sUrl);
         }.bind(button)
     });
-    const oMetadata = prepareMetadataForAgent(filter_metadata, range_metadata);
+    const oMetadata = prepareMetadataForAgent(filter_metadata, range_metadata, rating_metadata);
     const oManager = new FilterAgent(oMetadata, bIsFilterRequest);
 });

@@ -10,13 +10,12 @@ from home.models import Price
 class AbstractComponentBrowseView(ListView):
     context_object_name = "components"
     title = None
-    filter_request = False
+    filter_data = None
 
     def get_queryset(self):
         if self.request.GET.get('filters'):
-            self.filter_request = True
-            filter_selections = json.loads(self.request.GET.get('filters'))
-            filter_processor = FilterProcessor(self.model, filter_selections)
+            self.filter_data = json.loads(self.request.GET.get('filters'))
+            filter_processor = FilterProcessor(self.model, self.filter_data)
             return filter_processor.get_filtered_objects()[:50]
         else:
             return self.model.objects.all()[:50]
@@ -25,21 +24,20 @@ class AbstractComponentBrowseView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         context['rating_range'] = range(1, 6)
+        dimension_data = self.model.objects.all().first().get_filter_metadata_for_manager(self.model)
+        price_data = Price.get_price_range(self.model.objects.all().first().get_polymorphic_class_id())
 
-        if not self.filter_request:
-            dimension_data = self.model.objects.all().first().get_filter_metadata_for_manager(self.model)
-            price_data = Price.get_price_range(self.model.objects.all().first().get_polymorphic_class_id())
-            context['dimensions'] = dimension_data
+        context['dimensions'] = dimension_data
+
+        if not self.filter_data:
             context['filter_metadata'] = json.dumps(dimension_data)
             context['price_range'] = price_data
             context['price_metadata'] = json.dumps(price_data)
         else:
-            dimension_data = self.model.objects.all().first().get_filter_metadata_for_manager(self.model)
-            price_data = Price.get_price_range(self.model.objects.all().first().get_polymorphic_class_id())
-            context['dimensions'] = dimension_data
-            context['filter_metadata'] = json.dumps(dimension_data)
-            context['price_range'] = price_data
-            context['price_metadata'] = json.dumps(price_data)
+            context['filter_metadata'] = json.dumps(self.filter_data.get('dimensions'))
+            context['price_range'] = self.filter_data.get('ranges')
+            context['price_metadata'] = json.dumps(self.filter_data.get('ranges'))
+            context['rating_metadata'] = json.dumps(self.filter_data.get('ratings'))
 
         return context
 

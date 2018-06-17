@@ -176,6 +176,10 @@
     <script>
         const filter_metadata = JSON.parse('{{ filter_metadata | safe }}');
         const range_metadata = JSON.parse('{{ price_metadata | safe }}');
+        let rating_metadata = null;
+        {% if rating_metadata %}
+            rating_metadata = JSON.parse('{{ rating_metadata | safe }}');
+        {% endif %}
     </script>
     <script type="text/javascript" src="{% static "js/bootstrap-slider.min.js" %}"></script>
     <script type="module" src="{% static "js/component.js" %}"></script>
