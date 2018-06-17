@@ -12,8 +12,9 @@ const sResetButton = "filterResetButton";
 const sApplyButton = "filterApplyButton";
 
 export default class FilterAgent {
-    constructor(oFilterMetadata) {
+    constructor(oFilterMetadata, bIsFilterRequest) {
         this._filterMetadata = oFilterMetadata;
+        this._bIsFilterRequest = bIsFilterRequest;
         this.initRatings();
         this.initPriceRanges();
         this.initDimensionModel();
@@ -68,6 +69,10 @@ export default class FilterAgent {
                     "star_checkbox": FilterAgent.getJqueryObject(sRatingId),
                     "was_checked": false
                 };
+
+                if (oMappedRating.star_id === sAllStar) {
+                    oMappedRating.all_star = true;
+                }
 
                 oFilterMetadata.ratings[sRatingId] = oMappedRating;
                 return oMappedRating;
@@ -188,7 +193,7 @@ export default class FilterAgent {
 
         this.oApplyButton.on('click', function () {
             const oQueryJson = this.prepareSelectionsForQuery();
-            doAjaxGet(oQueryJson, window.location.href);
+            window.location.href = encodeURI(window.location.href + "?filters=" + JSON.stringify(oQueryJson));
         }.bind((this)));
     }
 
@@ -223,15 +228,22 @@ export default class FilterAgent {
         const mDimensions = this.mDimensions;
 
         Object.keys(oDimensionJson).forEach((sKey) => {
-           const oDimension = oDimensionJson[sKey];
+            const oDimension = oDimensionJson[sKey];
 
-           Object.keys(oDimension).forEach((sDimensionKey) => {
-               const oDimensionEntry = mDimensions.get(oDimension[sDimensionKey].checkbox_id);
+            Object.keys(oDimension).forEach((sDimensionKey) => {
+                const oDimensionEntry = mDimensions.get(oDimension[sDimensionKey].checkbox_id);
 
-               if (oDimensionEntry) {
-                   oDimensionJson[sKey][sDimensionKey].was_checked = oDimensionEntry.value_checkbox[0].checked;
-               }
-           })
+                if (oDimensionEntry) {
+                    oDimensionJson[sKey][sDimensionKey].was_checked = oDimensionEntry.value_checkbox[0].checked;
+
+                    const sBackendName = oDimensionEntry.filterable_dimension_name;
+                    if ((typeof oDimensionEntry.filter_value !== 'number' && oDimensionEntry.filter_value.toLowerCase() !== "all")
+                        && (sBackendName === 'memory' || sBackendName === 'response_time' || sBackendName === 'refresh_rate')) {
+                        oDimensionJson[sKey][sDimensionKey].data_type = 'int';
+                        oDimensionJson[sKey][sDimensionKey].filter_value = parseInt(oDimensionEntry.filter_value);
+                    }
+                }
+            })
         });
 
     }
@@ -243,7 +255,7 @@ export default class FilterAgent {
             const oDimensionEntry = mRatings.get(sKey);
 
             if (oDimensionEntry) {
-                oRatingJson[sKey].was_checked =  oDimensionEntry.star_checkbox[0].checked;
+                oRatingJson[sKey].was_checked = oDimensionEntry.star_checkbox[0].checked;
                 delete oRatingJson[sKey]["star_checkbox"];
             }
         });

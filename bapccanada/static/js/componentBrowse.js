@@ -18,6 +18,13 @@ const fnCreateAddAjaxParameters = function (oElement, sAction) {
     };
 };
 
+let bIsFilterRequest = false;
+if (window.location.href.indexOf("filters") !== -1) {
+    bIsFilterRequest = true;
+    const sStrippedUrl = window.location.href.split("?filters=")[0];
+    window.history.pushState('Browse Components', 'Browse Components', sStrippedUrl);
+}
+
 $(document).ready(function () {
     $(".addComponentButton").each((index, button) => {
         button.onclick = function () {
@@ -26,5 +33,5 @@ $(document).ready(function () {
         }.bind(button)
     });
     const oMetadata = prepareMetadataForAgent(filter_metadata, range_metadata);
-    const oManager = new FilterAgent(oMetadata);
+    const oManager = new FilterAgent(oMetadata, bIsFilterRequest);
 });

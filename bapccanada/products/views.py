@@ -1,32 +1,45 @@
 from django.views.generic import ListView, DetailView
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 
 import json
 
 from .models import GPU, CPU, Monitor, Component
+from .FilterProcessor import FilterProcessor
 from home.models import Price
 
 
 class AbstractComponentBrowseView(ListView):
     context_object_name = "components"
     title = None
+    filter_request = False
 
     def get_queryset(self):
-        # for now just return first 50 until we implement paging
-        return self.model.objects.all()[:50]
+        if self.request.GET.get('filters'):
+            self.filter_request = True
+            filter_selections = json.loads(self.request.GET.get('filters'))
+            filter_processor = FilterProcessor(self.model, filter_selections)
+            return filter_processor.get_filtered_objects()[:50]
+        else:
+            return self.model.objects.all()[:50]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        dimension_data = context['components'][0].get_filter_metadata_for_manager(self.model)
-        price_data = Price.get_price_range(context['components'][0].get_polymorphic_class_id())
-
         context['title'] = self.title
         context['rating_range'] = range(1, 6)
-        context['dimensions'] = dimension_data
-        context['filter_metadata'] = json.dumps(dimension_data)
-        context['price_range'] = price_data
-        context['price_metadata'] = json.dumps(price_data)
+
+        if not self.filter_request:
+            dimension_data = self.model.objects.all().first().get_filter_metadata_for_manager(self.model)
+            price_data = Price.get_price_range(self.model.objects.all().first().get_polymorphic_class_id())
+            context['dimensions'] = dimension_data
+            context['filter_metadata'] = json.dumps(dimension_data)
+            context['price_range'] = price_data
+            context['price_metadata'] = json.dumps(price_data)
+        else:
+            dimension_data = self.model.objects.all().first().get_filter_metadata_for_manager(self.model)
+            price_data = Price.get_price_range(self.model.objects.all().first().get_polymorphic_class_id())
+            context['dimensions'] = dimension_data
+            context['filter_metadata'] = json.dumps(dimension_data)
+            context['price_range'] = price_data
+            context['price_metadata'] = json.dumps(price_data)
 
         return context
 
