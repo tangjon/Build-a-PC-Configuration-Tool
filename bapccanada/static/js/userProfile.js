@@ -122,6 +122,28 @@ $(document).ready(function () {
         };
     };
 
+    const fnDeleteBuildParam = function (kwargs) {
+        const sUrl = 'delete/';
+        const oData = {
+            "action": kwargs['action'],
+            "csrfmiddlewaretoken": csrftoken,
+            "build_pk": kwargs['build_pk'],
+        };
+        const fnSuccess = function (e) {
+            window.location = e['redirect_url']
+        };
+
+        const fnError = function (e) {
+            console.log(e);
+        };
+        return {
+            oData: oData,
+            sUrl: sUrl,
+            success: fnSuccess,
+            error: fnError
+        };
+    };
+
     $('#edit_build').click(() => {
         const $selected_build = $('.list-group-item.active');
         if ($selected_build.length) {
@@ -129,6 +151,20 @@ $(document).ready(function () {
             const build_pk = $selected_build[0].id;
             const oParam = fnEditBuildParam({
                 'action': 'edit',
+                'build_pk': build_pk,
+            });
+            doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);
+        }
+    });
+
+
+    $('#delete_build').click(() => {
+        const $selected_build = $('.list-group-item.active');
+        if ($selected_build.length) {
+            // this is bad!
+            const build_pk = $selected_build[0].id;
+            const oParam = fnDeleteBuildParam({
+                'action': 'delete',
                 'build_pk': build_pk,
             });
             doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);
