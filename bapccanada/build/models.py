@@ -6,6 +6,7 @@ from decimal import Decimal
 
 from django.utils import timezone
 
+from bapccanada.utils import create_shortcode
 from products.models import GPU, CPU, Monitor
 from user.models import UserProfile
 
@@ -23,10 +24,13 @@ class Build(models.Model):
     points = models.IntegerField(default=0, blank=True, null=True)
     date_published = models.DateTimeField(default=timezone.now, editable=True)
     date_created = models.DateTimeField(auto_now_add=True)
+    shortcode = models.CharField(max_length=6, blank=True, unique=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         self.total_price = self.get_total_price()
+        if self.shortcode is None or self.shortcode == "":
+            self.shortcode = create_shortcode(instance=Build)
         super(Build, self).save(*args, **kwargs)
 
     def __str__(self):
