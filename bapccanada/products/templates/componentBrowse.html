@@ -120,8 +120,8 @@
             <div class="browseSearchBar form-inline">
                 {% block searchPromptText %}
                 {% endblock searchPromptText %}
-                <input type="text" class="form-control" placeholder=""
-                       aria-label="search bar" id="partsBrowseSearchBar">
+                <input type="text" class="form-control partsBrowseSearchBar" placeholder=""
+                       aria-label="search bar">
             </div>
             <div class="panelHeader">Parts</div>
             <div>
@@ -134,9 +134,9 @@
                     </thead>
                     <tbody class="componentTableBody">
                     {% for component in components %}
-                        <tr>
+                        <tr class="rowNum{{ forloop.counter0 }}">
                             <th scope="row"><input type="checkbox" aria-label="Checkbox for following text input"></th>
-                            <td><a class="productPageLink" href='
+                            <td><a class="productPageLink indexableElement" href='
                                     {% block customSlug %}{% endblock customSlug %}'>{{ component.display_name }}</a>
                             </td>
                             {% block componentSpecificColumns %}
@@ -157,7 +157,7 @@
                                     <span>({{ component.num_ratings }})</span>
                                 </div>
                             </td>
-                            <td>${{ component.cheapest_price }}</td>
+                            <td class="indexableElement">${{ component.cheapest_price }}</td>
                             <td>
                                 <a class="btn btn-primary btn-sm addComponentButton" type="submit"
                                    id="{{ component.slug }}" href="#">Add</a>

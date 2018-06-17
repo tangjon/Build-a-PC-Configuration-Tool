@@ -21,7 +21,7 @@
 {% endblock customSlug %}
 
 {% block componentSpecificColumns %}
-    <td>{{ component.resolution }}</td>
-    <td>{{ component.screen_size }}"</td>
-    <td class="responseTimeEntry">{{ component.response_time }} ms</td>
+    <td class="indexableElement">{{ component.resolution }}</td>
+    <td class="indexableElement">{{ component.screen_size }}"</td>
+    <td class="responseTimeEntry indexableElement">{{ component.response_time }} ms</td>
 {% endblock componentSpecificColumns %}

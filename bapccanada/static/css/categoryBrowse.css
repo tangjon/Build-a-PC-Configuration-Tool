@@ -82,6 +82,10 @@ ul {
     padding: 5px;
 }
 
+.hidden-row {
+    display: none !important;
+}
+
 .bapc-body-content .browseRightColumn .table-sorter-row .productCol {
     /* required for 5 stars to be on same line */
     min-width: 100px;

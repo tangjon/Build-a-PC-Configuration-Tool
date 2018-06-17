@@ -10,6 +10,9 @@ const sAllText = "ALL";
 const sAllStar = aRatingIds[0];
 const sResetButton = "filterResetButton";
 const sApplyButton = "filterApplyButton";
+const sLiveSearch = "partsBrowseSearchBar";
+const sIndexableElements = "indexableElement";
+const sHiddenRow = "hidden-row";
 
 export default class FilterAgent {
     constructor(oFilterMetadata, bIsFilterRequest) {
@@ -20,6 +23,7 @@ export default class FilterAgent {
         this.initDimensionModel();
 
         this.setupControlButtons();
+        this.setupSearch();
     }
 
     initPriceRanges() {
@@ -209,6 +213,80 @@ export default class FilterAgent {
             const oQueryJson = this.prepareSelectionsForQuery();
             window.location.href = encodeURI(window.location.href + "?filters=" + JSON.stringify(oQueryJson));
         }.bind((this)));
+    }
+
+    setupSearch() {
+        this.indexRows();
+        this.oSearchBar = FilterAgent.getJqueryObject(sLiveSearch);
+        this.oSearchBar.on('keyup', function () {
+            const sSearchValue = this.oSearchBar.val().trim().toLowerCase();
+            const aAllRowIds = Array.from(this.mRows.keys());
+
+            if (sSearchValue === '') {
+                this.toggleRowHide(aAllRowIds, false);
+            } else {
+                const aMatchingRowIds = this.findMatchingRows(sSearchValue);
+                const aRowIdsToHide = aAllRowIds.filter((sRowId) => !aMatchingRowIds.includes(sRowId));
+                const aRowIdsToShow = aAllRowIds.filter((sRowId) => aMatchingRowIds.includes(sRowId));
+                this.toggleRowHide(aRowIdsToShow, false);
+                this.toggleRowHide(aRowIdsToHide, true);
+            }
+        }.bind(this));
+    }
+
+    indexRows() {
+        const oIndexableElements = FilterAgent.getJqueryObject(sIndexableElements);
+        this.mRows = new Map();
+
+        oIndexableElements.each((iIndex, oElement) => {
+            let oContent;
+            let sParentRow;
+
+            if (oElement.text) {
+                // in an <a> tag
+                oContent = oElement.text.toLowerCase();
+                sParentRow = oElement.parentElement.parentElement.classList[0];
+            } else if (oElement.textContent) {
+                // plain td
+                oContent = oElement.textContent.toLowerCase();
+                sParentRow = oElement.parentElement.classList[0];
+            }
+
+            const aRowEntry = this.mRows.get(sParentRow);
+            if (aRowEntry) {
+                aRowEntry.push(oContent);
+            } else {
+                this.mRows.set(sParentRow, [oContent]);
+            }
+        });
+    }
+
+    findMatchingRows(sSearchValue) {
+        const aMatchingRowIds = [];
+
+        this.mRows.forEach((aValues, sKey) => {
+            const bAttempt = aValues.find((sValue) => {
+                return sValue.indexOf(sSearchValue) !== -1;
+            });
+
+            if (bAttempt) {
+                aMatchingRowIds.push(sKey);
+            }
+        });
+
+        return aMatchingRowIds;
+    }
+
+    toggleRowHide(aRowIds, bHide) {
+        aRowIds.forEach((sRowId) => {
+            const oRow = FilterAgent.getJqueryObject(sRowId);
+
+            if (bHide) {
+                oRow.addClass(sHiddenRow);
+            } else {
+                oRow.removeClass(sHiddenRow);
+            }
+        });
     }
 
     wipeSelections() {
