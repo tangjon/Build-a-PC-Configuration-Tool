@@ -21,8 +21,10 @@ class Create(View):
                 currentBuild.save()
 
             else:
-                currentBuild = CurrentBuild.objects.all()[0]
-                currentBuild.tracked_build = build
+                currentBuild = Build.objects.get(shortcode=kwargs['shortcode'])
+                self.build = currentBuild
+                # currentBuild = CurrentBuild.objects.all()[0]
+                # currentBuild.tracked_build = build
 
             print(currentBuild.tracked_user.user.username)
             print(currentBuild.tracked_build.name)

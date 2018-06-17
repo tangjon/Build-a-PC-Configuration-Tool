@@ -24,6 +24,7 @@ urlpatterns = [
                   path('', include('home.urls', namespace='home')),
                   path('account/', include('account.urls', namespace='account')),
                   path('build/', include('build.urls', namespace='build')),
+                  path('list/', include('buildview.urls', namespace='buildview')),
                   path('products/', include('products.urls', namespace='products')),
                   path('user/<username>/', include('user.urls', namespace='user'))
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
