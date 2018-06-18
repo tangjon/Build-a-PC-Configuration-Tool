@@ -101,6 +101,15 @@ class Build(models.Model):
 
         self.save()
 
+    def is_pristine(self):
+        component_dict = self.get_component_dict()
+        pristine_flag = True
+        for key, component in component_dict.items():
+            if component['object'] is not None:
+                pristine_flag = False
+                break
+        return pristine_flag
+
     def clean_build(self):
         self.cpu = None
         self.gpu = None

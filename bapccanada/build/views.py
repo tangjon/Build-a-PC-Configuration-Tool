@@ -68,15 +68,16 @@ def save_build(request):
 
 def new_build(request):
     if request.method == 'POST' and request.POST.get('action') == 'new':
-        if not request.user.is_authenticated:
+        if not request.user.is_authenticated:  # user is not authenticated
             session_key = request.session.session_key
             build_to_reuse = Build.objects.filter(anonymous_session=session_key).first()
             build_to_reuse.clean_build()
         else:
-            created_build = Build.objects.create(owner=request.user.userprofile)
-            build_tracker = CurrentBuild.objects.filter(tracked_user=request.user.userprofile).first()
-            build_tracker.tracked_build = created_build
-            build_tracker.save()
+            if not request.user.userprofile.currentbuild.tracked_build.is_pristine():
+                created_build = Build.objects.create(owner=request.user.userprofile)
+                build_tracker = CurrentBuild.objects.filter(tracked_user=request.user.userprofile).first()
+                build_tracker.tracked_build = created_build
+                build_tracker.save()
 
     return JsonResponse({
         "redirect": FRONT_END_URLS["BUILD"]
