@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-secondary new-build-button">New Build</button>
+                <button type="button" class="btn btn-secondary new-build-button" {% if build.is_pristine %}disabled{% endif %}>New Build</button>
             </div>
         </div>
     </div>
