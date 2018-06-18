@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import View
 from django.http import JsonResponse
 
@@ -55,10 +56,14 @@ def save_build(request):
         current_build.pk = None
         current_build.shortcode = ""
         current_build.save()
-
+        test = 1
         data = {
             "saved_name": desired_name,
-            "was_added": True
+            "was_added": True,
+            "redirect": reverse_lazy('user:builds_show', kwargs={
+                'username': request.user.username,
+                'pk': current_build.pk
+            })
         }
 
         return JsonResponse(data)
