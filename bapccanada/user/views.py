@@ -146,7 +146,7 @@ class BuildsView(BaseProfileView):
 
     def get_context_data(self, **kwargs):
         context = super(BuildsView, self).get_context_data(**kwargs)
-        context['builds'] = self.browse_user.userprofile.build_set.exclude(slug="")
+        context['builds'] = self.browse_user.userprofile.build_set.exclude(name__isnull=True)
         if context['builds'].count():
             if 'pk' in kwargs:
                 context['build'] = get_object_or_404(self.browse_user.userprofile.build_set, pk=kwargs['pk'])

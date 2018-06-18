@@ -53,6 +53,7 @@ def save_build(request):
 
         # makes a clone of our current_build and saves it with new name
         current_build.pk = None
+        current_build.shortcode = ""
         current_build.save()
 
         data = {

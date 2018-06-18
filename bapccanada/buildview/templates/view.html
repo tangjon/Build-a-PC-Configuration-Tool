@@ -63,27 +63,26 @@
                 <th scope="col">Shipping</th>
                 <th scope="col">Merchant</th>
                 <th scope="col"></th>
-                <th scope="col"></th>
             </tr>
             </thead>
             <tbody class="componentListBody">
             {% for category, component in component_list.items %}
                 <tr>
-                    <th scope="row"><a class="browseCategory"
-                                       href="{% url component.category_link %}">{{ category }}</a></th>
                     {% if not component.object %}
-                        <td class="productImage"></td>
-                        <td>
-                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">Add
-                                a
-                                {{ category }}</a>
-                        </td>
-                        <td></td>
-                        <td class="shippingCost"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+{#                        <td class="productImage"></td>#}
+{#                        <td>#}
+{#                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">Add#}
+{#                                a#}
+{#                                {{ category }}</a>#}
+{#                        </td>#}
+{#                        <td></td>#}
+{#                        <td class="shippingCost"></td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
                     {% else %}
+                        <th scope="row"><a class="browseCategory"
+                                       href="{% url component.category_link %}">{{ category }}</a></th>
                         <td class="productImage">
                             <div class="imageWrapper">
                                 <img src="{% static 'assets/gpu.jpg' %}">
@@ -110,18 +109,12 @@
                             <a class="btn btn-primary btn-sm"
                                href="{{ component.object.cheapest_price_store_link }}">Buy</a>
                         </td>
-                        <td>
-                            <a class="close productRemove removeComponentButton" aria-label="Close" href="#"
-                               id="{{ component.object.slug }}">
-                                <span aria-hidden="true">&times;</span></a>
-                        </td>
                     {% endif %}
                 </tr>
             {% endfor %}
             <tr class="totalPriceSummaryRow">
                 <th class="totalPriceSummaryPrefix" colspan="5" scope="row">Total:</th>
                 <td>${{ build.total_price }}</td>
-                <td></td>
                 <td></td>
             </tr>
             </tbody>
