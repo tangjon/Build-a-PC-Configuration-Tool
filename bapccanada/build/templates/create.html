@@ -12,15 +12,17 @@
     <div class="container buildToolbarTop ">
         <div class="btn-toolbar mb-3 mt-3" role="toolbar" aria-label="Toolbar with button groups">
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text" id="btnGroupAddon">Permalink</div>
-                </div>
-                {#                TODO CHANGE THE URL HERE#}
-                <input type="text" class="form-control" value="http://127.0.0.1:8000/list/{{ build.shortcode }}"
-                       aria-label="Input group example" aria-describedby="btnGroupAddon">
+                {% if not build.is_pristine %}
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon">Permalink</div>
+                    </div>
+                    {#                TODO CHANGE THE URL HERE#}
+                    <input type="text" class="form-control" value="http://127.0.0.1:8000/list/{{ build.shortcode }}"
+                           aria-label="Input group example" aria-describedby="btnGroupAddon">
+                {% endif %}
             </div>
             <div class="mr-2" aria-label="Toolbar Controls">
-                <button type="button" class="btn btn-secondary save-as-button">
+                 <button type="button" class="btn btn-secondary save-as-button" {% if build.is_pristine %}disabled{% endif %}>
                     Save as
                 </button>
                 <div class="modal fade save-as-modal" tabindex="-1" role="dialog">

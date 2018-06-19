@@ -25,12 +25,13 @@ class Build(models.Model):
     points = models.IntegerField(default=0, blank=True, null=True)
     date_published = models.DateTimeField(default=timezone.now, editable=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    shortcode = models.CharField(max_length=6, blank=True, unique=True)
+    shortcode = models.CharField(max_length=6, blank=True, unique=True, null=True, default=None)
+    flag_pristine = models.BooleanField(default=True, editable=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         self.total_price = self.get_total_price()
-        if self.shortcode is None or self.shortcode == "":
+        if (self.shortcode is None or self.shortcode == "") and not self.is_pristine():
             self.shortcode = create_shortcode(instance=Build)
         super(Build, self).save(*args, **kwargs)
 
@@ -106,12 +107,11 @@ class Build(models.Model):
 
     def is_pristine(self):
         component_dict = self.get_component_dict()
-        pristine_flag = True
         for key, component in component_dict.items():
             if component['object'] is not None:
-                pristine_flag = False
+                self.flag_pristine = False
                 break
-        return pristine_flag
+        return self.flag_pristine
 
     def clean_build(self):
         self.cpu = None

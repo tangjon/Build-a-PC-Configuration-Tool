@@ -63,7 +63,8 @@ const fnSetupSaveModal = function () {
         };
         const fnSuccess = function (data, textStatus) {
             if (data.was_added) {
-                oSavePromise.resolve("Build " + data.saved_name + " saved!");
+                // oSavePromise.resolve("Build " + data.saved_name + " saved!");
+                window.location = data['redirect']
             } else {
                 oSavePromise.reject(data.error + "!");
             }
