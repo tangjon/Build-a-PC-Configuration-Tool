@@ -30,7 +30,7 @@ class Build(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         self.total_price = self.get_total_price()
-        if self.shortcode is None or self.shortcode == "":
+        if (self.shortcode is None or self.shortcode == "") and not self.is_pristine():
             self.shortcode = create_shortcode(instance=Build)
         super(Build, self).save(*args, **kwargs)
 

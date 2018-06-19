@@ -12,12 +12,14 @@
     <div class="container buildToolbarTop ">
         <div class="btn-toolbar mb-3 mt-3" role="toolbar" aria-label="Toolbar with button groups">
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text" id="btnGroupAddon">Permalink</div>
-                </div>
-{#                TODO CHANGE THE URL HERE#}
-                <input type="text" class="form-control" value="http://127.0.0.1:8000/list/{{ build.shortcode }}"
-                       aria-label="Input group example" aria-describedby="btnGroupAddon">
+                {% if not build.is_pristine %}
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon">Permalink</div>
+                    </div>
+                    {#                TODO CHANGE THE URL HERE#}
+                    <input type="text" class="form-control" value="http://127.0.0.1:8000/list/{{ build.shortcode }}"
+                           aria-label="Input group example" aria-describedby="btnGroupAddon">
+                {% endif %}
             </div>
             <div class="mr-2" aria-label="Toolbar Controls">
                 <button type="button" class="btn btn-secondary save-as-button">
@@ -69,20 +71,20 @@
             {% for category, component in component_list.items %}
                 <tr>
                     {% if not component.object %}
-{#                        <td class="productImage"></td>#}
-{#                        <td>#}
-{#                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">Add#}
-{#                                a#}
-{#                                {{ category }}</a>#}
-{#                        </td>#}
-{#                        <td></td>#}
-{#                        <td class="shippingCost"></td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
+                        {#                        <td class="productImage"></td>#}
+                        {#                        <td>#}
+                        {#                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">Add#}
+                        {#                                a#}
+                        {#                                {{ category }}</a>#}
+                        {#                        </td>#}
+                        {#                        <td></td>#}
+                        {#                        <td class="shippingCost"></td>#}
+                        {#                        <td></td>#}
+                        {#                        <td></td>#}
+                        {#                        <td></td>#}
                     {% else %}
                         <th scope="row"><a class="browseCategory"
-                                       href="{% url component.category_link %}">{{ category }}</a></th>
+                                           href="{% url component.category_link %}">{{ category }}</a></th>
                         <td class="productImage">
                             <div class="imageWrapper">
                                 <img src="{% static 'assets/gpu.jpg' %}">
