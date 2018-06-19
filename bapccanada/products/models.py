@@ -65,6 +65,8 @@ class Component(PolymorphicModel):
             return "cpu"
         elif actual_class == GPU:
             return "gpu"
+        elif actual_class == RAM:
+            return "ram"
         else:
             return "monitor"
 
@@ -186,6 +188,54 @@ class GPU(Component):
                 filterable_dimension_name = "hdmi_ports"
             else:
                 filterable_dimension_name = "dp_ports"
+
+        return filterable_dimension_name
+
+
+class RAM(Component):
+    speed = models.CharField(max_length=30)
+    size = models.CharField(max_length=60)
+    latency = models.PositiveIntegerField(default=16)
+    voltage = models.CharField(max_length=20)
+    ecc = models.CharField(max_length=10)
+    type = models.CharField(max_length=100)
+
+    def get_page_title(self):
+        return "{} - {} {} Memory".format(self.manufacturer, self.model_number,
+                                               self.size, self.speed)
+
+    def get_tech_details(self):
+        main_details = super(RAM, self).get_tech_details()
+        extra_details = {
+            "type": self.type,
+            "size": self.size,
+            "speed": self.speed,
+            "cas latency": self.latency,
+            "voltage": self.voltage,
+            "ecc": self.ecc
+        }
+
+        return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(RAM, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'speed': subtype.objects.order_by('speed').values_list('speed', flat=True).distinct(),
+            'type': subtype.objects.order_by('type').values_list('type', flat=True).distinct(),
+            'size': subtype.objects.order_by('size').values_list('size', flat=True).distinct(),
+            'ecc': subtype.objects.order_by('ecc').values_list('ecc', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(RAM, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "cas latency":
+                filterable_dimension_name = "latency"
+            else:
+                filterable_dimension_name = ui_dimension_name
 
         return filterable_dimension_name
 

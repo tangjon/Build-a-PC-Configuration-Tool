@@ -7,13 +7,14 @@ from decimal import Decimal
 from django.utils import timezone
 
 from bapccanada.utils import create_shortcode
-from products.models import GPU, CPU, Monitor
+from products.models import GPU, CPU, RAM, Monitor
 from user.models import UserProfile
 
 
 class Build(models.Model):
     gpu = models.ForeignKey(GPU, null=True, on_delete=models.DO_NOTHING)
     cpu = models.ForeignKey(CPU, null=True, on_delete=models.DO_NOTHING)
+    ram = models.ForeignKey(RAM, null=True, on_delete=models.DO_NOTHING)
     monitor = models.ForeignKey(Monitor, null=True, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=100, null=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
@@ -77,7 +78,7 @@ class Build(models.Model):
                 current_build.save()
 
     def get_component_array(self):
-        return [self.gpu, self.cpu, self.monitor]
+        return [self.gpu, self.cpu, self.monitor, self.ram]
 
     def get_total_price(self):
         component_array = self.get_component_array()
@@ -96,6 +97,8 @@ class Build(models.Model):
             self.cpu = replacement_value
         elif component_type == GPU:
             self.gpu = replacement_value
+        elif component_type == RAM:
+            self.ram = replacement_value
         else:
             self.monitor = replacement_value
 
@@ -132,6 +135,11 @@ class Build(models.Model):
                 "object": self.monitor,
                 "category_link": "products:monitors",
                 "detail_link": "products:monitor_detail"
+            },
+            "Memory": {
+                "object": self.ram,
+                "category_link": "products:ram",
+                "detail_link": "products:ram_detail"
             }
         }
 

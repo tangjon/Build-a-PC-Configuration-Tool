@@ -15,7 +15,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text" id="btnGroupAddon">Permalink</div>
                 </div>
-{#                TODO CHANGE THE URL HERE#}
+                {#                TODO CHANGE THE URL HERE#}
                 <input type="text" class="form-control" value="http://127.0.0.1:8000/list/{{ build.shortcode }}"
                        aria-label="Input group example" aria-describedby="btnGroupAddon">
             </div>
@@ -44,7 +44,9 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-secondary new-build-button" {% if build.is_pristine %}disabled{% endif %}>New Build</button>
+                <button type="button" class="btn btn-secondary new-build-button"
+                        {% if build.is_pristine %}disabled{% endif %}>New Build
+                </button>
             </div>
         </div>
     </div>
@@ -74,9 +76,13 @@
                     {% if not component.object %}
                         <td class="productImage"></td>
                         <td>
-                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">Add
-                                a
-                                {{ category }}</a>
+                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">
+                                {% if category == "Memory" %}
+                                    Add {{ category }}
+                                {% else %}
+                                    Add a {{ category }}
+                                {% endif %}
+                            </a>
                         </td>
                         <td></td>
                         <td class="shippingCost"></td>

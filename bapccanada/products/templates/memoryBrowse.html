@@ -1,0 +1,27 @@
+{% extends 'componentBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search Memory:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">Memory</th>
+    <th scope="col">Speed</th>
+    <th scope="col">Type</th>
+    <th scope="col">Size</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block customSlug %}
+{% url 'products:ram_detail' component.slug %}
+{% endblock customSlug %}
+
+{% block componentSpecificColumns %}
+    <td class="indexableElement">{{ component.speed }}</td>
+    <td class="indexableElement">{{ component.type }}</td>
+    <td class="indexableElement">{{ component.size }}</td>
+{% endblock componentSpecificColumns %}
