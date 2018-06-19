@@ -25,6 +25,7 @@ class Build(models.Model):
     date_published = models.DateTimeField(default=timezone.now, editable=True)
     date_created = models.DateTimeField(auto_now_add=True)
     shortcode = models.CharField(max_length=6, blank=True, unique=True)
+    flag_pristine = models.BooleanField(default=True, editable=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -103,12 +104,11 @@ class Build(models.Model):
 
     def is_pristine(self):
         component_dict = self.get_component_dict()
-        pristine_flag = True
         for key, component in component_dict.items():
             if component['object'] is not None:
-                pristine_flag = False
+                self.flag_pristine = False
                 break
-        return pristine_flag
+        return self.flag_pristine
 
     def clean_build(self):
         self.cpu = None

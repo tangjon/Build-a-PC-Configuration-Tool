@@ -56,7 +56,6 @@ def save_build(request):
         current_build.pk = None
         current_build.shortcode = ""
         current_build.save()
-        test = 1
         data = {
             "saved_name": desired_name,
             "was_added": True,
