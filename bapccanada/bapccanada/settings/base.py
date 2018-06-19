@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'build.apps.BuildConfig',
     'products.apps.ProductsConfig',
-    'buildview.apps.BuildviewConfig'
+    'list.apps.BuildviewConfig'
 ]
 
 MIDDLEWARE = [

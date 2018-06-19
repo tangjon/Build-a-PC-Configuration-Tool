@@ -24,7 +24,7 @@ class Build(models.Model):
     points = models.IntegerField(default=0, blank=True, null=True)
     date_published = models.DateTimeField(default=timezone.now, editable=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    shortcode = models.CharField(max_length=6, blank=True, unique=True)
+    shortcode = models.CharField(max_length=6, blank=True, unique=True, null=True, default=None)
     flag_pristine = models.BooleanField(default=True, editable=False)
 
     def save(self, *args, **kwargs):
