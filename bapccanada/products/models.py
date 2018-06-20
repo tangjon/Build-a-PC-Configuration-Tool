@@ -67,6 +67,8 @@ class Component(PolymorphicModel):
             return "gpu"
         elif actual_class == RAM:
             return "ram"
+        elif actual_class == Motherboard:
+            return "motherboard"
         else:
             return "monitor"
 
@@ -232,10 +234,7 @@ class RAM(Component):
         filterable_dimension_name = super(RAM, self).get_filterable_dimension_name(ui_dimension_name)
 
         if filterable_dimension_name is None:
-            if ui_dimension_name == "cas latency":
-                filterable_dimension_name = "latency"
-            else:
-                filterable_dimension_name = ui_dimension_name
+            filterable_dimension_name = ui_dimension_name
 
         return filterable_dimension_name
 
@@ -290,6 +289,62 @@ class CPU(Component):
                 filterable_dimension_name = "socket"
             else:
                 filterable_dimension_name = "integrated_graphics"
+
+        return filterable_dimension_name
+
+
+class Motherboard(Component):
+    socket = models.CharField(max_length=20)
+    chipset = models.CharField(max_length=40)
+    ram_type = models.CharField(max_length=20)
+    form_factor = models.CharField(max_length=20)
+    usb_3 = models.CharField(max_length=10)
+    max_ram = models.CharField(max_length=30)
+    ram_slots = models.PositiveIntegerField(default=4)
+
+    def get_page_title(self):
+        return "{} - {} {} {} Motherboard".format(self.manufacturer, self.model_number, self.form_factor, self.socket)
+
+    def get_tech_details(self):
+        main_details = super(Motherboard, self).get_tech_details()
+        extra_details = {
+            "form factor": self.form_factor,
+            "chipset": self.chipset,
+            "ram type": self.ram_type,
+            "ram slots": self.ram_slots,
+            "maximum ram": self.max_ram,
+            "socket": self.socket,
+            "USB 3.0": self.usb_3
+        }
+
+        return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(Motherboard, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'socket': subtype.objects.order_by('socket').values_list('socket', flat=True).distinct(),
+            'form factor': subtype.objects.order_by('form_factor').values_list('form_factor', flat=True).distinct(),
+            'ram slots': subtype.objects.order_by('ram_slots').values_list('ram_slots', flat=True).distinct(),
+            'maximum ram': subtype.objects.order_by('max_ram').values_list('max_ram', flat=True).distinct(),
+            "USB 3.0": subtype.objects.order_by('usb_3').values_list('usb_3', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(Motherboard, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "form factor":
+                filterable_dimension_name = "form_factor"
+            elif ui_dimension_name == "maximum ram":
+                filterable_dimension_name = "max_ram"
+            elif ui_dimension_name == "ram slots":
+                filterable_dimension_name = "ram_slots"
+            elif ui_dimension_name == "USB 3.0":
+                filterable_dimension_name = "usb_3"
+            else:
+                filterable_dimension_name = ui_dimension_name
 
         return filterable_dimension_name
 

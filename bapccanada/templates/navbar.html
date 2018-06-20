@@ -6,6 +6,7 @@
 {% url 'products:cpu' as url_cpu %}
 {% url 'products:monitors' as url_monitor %}
 {% url 'products:ram' as url_ram %}
+{% url 'products:motherboard' as url_motherboard %}
 <nav class="navbar navbar-expand-md bapc-navbar navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -24,7 +25,7 @@
                 <a class="nav-item nav-link {% if request.path == url_build %}active{% endif %}" href="{{ url_build }}">Build</a>
                 <li class="nav-item dropdown partsDropDown">
                     <a class="nav-link dropdown-toggle partsDropDown-toggle nav-link
-                       {% if request.path == url_gpu or request.path == url_monitor or request.path == url_cpu or request.path == url_ram %}active{% endif %}"
+                       {% if request.path == url_gpu or request.path == url_monitor or request.path == url_cpu or request.path == url_ram or request.path == url_motherboard %}active{% endif %}"
                        id="navbarDropdownMenuLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         Parts
@@ -34,6 +35,7 @@
                         <a class="dropdown-item" href="{{ url_gpu }}">Video Card</a>
                         <a class="dropdown-item" href="{{ url_monitor }}">Monitor</a>
                         <a class="dropdown-item" href="{{ url_ram }}">Memory</a>
+                        <a class="dropdown-item" href="{{ url_motherboard }}">Motherboard</a>
                     </div>
                 </li>
             </div>
