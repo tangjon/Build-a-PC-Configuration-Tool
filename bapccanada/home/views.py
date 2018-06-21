@@ -84,6 +84,21 @@ class HomeView(TemplateView):
             "url": reverse_lazy('products:monitors'),
             "img": static('assets/icons/monitor.png')
         },
+        "memory": {
+            "name": "Memory",
+            "url": reverse_lazy('products:ram'),
+            "img": static('assets/icons/memory.png')
+        },
+        "motherboard": {
+            "name": "Motherboard",
+            "url": reverse_lazy('products:motherboard'),
+            "img": static('assets/icons/motherboard.png')
+        },
+        "power_supply": {
+            "name": "Power Supply",
+            "url": reverse_lazy('products:power_supply'),
+            "img": static('assets/icons/power_supply.png')
+        }
 
     }
 
