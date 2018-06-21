@@ -13,5 +13,7 @@ urlpatterns = [
     path('memory/', views.MemoryBrowseView.as_view(), name='ram'),
     re_path(r'^memory/(?P<slug>[-\w]+)/$', views.MemoryDetailView.as_view(), name='ram_detail'),
     path('motherboard/', views.MotherboardBrowseView.as_view(), name='motherboard'),
-    re_path(r'^motherboard/(?P<slug>[-\w]+)/$', views.MotherboardDetailView.as_view(), name='motherboard_detail')
+    re_path(r'^motherboard/(?P<slug>[-\w]+)/$', views.MotherboardDetailView.as_view(), name='motherboard_detail'),
+    path('powersupply/', views.PowerSupplyBrowseView.as_view(), name='power_supply'),
+    re_path(r'^powersupply/(?P<slug>[-\w]+)/$', views.PowerSupplyDetailView.as_view(), name='power_supply_detail')
 ]

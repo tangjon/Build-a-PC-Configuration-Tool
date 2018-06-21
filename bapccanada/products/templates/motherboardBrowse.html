@@ -1,0 +1,29 @@
+{% extends 'componentBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search Motherboards:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">Motherboard</th>
+    <th scope="col">Socket</th>
+    <th scope="col">Form Factor</th>
+    <th scope="col">RAM Slots</th>
+    <th scope="col">Max RAM</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block customSlug %}
+{% url 'products:motherboard_detail' component.slug %}
+{% endblock customSlug %}
+
+{% block componentSpecificColumns %}
+    <td class="indexableElement">{{ component.socket }}</td>
+    <td class="indexableElement">{{ component.form_factor }}</td>
+    <td class="indexableElement">{{ component.ram_slots }}</td>
+    <td class="indexableElement">{{ component.max_ram }}</td>
+{% endblock componentSpecificColumns %}

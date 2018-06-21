@@ -69,6 +69,8 @@ class Component(PolymorphicModel):
             return "ram"
         elif actual_class == Motherboard:
             return "motherboard"
+        elif actual_class == PowerSupply:
+            return "power supply"
         else:
             return "monitor"
 
@@ -289,6 +291,52 @@ class CPU(Component):
                 filterable_dimension_name = "socket"
             else:
                 filterable_dimension_name = "integrated_graphics"
+
+        return filterable_dimension_name
+
+
+class PowerSupply(Component):
+    form_factor = models.CharField(max_length=50)
+    efficiency = models.CharField(max_length=50)
+    modular = models.CharField(max_length=50)
+    watts = models.CharField(max_length=50)
+    fans = models.PositiveIntegerField(default=1)
+
+    def get_page_title(self):
+        return "{} - {} {} {} {}-Modular {} Power Supply".format(self.manufacturer, self.model_number, self.watts,
+                                                                 self.efficiency, self.modular, self.form_factor)
+
+    def get_tech_details(self):
+        main_details = super(PowerSupply, self).get_tech_details()
+        extra_details = {
+            "form factor": self.form_factor,
+            "wattage": self.watts,
+            "modular": self.modular,
+            "efficiency": self.efficiency,
+            "fans": self.fans
+        }
+
+        return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(PowerSupply, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'form factor': subtype.objects.order_by('form_factor').values_list('form_factor', flat=True).distinct(),
+            'watts': subtype.objects.order_by('watts').values_list('watts', flat=True).distinct(),
+            'modular': subtype.objects.order_by('modular').values_list('modular', flat=True).distinct(),
+            'efficiency': subtype.objects.order_by('efficiency').values_list('efficiency', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(PowerSupply, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "form factor":
+                filterable_dimension_name = "form_factor"
+            else:
+                filterable_dimension_name = ui_dimension_name
 
         return filterable_dimension_name
 

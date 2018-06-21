@@ -1,0 +1,29 @@
+{% extends 'componentBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search Power Supplies:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">Power Supply</th>
+    <th scope="col">Series</th>
+    <th scope="col">Form</th>
+    <th scope="col">Watts</th>
+    <th scope="col">Modular</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block customSlug %}
+{% url 'products:power_supply_detail' component.slug %}
+{% endblock customSlug %}
+
+{% block componentSpecificColumns %}
+    <td class="indexableElement">{{ component.model_number }}</td>
+    <td class="indexableElement">{{ component.form_factor }}</td>
+    <td class="indexableElement">{{ component.watts }}</td>
+    <td class="indexableElement">{{ component.modular }}</td>
+{% endblock componentSpecificColumns %}
