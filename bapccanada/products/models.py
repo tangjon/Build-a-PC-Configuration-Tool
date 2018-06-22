@@ -357,6 +357,61 @@ class CPU(Component):
         return filterable_dimension_name
 
 
+class CPUCooler(Component):
+    is_liquid_cooled = models.BooleanField(default=False)
+    is_fanless = models.BooleanField(default=False)
+    fan_rpm = models.CharField(max_length=20)
+    height = models.PositiveIntegerField(default=0)
+    color = models.CharField(max_length=20)
+    bearing = models.CharField(max_length=20)
+    cpu_type = models.CharField(max_length=20)
+
+    def get_page_title(self):
+        return "{} - {} CPU Cooler".format(self.manufacturer, self.model_number)
+
+    def get_tech_details(self):
+        main_details = super(CPUCooler, self).get_tech_details()
+        extra_details = {
+            "liquid cooling": self.is_liquid_cooled,
+            "fanlesss": self.is_fanless,
+            "fan rpm": self.fan_rpm,
+            "height": self.height,
+            "bearing": self.bearing,
+            "cpu type": self.cpu_type
+        }
+
+        return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(CPUCooler, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'liquid cooling': subtype.objects.order_by('is_liquid_cooled').values_list('is_liquid_cooled', flat=True).distinct(),
+            'fanlesss': subtype.objects.order_by('is_fanless').values_list('is_fanless',
+                                                                                       flat=True).distinct(),
+            'height': subtype.objects.order_by('height').values_list('height', flat=True).distinct(),
+            'cpu type': subtype.objects.order_by('cpu_type').values_list('cpu_type', flat=True).distinct(),
+            'bearing': subtype.objects.order_by('bearing').values_list('bearing', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(CPUCooler, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "fanlesss":
+                filterable_dimension_name = "is_fanless"
+            elif ui_dimension_name == "liquid cooling":
+                filterable_dimension_name = "is_liquid_cooled"
+            elif ui_dimension_name == "height":
+                filterable_dimension_name = "height"
+            elif ui_dimension_name == "cpu type":
+                filterable_dimension_name = "cpu_type"
+            elif ui_dimension_name == "bearing":
+                filterable_dimension_name = "bearing"
+        return filterable_dimension_name
+
+
 class PowerSupply(Component):
     form_factor = models.CharField(max_length=50)
     efficiency = models.CharField(max_length=50)
