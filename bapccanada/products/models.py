@@ -71,6 +71,8 @@ class Component(PolymorphicModel):
             return "motherboard"
         elif actual_class == PowerSupply:
             return "power supply"
+        elif actual_class == Case:
+            return "case"
         else:
             return "monitor"
 
@@ -390,6 +392,60 @@ class Motherboard(Component):
             elif ui_dimension_name == "ram slots":
                 filterable_dimension_name = "ram_slots"
             elif ui_dimension_name == "USB 3.0":
+                filterable_dimension_name = "usb_3"
+            else:
+                filterable_dimension_name = ui_dimension_name
+
+        return filterable_dimension_name
+
+
+class Case(Component):
+    form_factor = models.CharField(max_length=30)
+    motherboard_form_factor = models.CharField(max_length=30)
+    two_five_inch_bays = models.PositiveIntegerField(default=1)
+    three_five_inch_bays = models.PositiveIntegerField(default=1)
+    usb_3 = models.CharField(max_length=10)
+
+    def get_page_title(self):
+        return "{} - {} {} Case".format(self.manufacturer, self.model_number, self.form_factor)
+
+    def get_tech_details(self):
+        main_details = super(Case, self).get_tech_details()
+        extra_details = {
+            "form factor": self.form_factor,
+            "motherboard compatibility": self.motherboard_form_factor,
+            "Internal 2.5 Inch bays": self.two_five_inch_bays,
+            "Internal 3.5 Inch bays": self.three_five_inch_bays,
+            "USB 3.0 Ports": self.usb_3
+        }
+
+        return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(Case, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'form factor': subtype.objects.order_by('form_factor').values_list('form_factor', flat=True).distinct(),
+            '2.5 Inch Drive Bays': subtype.objects.order_by('two_five_inch_bays').values_list('two_five_inch_bays', flat=True).distinct(),
+            '3.5 Inch Drive Bays': subtype.objects.order_by('three_five_inch_bays').values_list('three_five_inch_bays', flat=True).distinct(),
+            'motherboard compatibility': subtype.objects.order_by('motherboard_form_factor').values_list('motherboard_form_factor', flat=True).distinct(),
+            "USB 3.0 front panel": subtype.objects.order_by('usb_3').values_list('usb_3', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(Case, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "form factor":
+                filterable_dimension_name = "form_factor"
+            elif ui_dimension_name == '2.5 Inch Drive Bays':
+                filterable_dimension_name = "two_five_inch_bays"
+            elif ui_dimension_name == '3.5 Inch Drive Bays':
+                filterable_dimension_name = "three_five_inch_bays"
+            elif ui_dimension_name == 'motherboard compatibility':
+                filterable_dimension_name = 'motherboard_form_factor'
+            elif ui_dimension_name == 'USB 3.0 front panel':
                 filterable_dimension_name = "usb_3"
             else:
                 filterable_dimension_name = ui_dimension_name
