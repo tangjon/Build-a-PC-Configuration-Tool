@@ -7,7 +7,7 @@ from decimal import Decimal
 from django.utils import timezone
 
 from bapccanada.utils import create_shortcode
-from products.models import GPU, CPU, RAM, Monitor, Motherboard, PowerSupply, Case
+from products.models import GPU, CPU, RAM, Monitor, Motherboard, PowerSupply, Case,Storage
 from user.models import UserProfile
 
 
@@ -18,6 +18,7 @@ class Build(models.Model):
     monitor = models.ForeignKey(Monitor, null=True, on_delete=models.DO_NOTHING)
     motherboard = models.ForeignKey(Motherboard, null=True, on_delete=models.DO_NOTHING)
     power_supply = models.ForeignKey(PowerSupply, null=True, on_delete=models.DO_NOTHING)
+    storage = models.ForeignKey(Storage, null=True, on_delete=models.DO_NOTHING)
     case = models.ForeignKey(Case, null=True, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=100, null=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
@@ -82,7 +83,7 @@ class Build(models.Model):
                 current_build.save()
 
     def get_component_array(self):
-        return [self.gpu, self.cpu, self.monitor, self.ram, self.motherboard, self.power_supply, self.case]
+        return [self.gpu, self.cpu, self.monitor, self.ram, self.motherboard, self.power_supply, self.case, self.storage]
 
     def get_total_price(self):
         component_array = self.get_component_array()
@@ -109,6 +110,8 @@ class Build(models.Model):
             self.power_supply = replacement_value
         elif component_type == Case:
             self.case = replacement_value
+        elif component_type == Storage:
+            self.storage = replacement_value
         else:
             self.monitor = replacement_value
 
@@ -159,6 +162,11 @@ class Build(models.Model):
                 "object": self.power_supply,
                 "category_link": "products:power_supply",
                 "detail_link": "products:power_supply_detail"
+            },
+            "Storage": {
+                "object": self.storage,
+                "category_link": "products:storage",
+                "detail_link": "products:storage_detail"
             },
             "Case": {
                 "object": self.case,

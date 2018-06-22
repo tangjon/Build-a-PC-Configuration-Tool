@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 
 import json
 
-from .models import GPU, CPU, Monitor, RAM, Motherboard, PowerSupply, Case
+from .models import GPU, CPU, Monitor, RAM, Motherboard, PowerSupply, Storage, Case
 from .FilterProcessor import FilterProcessor
 from home.models import Price
 
@@ -84,6 +84,12 @@ class CaseBrowseView(AbstractComponentBrowseView):
     title = 'Choose a Case'
 
 
+class StorageBrowseView(AbstractComponentBrowseView):
+    model = Storage
+    template_name = 'storageBrowse.html'
+    title = 'Choose a Storage Option'
+
+
 class AbstractComponentDetailView(DetailView):
     template_name = 'componentDetails.html'
     context_object_name = "component"
@@ -93,7 +99,7 @@ class AbstractComponentDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         component = self.get_object()
 
-        context['rating_range'] = range(1,6)
+        context['rating_range'] = range(1, 6)
         context['images'] = component.get_component_images()
         context['tech_details'] = component.get_tech_details()
         context['reviews'] = component.get_component_reviews()
@@ -131,6 +137,11 @@ class MotherboardDetailView(AbstractComponentDetailView):
 class PowerSupplyDetailView(AbstractComponentDetailView):
     model = PowerSupply
     category = "Power Supply"
+
+
+class StorageDetailView(AbstractComponentDetailView):
+    model = Storage
+    category = "Storage"
 
 
 class CaseDetailView(AbstractComponentDetailView):

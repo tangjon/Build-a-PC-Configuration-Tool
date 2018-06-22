@@ -71,6 +71,8 @@ class Component(PolymorphicModel):
             return "motherboard"
         elif actual_class == PowerSupply:
             return "power supply"
+        elif actual_class == Storage:
+            return "storage"
         elif actual_class == Case:
             return "case"
         else:
@@ -239,6 +241,64 @@ class RAM(Component):
 
         if filterable_dimension_name is None:
             filterable_dimension_name = ui_dimension_name
+
+        return filterable_dimension_name
+
+
+class Storage(Component):
+    capacity = models.CharField(max_length=10)
+    type = models.CharField(max_length=20)
+    interface = models.CharField(max_length=20)
+    form_factor = models.CharField(max_length=20)
+    buffer_cache = models.CharField(max_length=20)
+    series = models.CharField(max_length=20)
+
+    def get_page_title(self):
+        return "{} - {} {} {} {} Drive".format(
+            self.manufacturer,
+            self.model_number,
+            self.capacity,
+            self.form_factor,
+            self.type)
+
+    def get_tech_details(self):
+        main_details = super(Storage, self).get_tech_details()
+        extra_details = {
+            "Capacity": self.capacity,
+            "Type": self.type,
+            "Interface": self.interface,
+            "Form Factor": self.form_factor,
+            "Buffer Cache": self.buffer_cache
+        }
+
+        return {**main_details, **extra_details}
+
+    def get_filterable_dimensions(self, subtype):
+        base_dimensions = super(Storage, self).get_filterable_dimensions(subtype)
+        extra_dimensions = {
+            'capacity': subtype.objects.order_by('capacity').values_list('capacity', flat=True).distinct(),
+            'type': subtype.objects.order_by('type').values_list('type', flat=True).distinct(),
+            'interface': subtype.objects.order_by('interface').values_list('interface', flat=True).distinct(),
+            'form factor': subtype.objects.order_by('form_factor').values_list('form_factor', flat=True).distinct(),
+            'buffer cache': subtype.objects.order_by('buffer_cache').values_list('buffer_cache', flat=True).distinct()
+        }
+
+        return {**base_dimensions, **extra_dimensions}
+
+    def get_filterable_dimension_name(self, ui_dimension_name):
+        filterable_dimension_name = super(Storage, self).get_filterable_dimension_name(ui_dimension_name)
+
+        if filterable_dimension_name is None:
+            if ui_dimension_name == "capacity":
+                filterable_dimension_name = "capacity"
+            elif ui_dimension_name == "type":
+                filterable_dimension_name = "type"
+            elif ui_dimension_name == "interface":
+                filterable_dimension_name = "interface"
+            elif ui_dimension_name == "form factor":
+                filterable_dimension_name = "form_factor"
+            else:
+                filterable_dimension_name = "buffer_cache"
 
         return filterable_dimension_name
 

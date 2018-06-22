@@ -98,6 +98,11 @@ class HomeView(TemplateView):
             "name": "Power Supply",
             "url": reverse_lazy('products:power_supply'),
             "img": static('assets/icons/power_supply.png')
+        },
+        "storage": {
+            "name": "Storage",
+            "url": reverse_lazy('products:storage'),
+            "img": static('assets/icons/storage.png')
         }
 
     }

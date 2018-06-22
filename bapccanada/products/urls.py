@@ -16,6 +16,8 @@ urlpatterns = [
     re_path(r'^motherboard/(?P<slug>[-\w]+)/$', views.MotherboardDetailView.as_view(), name='motherboard_detail'),
     path('powersupply/', views.PowerSupplyBrowseView.as_view(), name='power_supply'),
     re_path(r'^powersupply/(?P<slug>[-\w]+)/$', views.PowerSupplyDetailView.as_view(), name='power_supply_detail'),
+    path('storage/', views.StorageBrowseView.as_view(), name='storage'),
+    re_path(r'^storage/(?P<slug>[-\w]+)/$', views.StorageDetailView.as_view(), name='storage_detail')
     path('case/', views.CaseBrowseView.as_view(), name='case'),
     re_path(r'^case/(?P<slug>[-\w]+)/$', views.CaseDetailView.as_view(), name='case_detail')
 ]

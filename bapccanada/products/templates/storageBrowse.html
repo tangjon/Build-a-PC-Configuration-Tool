@@ -1,0 +1,31 @@
+{% extends 'componentBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search Storage Options:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">Storage</th>
+    <th scope="col">Series</th>
+    <th scope="col">Type</th>
+    <th scope="col">Form</th>
+    <th scope="col">Capacity</th>
+    <th scope="col">Cache</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block customSlug %}
+    {% url 'products:storage_detail' component.slug %}
+{% endblock customSlug %}
+
+{% block componentSpecificColumns %}
+    <td class="indexableElement">{{ component.series }}</td>
+    <td class="indexableElement">{{ component.type }}</td>
+    <td class="indexableElement">{{ component.form_factor }}</td>
+    <td class="indexableElement">{{ component.capacity }}</td>
+    <td class="indexableElement">{{ component.buffer_cache }}</td>
+{% endblock componentSpecificColumns %}
