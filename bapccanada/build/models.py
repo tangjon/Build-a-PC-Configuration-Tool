@@ -193,3 +193,4 @@ class Build(models.Model):
 class CurrentBuild(models.Model):
     tracked_user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True)
     tracked_build = models.OneToOneField(Build, on_delete=models.SET_NULL, null=True)
+
