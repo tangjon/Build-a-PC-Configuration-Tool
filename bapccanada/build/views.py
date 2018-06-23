@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.views.generic import View
 from django.http import JsonResponse
@@ -21,6 +22,7 @@ class Create(View):
         return self.render(request)
 
 
+@csrf_exempt
 def change_component(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -70,6 +72,7 @@ def save_build(request):
     return JsonResponse("Not a valid save request")
 
 
+@csrf_exempt
 def new_build(request):
     if request.method == 'POST' and request.POST.get('action') == 'new':
         if not request.user.is_authenticated:  # user is not authenticated

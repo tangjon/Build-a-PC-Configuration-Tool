@@ -132,6 +132,11 @@ class Build(models.Model):
         self.cpu = None
         self.gpu = None
         self.monitor = None
+        self.case = None
+        self.cooler = None
+        self.motherboard = None
+        self.power_supply = None
+        self.storage = None
         self.save()
 
     def get_component_dict(self):
