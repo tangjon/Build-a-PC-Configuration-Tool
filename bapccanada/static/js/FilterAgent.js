@@ -330,7 +330,7 @@ export default class FilterAgent {
 
                     const sBackendName = oDimensionEntry.filterable_dimension_name;
                     if ((typeof oDimensionEntry.filter_value !== 'number' && oDimensionEntry.filter_value.toLowerCase() !== "all")
-                        && (sBackendName === 'memory' || sBackendName === 'response_time' || sBackendName === 'refresh_rate')) {
+                        && (sBackendName === 'memory_size' || sBackendName === 'response_time' || sBackendName === 'refresh_rate')) {
                         oDimensionJson[sKey][sDimensionKey].data_type = 'int';
                         oDimensionJson[sKey][sDimensionKey].filter_value = parseInt(oDimensionEntry.filter_value);
                     }

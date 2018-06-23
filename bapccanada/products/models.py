@@ -193,7 +193,7 @@ class GPU(Component):
             if ui_dimension_name == "chipset":
                 filterable_dimension_name = "chipset"
             elif ui_dimension_name == "memory":
-                filterable_dimension_name = "memory"
+                filterable_dimension_name = "memory_size"
             elif ui_dimension_name == "hdmi ports":
                 filterable_dimension_name = "hdmi_ports"
             else:
