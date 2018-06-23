@@ -136,6 +136,7 @@ class Build(models.Model):
         self.cooler = None
         self.motherboard = None
         self.power_supply = None
+        self.ram = None
         self.storage = None
         self.save()
 
