@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 
 import json
 
-from .models import GPU, CPU, Monitor, RAM, Motherboard, PowerSupply, Storage, Case
+from .models import GPU, CPU, Monitor, RAM, Motherboard, PowerSupply, Storage, Case, Cooler
 from .FilterProcessor import FilterProcessor
 from home.models import Price
 
@@ -90,6 +90,12 @@ class StorageBrowseView(AbstractComponentBrowseView):
     title = 'Choose a Storage Option'
 
 
+class CoolerBrowseView(AbstractComponentBrowseView):
+    model = Cooler
+    template_name = 'coolerBrowse.html'
+    title = 'Choose a Cooler'
+
+
 class AbstractComponentDetailView(DetailView):
     template_name = 'componentDetails.html'
     context_object_name = "component"
@@ -147,3 +153,8 @@ class StorageDetailView(AbstractComponentDetailView):
 class CaseDetailView(AbstractComponentDetailView):
     model = Case
     category = "Case"
+
+
+class CoolerDetailView(AbstractComponentDetailView):
+    model = Cooler
+    category = "CPU Cooler"

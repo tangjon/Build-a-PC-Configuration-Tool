@@ -19,5 +19,7 @@ urlpatterns = [
     path('storage/', views.StorageBrowseView.as_view(), name='storage'),
     re_path(r'^storage/(?P<slug>[-\w]+)/$', views.StorageDetailView.as_view(), name='storage_detail'),
     path('case/', views.CaseBrowseView.as_view(), name='case'),
-    re_path(r'^case/(?P<slug>[-\w]+)/$', views.CaseDetailView.as_view(), name='case_detail')
+    re_path(r'^case/(?P<slug>[-\w]+)/$', views.CaseDetailView.as_view(), name='case_detail'),
+    path('cooler/', views.CoolerBrowseView.as_view(), name='cooler'),
+    re_path(r'^cooler/(?P<slug>[-\w]+)/$', views.CoolerDetailView.as_view(), name='cooler_detail')
 ]

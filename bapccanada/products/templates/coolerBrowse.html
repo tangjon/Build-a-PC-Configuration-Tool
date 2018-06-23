@@ -1,0 +1,27 @@
+{% extends 'componentBrowse.html' %}
+{% load static %}
+
+{% block searchPromptText %}
+    Search CPU Coolers:
+{% endblock searchPromptText %}
+
+{% block componentSorterRow %}
+    <th scope="col"></th>
+    <th scope="col">Case</th>
+    <th scope="col">Fan RPM</th>
+    <th scope="col">Liquid Cooling</th>
+    <th scope="col">Fanless</th>
+    <th scope="col" class="productCol">Rating</th>
+    <th scope="col">Price</th>
+    <th scope="col"></th>
+{% endblock componentSorterRow %}
+
+{% block customSlug %}
+    {% url 'products:cooler_detail' component.slug %}
+{% endblock customSlug %}
+
+{% block componentSpecificColumns %}
+    <td class="indexableElement">{{ component.fan_rpm }}</td>
+    <td class="indexableElement">{{ component.is_liquid_cooled }}</td>
+    <td class="indexableElement">{{ component.is_fanless }}</td>
+{% endblock componentSpecificColumns %}

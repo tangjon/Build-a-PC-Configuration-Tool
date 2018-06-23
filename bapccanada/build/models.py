@@ -7,7 +7,7 @@ from decimal import Decimal
 from django.utils import timezone
 
 from bapccanada.utils import create_shortcode
-from products.models import GPU, CPU, RAM, Monitor, Motherboard, PowerSupply, Case,Storage
+from products.models import GPU, CPU, RAM, Monitor, Motherboard, PowerSupply, Case, Storage, Cooler
 from user.models import UserProfile
 
 
@@ -20,6 +20,7 @@ class Build(models.Model):
     power_supply = models.ForeignKey(PowerSupply, null=True, on_delete=models.DO_NOTHING)
     storage = models.ForeignKey(Storage, null=True, on_delete=models.DO_NOTHING)
     case = models.ForeignKey(Case, null=True, on_delete=models.DO_NOTHING)
+    cooler = models.ForeignKey(Cooler, null=True, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=100, null=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     complete = models.BooleanField(default=False)
@@ -83,7 +84,7 @@ class Build(models.Model):
                 current_build.save()
 
     def get_component_array(self):
-        return [self.gpu, self.cpu, self.monitor, self.ram, self.motherboard, self.power_supply, self.case, self.storage]
+        return [self.gpu, self.cpu, self.monitor, self.ram, self.cooler, self.motherboard, self.power_supply, self.case, self.storage]
 
     def get_total_price(self):
         component_array = self.get_component_array()
@@ -112,6 +113,8 @@ class Build(models.Model):
             self.case = replacement_value
         elif component_type == Storage:
             self.storage = replacement_value
+        elif component_type == Cooler:
+            self.cooler = replacement_value
         else:
             self.monitor = replacement_value
 
@@ -172,6 +175,11 @@ class Build(models.Model):
                 "object": self.case,
                 "category_link": "products:case",
                 "detail_link": "products:case_detail"
+            },
+            "CPU Cooler": {
+                "object": self.cooler,
+                "category_link": "products:cooler",
+                "detail_link": "products:cooler_detail"
             }
         }
 

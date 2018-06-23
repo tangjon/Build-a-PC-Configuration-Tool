@@ -75,6 +75,8 @@ class Component(PolymorphicModel):
             return "storage"
         elif actual_class == Case:
             return "case"
+        elif actual_class == Cooler:
+            return "cooler"
         else:
             return "monitor"
 
@@ -357,22 +359,17 @@ class Cooler(Component):
     is_liquid_cooled = models.CharField(max_length=20)
     is_fanless = models.CharField(max_length=20)
     fan_rpm = models.CharField(max_length=20)
-    height = models.PositiveIntegerField(default=0)
-    color = models.CharField(max_length=20)
-    bearing = models.CharField(max_length=20)
     cpu_type = models.CharField(max_length=20)
 
     def get_page_title(self):
-        return "{} - {} CPU Cooler".format(self.manufacturer, self.model_number)
+        return "{} - {} {} CPU Cooler".format(self.manufacturer, self.model_number, self.fan_rpm)
 
     def get_tech_details(self):
         main_details = super(Cooler, self).get_tech_details()
         extra_details = {
             "liquid cooling": self.is_liquid_cooled,
-            "fanlesss": self.is_fanless,
+            "fanless": self.is_fanless,
             "fan rpm": self.fan_rpm,
-            "height": self.height,
-            "bearing": self.bearing,
             "cpu type": self.cpu_type
         }
 
@@ -382,11 +379,9 @@ class Cooler(Component):
         base_dimensions = super(Cooler, self).get_filterable_dimensions(subtype)
         extra_dimensions = {
             'liquid cooling': subtype.objects.order_by('is_liquid_cooled').values_list('is_liquid_cooled', flat=True).distinct(),
-            'fanlesss': subtype.objects.order_by('is_fanless').values_list('is_fanless',
+            'fanless': subtype.objects.order_by('is_fanless').values_list('is_fanless',
                                                                                        flat=True).distinct(),
-            'height': subtype.objects.order_by('height').values_list('height', flat=True).distinct(),
-            'cpu type': subtype.objects.order_by('cpu_type').values_list('cpu_type', flat=True).distinct(),
-            'bearing': subtype.objects.order_by('bearing').values_list('bearing', flat=True).distinct()
+            'cpu type': subtype.objects.order_by('cpu_type').values_list('cpu_type', flat=True).distinct()
         }
 
         return {**base_dimensions, **extra_dimensions}
