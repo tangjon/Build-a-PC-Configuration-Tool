@@ -289,16 +289,12 @@ class Storage(Component):
         filterable_dimension_name = super(Storage, self).get_filterable_dimension_name(ui_dimension_name)
 
         if filterable_dimension_name is None:
-            if ui_dimension_name == "capacity":
-                filterable_dimension_name = "capacity"
-            elif ui_dimension_name == "type":
-                filterable_dimension_name = "type"
-            elif ui_dimension_name == "interface":
-                filterable_dimension_name = "interface"
-            elif ui_dimension_name == "form factor":
+            if ui_dimension_name == "form factor":
                 filterable_dimension_name = "form_factor"
-            else:
+            elif ui_dimension_name == 'buffer cache':
                 filterable_dimension_name = "buffer_cache"
+            else:
+                filterable_dimension_name = ui_dimension_name
 
         return filterable_dimension_name
 
@@ -357,9 +353,9 @@ class CPU(Component):
         return filterable_dimension_name
 
 
-class CPUCooler(Component):
-    is_liquid_cooled = models.BooleanField(default=False)
-    is_fanless = models.BooleanField(default=False)
+class Cooler(Component):
+    is_liquid_cooled = models.CharField(max_length=20)
+    is_fanless = models.CharField(max_length=20)
     fan_rpm = models.CharField(max_length=20)
     height = models.PositiveIntegerField(default=0)
     color = models.CharField(max_length=20)
@@ -370,7 +366,7 @@ class CPUCooler(Component):
         return "{} - {} CPU Cooler".format(self.manufacturer, self.model_number)
 
     def get_tech_details(self):
-        main_details = super(CPUCooler, self).get_tech_details()
+        main_details = super(Cooler, self).get_tech_details()
         extra_details = {
             "liquid cooling": self.is_liquid_cooled,
             "fanlesss": self.is_fanless,
@@ -383,7 +379,7 @@ class CPUCooler(Component):
         return {**main_details, **extra_details}
 
     def get_filterable_dimensions(self, subtype):
-        base_dimensions = super(CPUCooler, self).get_filterable_dimensions(subtype)
+        base_dimensions = super(Cooler, self).get_filterable_dimensions(subtype)
         extra_dimensions = {
             'liquid cooling': subtype.objects.order_by('is_liquid_cooled').values_list('is_liquid_cooled', flat=True).distinct(),
             'fanlesss': subtype.objects.order_by('is_fanless').values_list('is_fanless',
@@ -396,19 +392,18 @@ class CPUCooler(Component):
         return {**base_dimensions, **extra_dimensions}
 
     def get_filterable_dimension_name(self, ui_dimension_name):
-        filterable_dimension_name = super(CPUCooler, self).get_filterable_dimension_name(ui_dimension_name)
+        filterable_dimension_name = super(Cooler, self).get_filterable_dimension_name(ui_dimension_name)
 
         if filterable_dimension_name is None:
             if ui_dimension_name == "fanlesss":
                 filterable_dimension_name = "is_fanless"
             elif ui_dimension_name == "liquid cooling":
                 filterable_dimension_name = "is_liquid_cooled"
-            elif ui_dimension_name == "height":
-                filterable_dimension_name = "height"
             elif ui_dimension_name == "cpu type":
                 filterable_dimension_name = "cpu_type"
-            elif ui_dimension_name == "bearing":
-                filterable_dimension_name = "bearing"
+            else:
+                filterable_dimension_name = ui_dimension_name
+
         return filterable_dimension_name
 
 
