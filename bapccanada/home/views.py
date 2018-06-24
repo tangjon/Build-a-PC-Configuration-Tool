@@ -103,6 +103,16 @@ class HomeView(TemplateView):
             "name": "Storage",
             "url": reverse_lazy('products:storage'),
             "img": static('assets/icons/storage.png')
+        },
+        "case": {
+            "name": "Case",
+            "url": reverse_lazy('products:case'),
+            "img": static('assets/icons/case.png')
+        },
+        "Cooler": {
+            "name": "Cooler",
+            "url": reverse_lazy('products:cooler'),
+            "img": static('assets/icons/cooler.png')
         }
 
     }
