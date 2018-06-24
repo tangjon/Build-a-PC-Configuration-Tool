@@ -25,15 +25,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link {% if request.path == url_home %}active{% endif %}" href={{ url_home }}>Home
+                <a class="d-flex nav-item nav-link {% if request.path == url_home %}active{% endif %}" href={{ url_home }}><span class="material-icons">home</span>Home
                     <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link {% if request.path == url_build %}active{% endif %}" href="{{ url_build }}">Build</a>
+                <a class="d-flex nav-item nav-link {% if request.path == url_build %}active{% endif %}" href="{{ url_build }}"><span class="material-icons">dns</span>Build</a>
                 <li class="nav-item dropdown partsDropDown">
-                    <a class="nav-link dropdown-toggle partsDropDown-toggle nav-link
+                    <a class="d-flex nav-link dropdown-toggle partsDropDown-toggle nav-link
                        {% if request.path == url_gpu or request.path == url_cooler or request.path == url_monitor or request.path == url_cpu or request.path == url_ram or request.path == url_motherboard or request.path == url_power_supply or request.path == url_storage or request.path == url_case or request.path == url_storage %}active{% endif %}"
                        id="navbarDropdownMenuLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        Parts
+                        <span class="material-icons">build</span>Parts
                     </a>
                     <div class="dropdown-menu partsDropDown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{ url_cpu }}">Processor</a>
