@@ -66,11 +66,11 @@ class Component(PolymorphicModel):
         elif actual_class == GPU:
             return "gpu"
         elif actual_class == RAM:
-            return "ram"
+            return "memory"
         elif actual_class == Motherboard:
             return "motherboard"
         elif actual_class == PowerSupply:
-            return "power supply"
+            return "powersupply"
         elif actual_class == Storage:
             return "storage"
         elif actual_class == Case:
