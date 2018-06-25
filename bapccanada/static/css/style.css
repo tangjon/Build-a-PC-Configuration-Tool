@@ -62,6 +62,12 @@ NAVIGATION BAR
     margin-top: -0.35rem;
 }
 
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #f9bf3b;
+}
+
 /*
 END NAVIGATION BAR
 */
