@@ -1,6 +1,6 @@
 import {doAjaxPost} from "./AjaxUtility.js"
 import getCookie from "./CookieUtility.js";
-import {SAVE_REVIEW_URL} from "./LinkConstants.js";
+import {COMPONENT_CHANGE, SAVE_REVIEW_URL} from "./LinkConstants.js";
 
 const csrftoken = getCookie('csrftoken');
 
@@ -36,7 +36,36 @@ const fnSetupAddReview = function () {
     }
 };
 
+const fnCreateAddAjaxParameters = function (oElement, sAction) {
+    const sUrl = COMPONENT_CHANGE;
+    const oData = {
+        "slug": oElement.id,
+        "action": sAction,
+        'csrfmiddlewaretoken': csrftoken
+    };
+    return {
+        oData: oData,
+        sUrl: sUrl
+    };
+};
+
+let bIsFilterRequest = false;
+if (window.location.href.indexOf("filters") !== -1) {
+    bIsFilterRequest = true;
+    const sStrippedUrl = window.location.href.split("?filters=")[0];
+    window.history.pushState('Browse Components', 'Browse Components', sStrippedUrl);
+}
+
 
 $(document).ready(function () {
+
+
+    $(".detailAddButton").each((index, button) => {
+        button.onclick = function () {
+            console.log(this);
+            const oParam = fnCreateAddAjaxParameters(this, "add");
+            doAjaxPost(oParam.oData, oParam.sUrl);
+        }.bind(button)
+    });
     fnSetupAddReview();
 });
