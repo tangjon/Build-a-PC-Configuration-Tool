@@ -20,5 +20,5 @@ urlpatterns = [
     path('builds/edit/', build_edit, name="builds_edit"),
     path('builds/delete/', build_delete, name="builds_delete"),
     path('security/', SecurityView.as_view(), name="security"),
-    path('saved/', SavedView.as_view(), name="saved")
+    # path('saved/', SavedView.as_view(), name="saved")
 ]
