@@ -1,4 +1,5 @@
 from django import template
+from django.db.models import Count
 
 register = template.Library()
 
@@ -35,3 +36,11 @@ def get_stars(value):
     for i in range(5 - value):
         html += '<span class="fa fa-star-o"></span>'
     return html
+
+
+@register.filter
+def completeBuildCount(value):
+    t = value.filter(complete=True)
+    if not t:
+        return 0
+    return len(t)
