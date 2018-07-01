@@ -40,7 +40,9 @@ def get_stars(value):
 
 @register.filter
 def completeBuildCount(value):
-    t = value.filter(complete=True)
-    if not t:
-        return 0
-    return len(t)
+    if value:
+        t = value.filter(complete=True)
+        if not t:
+            return 0
+        return len(t)
+    return 0

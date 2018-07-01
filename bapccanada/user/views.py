@@ -4,14 +4,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.http import JsonResponse, Http404, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from build.models import Build, CurrentBuild
 from products.models import Review
-from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm, ReviewForm
+from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm, ReviewForm, \
+    AvatarUrlForm
 
 
 class BaseProfileView(TemplateView):
@@ -34,11 +35,14 @@ class ProfileView(BaseProfileView):
     title_name = 'Profile'
 
     def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+
         if request.user.pk == self.browse_user.pk:
             if 'biography' in request.POST:
                 form = BiographyForm(request.POST, instance=request.user.userprofile)
                 if form.is_valid():
                     form.save(commit=True)
+                context['biography_form'] = form
             if 'avatar' in request.FILES:
                 form = AvatarForm(files=request.FILES,
                                   instance=self.request.user.userprofile)
@@ -49,7 +53,14 @@ class ProfileView(BaseProfileView):
                                   instance=self.request.user.userprofile)
                 if form.is_valid():
                     form.save(commit=True)
-        return self.get(request, *args, **kwargs)
+                context['avatar_form'] = form
+            if 'avatar_url' in request.POST:
+                form = AvatarUrlForm(request.POST,
+                                     instance=self.request.user.userprofile)
+                if form.is_valid():
+                    form.save(commit=True)
+                context['avatar_url_form'] = form
+        return render(request, template_name=self.template_name, context=context)
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -57,6 +68,7 @@ class ProfileView(BaseProfileView):
             'points__sum']
         context['biography_form'] = BiographyForm(instance=context['browse_user'].userprofile)
         context['avatar_form'] = AvatarForm(instance=context['browse_user'].userprofile)
+        context['avatar_url_form'] = AvatarUrlForm(instance=context['browse_user'].userprofile)
         return context
 
 

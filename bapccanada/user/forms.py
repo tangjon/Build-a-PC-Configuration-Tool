@@ -1,13 +1,28 @@
-from django import forms
+import re
 
+from django import forms
 from products.models import Review
 from user.models import UserProfile, ClickSettings, EmailSettings, PrivacySettings
 
 
+# DEPRICATED
 class AvatarForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['avatar']
+
+
+class AvatarUrlForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar_url']
+
+    def clean_avatar_url(self):
+        ext = ["jpeg", "jpg", "gif", "png"]
+        url = self.cleaned_data.get('avatar_url')
+        if url.endswith(tuple(ext)) is False:
+            raise forms.ValidationError("Not a valid image link")
+        return url
 
 
 class BiographyForm(forms.ModelForm):

@@ -10,6 +10,7 @@
     width: 60px;
     height: 60px;
     border: 5px outset;
+    object-fit: cover;
 }
 
 /* ACCOUNTS TAB */
@@ -86,4 +87,8 @@ textarea.form-control {
 
 button#toggle_complete {
     display: inline-flex;
+}
+
+img.avatar-img {
+    height: 60px;
 }

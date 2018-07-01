@@ -18,7 +18,7 @@
     <div class="bapc-header-title">
         <div class="row">
             <img class="profile-avatar"
-                 src="{% if browse_user.userprofile.avatar %} {{ browse_user.userprofile.avatar.url }}
+                 src="{% if browse_user.userprofile.avatar_url %} {{ browse_user.userprofile.avatar_url }}
                 {% else %}{% static 'assets/maple_leaf_80x80.png' %} {% endif %}"/>
             <div class="user-card">
                 {{ title }}
@@ -111,9 +111,21 @@
                         <img src="{{ browse_user.userprofile.avatar.url }}"
                              style="border-radius: 50%; width: 60px; height: 60px">
                     {% endif %}
-                    {#                    <form id="avatar_form" enctype="multipart/form-data" method="post">#}
-                    {#                    {% csrf_token %}#}
-                    {% for field in avatar_form %}
+                    {#                    {% for field in avatar_form %}#}
+                    {#                        <div class="form-group">#}
+                    {#                            {{ field.errors }}#}
+                    {#                            {% render_field field class="form-control" %}#}
+                    {#                            {% if field.help_text %}#}
+                    {#                                <small class="form-text">#}
+                    {#                                    {{ field.help_text|safe }}#}
+                    {#                                </small>#}
+                    {#                            {% endif %}#}
+                    {#                        </div>#}
+                    {#                    {% endfor %}#}
+                    {% if browse_user.userprofile.avatar_url %}
+                        <img class="avatar-img" src="{{ browse_user.userprofile.avatar_url }}">
+                    {% endif %}
+                    {% for field in avatar_url_form %}
                         <div class="form-group">
                             {{ field.errors }}
                             {% render_field field class="form-control" %}
