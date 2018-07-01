@@ -11,45 +11,51 @@
     {# TOOLBAR #}
     <div class="container buildToolbarTop ">
         <div class="btn-toolbar mb-3 mt-3" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="input-group">
-                {% if not build.is_pristine %}
+            {% if not build.is_pristine %}
+                <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text" id="btnGroupAddon">Permalink</div>
                     </div>
                     {#                TODO CHANGE THE URL HERE#}
                     <input type="text" class="form-control" value="http://127.0.0.1:8000/list/{{ build.shortcode }}"
                            aria-label="Input group example" aria-describedby="btnGroupAddon">
-                {% endif %}
-            </div>
-            <div class="mr-2" aria-label="Toolbar Controls">
-                 <button type="button" class="btn btn-secondary save-as-button" {% if build.is_pristine %}disabled{% endif %}>
-                    Save as
-                </button>
-                <div class="modal fade save-as-modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Save build</h5>
-                            </div>
-                            <div class="modal-body">
-                                <form class="form-inline save-modal-form">
-                                    <div class="form-group">
-                                        <label for="build-name-label" class="col-form-label build-label">Name:</label>
-                                        <input type="text" class="form-control build-name">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary save-modal-confirm">Save</button>
+                </div>
+                <div class="mr-2" aria-label="Toolbar Controls">
+                    <button type="button" class="btn btn-secondary save-as-button"
+                            {% if build.is_pristine %}disabled{% endif %}>
+                        Save as
+                    </button>
+                    <div class="modal fade save-as-modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Save build</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-inline save-modal-form">
+                                        <div class="form-group">
+                                            <label for="build-name-label"
+                                                   class="col-form-label build-label">Name:</label>
+                                            <input type="text" class="form-control build-name">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary save-modal-confirm">Save</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-secondary new-build-button"
+                            {% if build.is_pristine %}disabled{% endif %}>New Build
+                    </button>
                 </div>
-                <button type="button" class="btn btn-secondary new-build-button"
-                        {% if build.is_pristine %}disabled{% endif %}>New Build
-                </button>
-            </div>
+            {% else %}
+                <div>
+                    <h2>Start adding parts to your build below!</h2>
+                </div>
+            {% endif %}
         </div>
     </div>
     {# END TOOLBAR #}
