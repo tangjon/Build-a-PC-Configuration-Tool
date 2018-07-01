@@ -83,3 +83,7 @@ textarea.form-control {
 .btn-panel button {
     margin: 0 3px;
 }
+
+button#toggle_complete {
+    display: inline-flex;
+}

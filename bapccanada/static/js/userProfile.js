@@ -147,7 +147,6 @@ $(document).ready(function () {
     $('#edit_build').click(() => {
         const $selected_build = $('.list-group-item.active');
         if ($selected_build.length) {
-            // this is bad!
             const build_pk = $selected_build[0].id;
             const oParam = fnEditBuildParam({
                 'action': 'edit',
@@ -161,7 +160,6 @@ $(document).ready(function () {
     $('#delete_build').click(() => {
         const $selected_build = $('.list-group-item.active');
         if ($selected_build.length) {
-            // this is bad!
             const build_pk = $selected_build[0].id;
             const oParam = fnDeleteBuildParam({
                 'action': 'delete',
@@ -171,5 +169,16 @@ $(document).ready(function () {
         }
     });
 
+    $('#toggle_complete').click(() => {
+        const $selected_build = $('.list-group-item.active');
+        if ($selected_build.length) {
+            const build_pk = $selected_build[0].id;
+            const oParam = fnEditBuildParam({
+                'action': 'toggle_complete',
+                'build_pk': build_pk,
+            });
+            doAjaxPost(oParam.oData, oParam.sUrl, oParam.success, oParam.error);
+        }
+    });
 
 });

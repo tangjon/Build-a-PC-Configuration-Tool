@@ -84,7 +84,8 @@ class Build(models.Model):
                 current_build.save()
 
     def get_component_array(self):
-        return [self.gpu, self.cpu, self.monitor, self.ram, self.cooler, self.motherboard, self.power_supply, self.case, self.storage]
+        return [self.gpu, self.cpu, self.monitor, self.ram, self.cooler, self.motherboard, self.power_supply, self.case,
+                self.storage]
 
     def get_total_price(self):
         component_array = self.get_component_array()
@@ -189,8 +190,13 @@ class Build(models.Model):
             }
         }
 
+    def get_build_status(self):
+        if not self.complete:
+            return "Incomplete"
+        else:
+            return "Complete"
+
 
 class CurrentBuild(models.Model):
     tracked_user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True)
     tracked_build = models.OneToOneField(Build, on_delete=models.SET_NULL, null=True)
-

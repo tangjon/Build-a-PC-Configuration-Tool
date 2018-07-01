@@ -174,6 +174,19 @@ def build_edit(request, **kwargs):
             return JsonResponse({
                 "redirect_url": reverse_lazy('build:create')
             })
+        if 'action' in request.POST and request.POST['action'] == 'toggle_complete' and 'build_pk' in request.POST:
+            try:
+                build = request.user.userprofile.build_set.get(pk=request.POST['build_pk'])
+            except Build.DoesNotExist:
+                raise Http404()
+            build.complete = not build.complete
+            build.save()
+            return JsonResponse({
+                "redirect_url": reverse_lazy('user:builds_show', kwargs={
+                    'username': request.user.username,
+                    'pk': build.pk
+                })
+            })
     raise Http404()
 
 

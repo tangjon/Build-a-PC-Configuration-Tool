@@ -32,9 +32,17 @@
                 <div class="col-lg-8">
 
                     <div class="flat-panel">
-                        <div><b>{{ build.name }}</b></div>
+                        <div><b>{{ build.name }}</b><span class="">[{{ build.get_build_status }}]</span></div>
                         {% if request.user.pk == browse_user.pk %}
                             <div class="btn-panel mb-2">
+                                {% if build.complete %}
+                                    <button id="toggle_complete" class="btn-outline-danger bapc-btn btn">Mark Incomplete
+                                        <span class="material-icons">close</span></button>
+                                {% else %}
+                                    <button id="toggle_complete" class="btn-outline-success bapc-btn btn">Mark Complete
+                                        <span class="material-icons">check</span></button>
+
+                                {% endif %}
                                 <button id="edit_build" class="btn btn-warning bapc-btn">Edit</button>
                                 <button id="delete_build" class="btn btn-danger bapc-btn">Delete</button>
                             </div>
