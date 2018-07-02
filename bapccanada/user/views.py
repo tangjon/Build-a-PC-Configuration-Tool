@@ -89,7 +89,7 @@ class PreferencesView(BaseProfileView):
 
 class ReviewView(BaseProfileView):
     template_name = 'comments.html'
-    title_name = 'Comments'
+    title_name = 'Reviews'
 
     def get_context_data(self, **kwargs):
         context = super(ReviewView, self).get_context_data(**kwargs)

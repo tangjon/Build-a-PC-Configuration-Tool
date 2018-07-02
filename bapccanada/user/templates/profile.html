@@ -41,6 +41,16 @@
                 <a class="nav-link {% if title == "Profile" %} active {% endif %}" href={{ url_profile }}><i
                         class="material-icons pr-1">account_circle</i><span>Profile</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {% if title == "Builds" %} active {% endif %}"
+                   href={{ url_builds }}><i
+                        class="material-icons pr-1">build</i><span>Builds</span></a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link {% if title == "Reviews" %} active {% endif %}"
+                   href={{ url_comments }}><i
+                        class="material-icons pr-1">comment</i><span>Reviews</span></a>
+            </li>
             {% if browse_user.username == user.username %}
 {#                <li class="nav-item">#}
 {#                    <a class="nav-link {% if title == "Preferences" %} active {% endif %}"#}
@@ -53,16 +63,8 @@
                             class="material-icons pr-1">security</i><span>Security</span></a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link {% if title == "Comments" %} active {% endif %}"
-                   href={{ url_comments }}><i
-                        class="material-icons pr-1">comment</i><span>Reviews</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if title == "Builds" %} active {% endif %}"
-                   href={{ url_builds }}><i
-                        class="material-icons pr-1">build</i><span>Builds</span></a>
-            </li>
+
+
         </ul>
     </div>
 {% endblock bapc-header %}

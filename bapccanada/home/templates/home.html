@@ -122,14 +122,15 @@
                             Build</a>
                     </div>
                     <hr class="bapc">
-
                     {% for build in builds %}
-                        <h4>{{ build.name|default_if_none:""}}</h4>
-                        <div>{{ build.cpu }}</div>
-                        <div>{{ build.gpu|default_if_none:""}}</div>
-                        <div>{{ build.monitor.get_page_title|default_if_none:""}}</div>
+                        <a class="bapc-link" href="{{ build.get_link }}"><h4>{{ build.name|default_if_none:""}}</h4></a>
+                        {% for  category, component in build.get_component_dict.items %}
+                            <div>{{ component.object.display_title }}</div>
+
+                        {% endfor %}
                         <div class="flat-panel">
-                            <div>By <a href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a>
+                            <div>By <a
+                                    href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a>
                             </div>
                             <div>{{ build.date_published }}</div>
                             <span>Points {{ build.points }}</span>

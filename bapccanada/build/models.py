@@ -196,6 +196,9 @@ class Build(models.Model):
         else:
             return "Complete"
 
+    def get_link(self):
+        return "/list/" + self.shortcode
+
 
 class CurrentBuild(models.Model):
     tracked_user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True)
