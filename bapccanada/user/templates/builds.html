@@ -32,7 +32,13 @@
                 <div class="col-lg-8">
 
                     <div class="flat-panel">
-                        <div><b>{{ build.name }}</b><span class="">[{{ build.get_build_status }}]</span></div>
+                        <div><b>{{ build.name }}</b>
+                            {% if build.complete %}
+                                <span class="badge badge-success">[{{ build.get_build_status }}]</span>
+                            {% else %}
+                                <span class="badge badge-secondary">[{{ build.get_build_status }}]</span>
+                            {% endif %}
+                        </div>
                         {% if request.user.pk == browse_user.pk %}
                             <div class="btn-panel mb-2">
                                 {% if build.complete %}
