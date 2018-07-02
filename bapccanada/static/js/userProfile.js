@@ -82,7 +82,7 @@ $(document).ready(function () {
 
     $('.save_review').click(function () {
         const $review = $(this).parents('.review-card');
-        const message_confirm = `Are you sure you want to save review`;
+        const message_confirm = `Are you sure you want to save review?`;
         if (window.confirm(message_confirm)) {
             const oParam = fnUpdateReviewParam($review, {
                 "action": "update",

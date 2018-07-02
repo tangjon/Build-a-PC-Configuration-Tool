@@ -42,11 +42,11 @@
                         class="material-icons pr-1">account_circle</i><span>Profile</span></a>
             </li>
             {% if browse_user.username == user.username %}
-                <li class="nav-item">
-                    <a class="nav-link {% if title == "Preferences" %} active {% endif %}"
-                       href={{ url_preferences }}><i
-                            class="material-icons pr-1">settings</i><span>Preferences</span></a>
-                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link {% if title == "Preferences" %} active {% endif %}"#}
+{#                       href={{ url_preferences }}><i#}
+{#                            class="material-icons pr-1">settings</i><span>Preferences</span></a>#}
+{#                </li>#}
                 <li class="nav-item">
                     <a class="nav-link {% if title == "Security" %} active {% endif %}"
                        href={{ url_security }}><i
@@ -101,7 +101,6 @@
                             {% endif %}
                         </div>
                     {% endfor %}
-                    {#                    </form>#}
                 {% else %}
                     <p>{{ browse_user.userprofile.biography }}</p>
                 {% endif %}
@@ -111,17 +110,6 @@
                         <img src="{{ browse_user.userprofile.avatar.url }}"
                              style="border-radius: 50%; width: 60px; height: 60px">
                     {% endif %}
-                    {#                    {% for field in avatar_form %}#}
-                    {#                        <div class="form-group">#}
-                    {#                            {{ field.errors }}#}
-                    {#                            {% render_field field class="form-control" %}#}
-                    {#                            {% if field.help_text %}#}
-                    {#                                <small class="form-text">#}
-                    {#                                    {{ field.help_text|safe }}#}
-                    {#                                </small>#}
-                    {#                            {% endif %}#}
-                    {#                        </div>#}
-                    {#                    {% endfor %}#}
                     {% if browse_user.userprofile.avatar_url %}
                         <img class="avatar-img" src="{{ browse_user.userprofile.avatar_url }}">
                     {% endif %}

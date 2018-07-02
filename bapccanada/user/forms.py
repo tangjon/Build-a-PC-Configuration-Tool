@@ -5,13 +5,6 @@ from products.models import Review
 from user.models import UserProfile, ClickSettings, EmailSettings, PrivacySettings
 
 
-# DEPRICATED
-class AvatarForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['avatar']
-
-
 class AvatarUrlForm(forms.ModelForm):
     class Meta:
         model = UserProfile

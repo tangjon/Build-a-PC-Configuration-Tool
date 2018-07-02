@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 
 from build.models import Build, CurrentBuild
 from products.models import Review
-from user.forms import BiographyForm, AvatarForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm, ReviewForm, \
+from user.forms import BiographyForm, ClickSettingsForm, PrivacySettingsForm, EmailSettingsForm, ReviewForm, \
     AvatarUrlForm
 
 
@@ -43,17 +43,6 @@ class ProfileView(BaseProfileView):
                 if form.is_valid():
                     form.save(commit=True)
                 context['biography_form'] = form
-            if 'avatar' in request.FILES:
-                form = AvatarForm(files=request.FILES,
-                                  instance=self.request.user.userprofile)
-                if form.is_valid():
-                    form.save(commit=True)
-            if 'avatar-clear' in request.POST:
-                form = AvatarForm(request.POST,
-                                  instance=self.request.user.userprofile)
-                if form.is_valid():
-                    form.save(commit=True)
-                context['avatar_form'] = form
             if 'avatar_url' in request.POST:
                 form = AvatarUrlForm(request.POST,
                                      instance=self.request.user.userprofile)
@@ -67,7 +56,6 @@ class ProfileView(BaseProfileView):
         context['browse_user_karma'] = context['browse_user'].userprofile.review_set.all().aggregate(Sum('points'))[
             'points__sum']
         context['biography_form'] = BiographyForm(instance=context['browse_user'].userprofile)
-        context['avatar_form'] = AvatarForm(instance=context['browse_user'].userprofile)
         context['avatar_url_form'] = AvatarUrlForm(instance=context['browse_user'].userprofile)
         return context
 

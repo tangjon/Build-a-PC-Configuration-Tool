@@ -7,7 +7,6 @@ class UserProfile(models.Model):
     birth_date = models.DateField(null=True, blank=False)
     # extra
     biography = models.TextField(blank=True, max_length=300)
-    avatar = models.ImageField(upload_to='profile_image', blank=True, null=True)
     avatar_url = models.URLField(default="", max_length=1000)
 
     def __str__(self):
