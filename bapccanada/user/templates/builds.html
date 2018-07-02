@@ -34,9 +34,9 @@
                     <div class="flat-panel">
                         <div><b>{{ build.name }}</b>
                             {% if build.complete %}
-                                <span class="badge badge-success">[{{ build.get_build_status }}]</span>
+                                <span class="badge badge-success">{{ build.get_build_status }}</span>
                             {% else %}
-                                <span class="badge badge-secondary">[{{ build.get_build_status }}]</span>
+                                <span class="badge badge-secondary">{{ build.get_build_status }}</span>
                             {% endif %}
                         </div>
                         {% if request.user.pk == browse_user.pk %}

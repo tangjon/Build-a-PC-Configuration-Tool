@@ -46,17 +46,17 @@
                    href={{ url_builds }}><i
                         class="material-icons pr-1">build</i><span>Builds</span></a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link {% if title == "Reviews" %} active {% endif %}"
                    href={{ url_comments }}><i
                         class="material-icons pr-1">comment</i><span>Reviews</span></a>
             </li>
             {% if browse_user.username == user.username %}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link {% if title == "Preferences" %} active {% endif %}"#}
-{#                       href={{ url_preferences }}><i#}
-{#                            class="material-icons pr-1">settings</i><span>Preferences</span></a>#}
-{#                </li>#}
+                {#                <li class="nav-item">#}
+                {#                    <a class="nav-link {% if title == "Preferences" %} active {% endif %}"#}
+                {#                       href={{ url_preferences }}><i#}
+                {#                            class="material-icons pr-1">settings</i><span>Preferences</span></a>#}
+                {#                </li>#}
                 <li class="nav-item">
                     <a class="nav-link {% if title == "Security" %} active {% endif %}"
                        href={{ url_security }}><i
@@ -90,6 +90,7 @@
                 <h2 class="mt-2">Profile Settings</h2>
                 <h4>Biography</h4>
                 {% if browse_user.username == user.username %}
+                    <small>Tell us about yourself</small>
                     <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in biography_form %}
@@ -126,7 +127,8 @@
                             {% endif %}
                         </div>
                     {% endfor %}
-                    <button class="btn" id="profile-form-submit">Submit</button>
+                    <small class="d-block">Only links to png | jpeg | jpg | gif allowed</small>
+                    <button class="btn mt-2" id="profile-form-submit">Submit</button>
                     </form>
                 {% endif %}
             </div>
