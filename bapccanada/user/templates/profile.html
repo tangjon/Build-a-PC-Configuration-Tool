@@ -73,18 +73,18 @@
 
     <div class="container py-3">
         <div class="row">
-            <div class="col">
+            <div id="user-summary" class="col">
                 <h2 class="mt-2">Account</h2>
                 <h5>COMMENT KARMA</h5>
-                <a href="#">{{ browse_user_karma }}</a>
+                <div href="#">{{ browse_user_karma }}</div>
                 <h5>REVIEWS</h5>
-                <a href="#">{{ browse_user.userprofile.review_set.count }}</a>
+                <div href="#">{{ browse_user.userprofile.review_set.count }}</div>
                 <h5>BUILD GUIDES</h5>
-                <a href="#">{{ browse_user.userprofile.build_set.count }}</a>
+                <div href="#">{{ browse_user.userprofile.build_set.count }}</div>
                 <h5>COMPLETED BUILDS</h5>
-                <a href="#">{{ browse_user.userprofile.build_set | completeBuildCount }}</a>
+                <div href="#">{{ browse_user.userprofile.build_set | completeBuildCount }}</div>
                 <h5>JOINED</h5>
-                {{ browse_user.date_joined }}
+                <div>{{ browse_user.date_joined }}</div>
             </div>
             <div class="col">
                 <h2 class="mt-2">Profile Settings</h2>

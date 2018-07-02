@@ -5,12 +5,23 @@
     vertical-align: middle;
 }
 
-.profile-avatar{
+.profile-avatar {
     border-radius: 50%;
     width: 60px;
     height: 60px;
     border: 5px outset;
     object-fit: cover;
+}
+
+#user-summary h5 {
+    background-color: #243240;
+    color: white;
+    padding: 2px 11px;
+    border-radius: 25px;
+}
+#user-summary div {
+    margin-left: 10px;
+    font-weight: 500;
 }
 
 /* ACCOUNTS TAB */
@@ -63,6 +74,7 @@ ul.flat-list li {
 .active a.bapc-list-item {
     color: white
 }
+
 /* SAVED PARTS TAB */
 
 .bapc-list-item {
@@ -81,6 +93,7 @@ textarea.form-control {
     margin-bottom: 10px;
     margin-right: 5px;
 }
+
 .btn-panel button {
     margin: 0 3px;
 }
