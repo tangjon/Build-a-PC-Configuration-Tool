@@ -25,9 +25,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="d-flex nav-item nav-link {% if request.path == url_home %}active{% endif %}" href={{ url_home }}><span class="material-icons">home</span>Home
+                <a class="d-flex nav-item nav-link {% if request.path == url_home %}active{% endif %}"
+                   href={{ url_home }}><span class="material-icons">home</span>Home
                     <span class="sr-only">(current)</span></a>
-                <a class="d-flex nav-item nav-link {% if request.path == url_build %}active{% endif %}" href="{{ url_build }}"><span class="material-icons">dns</span>Build</a>
+                <a class="d-flex nav-item nav-link {% if request.path == url_build %}active{% endif %}"
+                   href="{{ url_build }}"><span class="material-icons">dns</span>Build</a>
                 <li class="nav-item dropdown partsDropDown">
                     <a class="d-flex nav-link dropdown-toggle partsDropDown-toggle nav-link
                        {% if request.path == url_gpu or request.path == url_cooler or request.path == url_monitor or request.path == url_cpu or request.path == url_ram or request.path == url_motherboard or request.path == url_power_supply or request.path == url_storage or request.path == url_case or request.path == url_storage %}active{% endif %}"
@@ -68,8 +70,11 @@
                         <div class="dropdown-menu bapc-dropdown-menu">
                             <a class="dropdown-item" href="{% url 'user:profile' user.username %}"><i
                                     class="material-icons">account_circle</i>Profile</a>
-{#                            <a class="dropdown-item" href="{% url 'user:preferences' user.username %}"><i#}
-{#                                    class="material-icons">settings</i>Preferences</a>#}
+                            {#                            <a class="dropdown-item" href="{% url 'user:preferences' user.username %}"><i#}
+                            {#                                    class="material-icons">settings</i>Preferences</a>#}
+
+                            <a class="dropdown-item" href="{% url 'user:builds' user.username %}"><i
+                                    class="material-icons">dns</i>Builds</a>
                             <a class="dropdown-item bg-danger text-light" href="{% url 'account:logout' %}"><i
                                     class="material-icons">exit_to_app</i>Logout</a>
                         </div>
