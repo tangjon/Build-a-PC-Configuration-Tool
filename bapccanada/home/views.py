@@ -130,7 +130,8 @@ class HomeView(TemplateView):
                 "cheapest_price": comp.cheapest_price,
                 "current_price": comp.price_set.all()[0].get_price_range(comp.get_polymorphic_class_id())['min'],
                 "component": comp.display_title,
-                "image_link": comp.get_component_images().first().image_link
+                "image_link": comp.get_component_images().first().image_link,
+                "component_link": "/products/" + comp.get_actual_class_string() + "/" + comp.slug
             })
         return feature_array
 

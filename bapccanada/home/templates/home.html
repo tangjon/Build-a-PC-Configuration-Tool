@@ -149,7 +149,9 @@
                     <div class="deal-block">
                         <img class="deal-logo"
                              src="{{ deal.image_link }}">
-                        <div class="deal-component bapc-link">{{ deal.component }}</div>
+                        <a href="{{ deal.component_link }}">
+                            <div class="deal-component bapc-link">{{ deal.component }}</div>
+                        </a>
                         <div class="deal-lowest-price">lowest price: {{ deal.cheapest_price }}</div>
                         <div class="deal-current-price"><strong>now: {{ deal.current_price }}</strong></div>
                         <img src="https://static.ebates.ca//images/campaigns/2015/site/AmazonCA-small.gif"
