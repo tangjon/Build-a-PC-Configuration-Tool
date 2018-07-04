@@ -7,68 +7,67 @@ from django.views.generic import TemplateView
 from django.http import JsonResponse
 
 from build.models import Build
+from home.models import Price
 from products.models import Component, Review
 from .constants import FRONT_END_URLS
 
 
 class HomeView(TemplateView):
     template_name = 'home.html'
-    oDeals = {
-        "0": {
+    oDeals = [
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "1": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "2": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "3": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "4": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "5": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "6": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "7": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         },
-        "8": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         }
         ,
-        "9": {
+        {
             "cheapest_price": 584.99,
             "current_price": 512.99,
             "component": "ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card",
         }
-
-    }
-
-    components = {
+    ]
+    navComponents = {
         "cpu": {
             "name": "CPU",
             "url": reverse_lazy('products:cpu'),
@@ -119,10 +118,22 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['deals'] = self.oDeals
-        context['components'] = self.components
+        # context['deals'] = self.oDeals
+        context['navComponents'] = self.navComponents
+        context['deals'] = self.prepare_deal_info(Component.objects.all()[:10])
         context['builds'] = Build.objects.filter(complete=True).order_by('date_published')[:3]
         return context
+
+    def prepare_deal_info(self, components):
+        feature_array = []
+        for comp in components:
+            feature_array.append({
+                "cheapest_price": comp.cheapest_price,
+                "current_price": comp.price_set.all()[0].get_price_range(comp.get_polymorphic_class_id())['min'],
+                "component": comp.display_title,
+                "image_link": comp.get_component_images().first().image_link
+            })
+        return feature_array
 
 
 def add_review(request):

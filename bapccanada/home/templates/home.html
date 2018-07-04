@@ -107,7 +107,7 @@
                     </h3>
                     <hr class="bapc">
                     <div class="component-category">
-                        {% for key, component in components.items %}
+                        {% for key, component in navComponents.items %}
                             <a id="{{ key }}" class="bapc-link cat-block grow" href="{{ component.url }}">
                                 <h4 class="cat-title">{{ component.name }}</h4>
                                 <img src="{{ component.img }}">
@@ -145,10 +145,10 @@
             <h3 class="bapc-section-title">Top Deals!</h3> *prices are placeholders
             <hr class="bapc">
             <div class="deal-grid">
-                {% for key, deal in deals.items %}
+                {% for deal in deals %}
                     <div class="deal-block">
                         <img class="deal-logo"
-                             src="https://www.overclockers.co.uk/media/image/thumbnail/GX410AS_162110_800x800.jpg">
+                             src="{{ deal.image_link }}">
                         <div class="deal-component bapc-link">{{ deal.component }}</div>
                         <div class="deal-lowest-price">lowest price: {{ deal.cheapest_price }}</div>
                         <div class="deal-current-price"><strong>now: {{ deal.current_price }}</strong></div>
