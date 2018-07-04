@@ -17,6 +17,7 @@ class Component(PolymorphicModel):
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(blank=True)
 
+    all_time_low_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     cheapest_price = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     cheapest_price_shipping = models.DecimalField(default=0.0, max_digits=19, decimal_places=2, blank=True, null=True)
     cheapest_price_store_link = models.URLField()
