@@ -118,7 +118,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['deals'] = self.oDeals
         context['navComponents'] = self.navComponents
         context['deals'] = self.prepare_deal_info(Component.objects.all()[:10])
         context['builds'] = Build.objects.filter(complete=True).order_by('date_published')[:3]
