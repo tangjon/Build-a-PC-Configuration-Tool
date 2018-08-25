@@ -1,0 +1,60 @@
+/*
+NAVIGATION BAR
+*/
+
+.bapc-dropdown-menu > a.dropdown-item {
+    display: flex;
+}
+
+.bapc-navbar {
+    background-color: #243240;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.bapc-navbar .navbar-brand, .bapc-navbar .nav-link, .bapc-navbar .nav-item {
+    font-weight: 500;
+}
+
+.bapc-navbar.navbar-dark .navbar-nav .nav-link.active, .bapc-navbar .dropdown-toggle {
+    color: #ffae2e;
+}
+
+.nav-welcome {
+    display: flex;
+}
+
+.nav-welcome h5 {
+    color: white;
+}
+
+.partsDropDown:hover > .partsDropDown-menu {
+    display: block;
+}
+
+.partsDropDown-toggle::after {
+    display: none;
+}
+
+.partsDropDown .partsDropDown-menu {
+    margin-top: -0.35rem;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #f9bf3b;
+}
+
+.btn-register, .btn-logon {
+    font-weight: 600;
+    height: 34px;
+    font-size: 14px;
+}
+
+.btn-register {
+    background-color: #ffae2e;
+}
+
+.btn-logon {
+    background-color: #2f80d1;
+}
