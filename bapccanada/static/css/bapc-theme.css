@@ -27,10 +27,9 @@
     border-radius: 13px;
 }
 
-/*.bapc-btn-primary.btn:focus {*/
-/*outline: 0;*/
-/*box-shadow: 0 0 0 0.2rem rgb(255, 227, 201);*/
-/*}*/
+.bapc-body-content {
+    padding: 6px 0px;
+}
 
 /*COMPONENT GRID*/
 #component-category {
@@ -150,3 +149,23 @@
 }
 
 /* END RECENT BUILDS */
+
+/* DEAL HIGHLIGHT */
+.deal-highlight {
+    margin: 10px 0px;
+    /* background-color: red; */
+    padding: 14px 14px;
+    border: #ffae2e solid 5px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+.deal-highlight .bapc-section-title {
+    color: black;
+}
+
+.deal-highlight .bapc-bar {
+    border-color: rgb(36, 50, 64);
+}
+
+/* END HIGHLGIHT */
