@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary save-modal-confirm">Save</button>
+                                    <button type="button" class="btn bapc-btn-primary save-modal-confirm">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,8 @@
                     {% if not component.object %}
                         <td class="productImage"></td>
                         <td>
-                            <a href="{% url component.category_link %}" class="btn btn-primary btn-sm" role="button">
+                            <a href="{% url component.category_link %}" class="btn bapc-btn-primary btn-sm"
+                               role="button">
                                 {% if category == "Memory" %}
                                     Add {{ category }}
                                 {% else %}

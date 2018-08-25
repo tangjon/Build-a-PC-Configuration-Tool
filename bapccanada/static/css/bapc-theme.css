@@ -16,7 +16,14 @@
 
 .bapc-btn-primary:hover {
     color: #fff;
-    background-color: #ff7e00;
+    background-color: #2966a2;
+    border-color: #245788;
+}
+
+.bapc-btn-primary {
+    color: #fff;
+    background-color: #2f80d1;
+    border-color: #457db5;
 }
 
 .bapc-bar-entry {

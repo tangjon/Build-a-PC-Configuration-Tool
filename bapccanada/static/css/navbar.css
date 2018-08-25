@@ -45,7 +45,7 @@ NAVIGATION BAR
     background-color: #f9bf3b;
 }
 
-.btn-register, .btn-logon {
+.btn-register, .bapc-btn-primary {
     font-weight: 600;
     height: 34px;
     font-size: 14px;
@@ -53,8 +53,4 @@ NAVIGATION BAR
 
 .btn-register {
     background-color: #ffae2e;
-}
-
-.btn-logon {
-    background-color: #2f80d1;
 }
