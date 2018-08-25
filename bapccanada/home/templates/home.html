@@ -2,93 +2,7 @@
 {% load static %}
 {% block extraStyles %}
     <style>
-        .deal-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
 
-        }
-
-        .deal-block {
-            width: 185px;
-            border: #ccc solid 1px;
-            margin: 5px;
-            padding: 10px 12px;
-            text-align: center;
-        }
-
-        .deal-logo {
-            width: 150px;
-        }
-
-        .deal-lowest-price {
-            color: grey;
-        }
-
-        .deal-current-price {
-            color: red;
-        }
-
-        .component-category {
-            display: flex;
-            flex-wrap: wrap;
-
-        }
-
-        .cat-block:hover {
-            color: #f9bf3b;
-            background-color: #243240;
-        }
-
-        .cat-block {
-            display: inline-block;
-            text-align: center;
-            border: black solid 2px;
-            height: 100px;
-            flex-grow: 1;
-            margin: 0 2px 46px;
-            width: 100%;
-        }
-
-        .bapc-btn-primary {
-            color: #fff;
-
-            background-color: #ff952f;
-        }
-
-        .bapc-btn-primary:hover {
-            color: #fff;
-            background-color: #ff7e00;
-        }
-
-        .bapc-btn-primary.btn:focus {
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgb(255, 227, 201);
-        }
-
-        @media (min-width: 995px) {
-            .cat-block {
-                width: calc(100% * (1 / 3) - 10px - 1px)
-            }
-        }
-
-        .cat-title {
-
-        }
-
-        i.cat-image.material-icons {
-            font-size: 53px;
-        }
-
-        .cat-block img {
-            height: 95%;
-        }
-
-        #cooler img {
-            bottom: 20px;
-            position: relative;
-            height: 141px;
-        }
     </style>
 {% endblock %}
 
@@ -102,11 +16,10 @@
     <div class="container home-container pt-3">
         <div>
             <div class="row">
-                <div class="col">
-                    <h3 class="bapc-section-title">PARTS PARTS PARTS!
-                    </h3>
-                    <hr class="bapc">
-                    <div class="component-category">
+                <div class="col" id="component-category">
+                    <h3 class="bapc-section-title">PC Components</h3>
+                    <hr class="bapc-bar">
+                    <div id="component-grid">
                         {% for key, component in navComponents.items %}
                             <a id="{{ key }}" class="bapc-link cat-block grow" href="{{ component.url }}">
                                 <h4 class="cat-title">{{ component.name }}</h4>
@@ -115,27 +28,32 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col">
+                <div class="col" id="recent-builds">
                     <div class="flat-panel">
                         <h3 class="bapc-section-title">Recent Builds</h3>
                         <a class="btn bapc-link btn-secondary text-white" href="{% url 'build:create' %}">Start a
                             Build</a>
                     </div>
-                    <hr class="bapc">
+                    <hr class="bapc-bar">
                     {% for build in builds %}
-                        <a class="bapc-link" href="{{ build.get_link }}"><h4>{{ build.name|default_if_none:""}}</h4></a>
-                        {% for  category, component in build.get_component_dict.items %}
-                            <div>{{ component.object.display_title }}</div>
+                        <div class="recent-build">
+                            <a class="bapc-link" href="{{ build.get_link }}"><h4>{{ build.name|default_if_none:""}}</h4>
+                            </a>
+                            <hr class="bapc-bar-entry">
+                            <div class="recent-build-body">
+                                {% for  category, component in build.get_component_dict.items %}
+                                    <div>{{ component.object.display_title }}</div>
 
-                        {% endfor %}
-                        <div class="flat-panel">
-                            <div>By <a
-                                    href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a>
+                                {% endfor %}
                             </div>
-                            <div>{{ build.date_published }}</div>
-                            <span>Points {{ build.points }}</span>
+                            <div class="flat-panel">
+                                <div>By <a
+                                        href="{% url 'user:profile' build.owner.user.username %}">{{ build.owner }}</a>
+                                </div>
+                                <div>{{ build.date_published }}</div>
+                                <span>Points {{ build.points }}</span>
+                            </div>
                         </div>
-                        <hr>
                     {% endfor %}
                 </div>
             </div>
