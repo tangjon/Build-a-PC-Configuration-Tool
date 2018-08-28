@@ -4,7 +4,7 @@ Our site is focused on featuring computer hardware and components. Our goal is t
 
 Link to prototype site: http://bapc.io/
 
-Our project is hosted here: https://github.com/tangjon/PROJECT-PCPARTS
+Our source code is hosted here: https://github.com/tangjon/PROJECT-PCPARTS
 
 ## Frameworks/Languages
 
@@ -16,16 +16,30 @@ Our project is hosted here: https://github.com/tangjon/PROJECT-PCPARTS
 
 ### Front End
 [Django Templating](https://docs.djangoproject.com/en/2.0/topics/templates/)
-
+[Jquery](https://getbootstrap.com/)
+[Boostrap](https://jquery.com/)
 ***
 
 Site structure (Rough Road Project Road Map)
-- Home
-- Login
-- User settings and authentication
-- Build creation page
-- Part browse page, per category basis
-- Part detail page (pricing, comments, reviews)
+* Home Page
+    * Component category navigation
+    * Display recent builds
+* Logon and Authentication
+* User Settings
+    * Profile page
+    * Display builds
+    * Display reviews
+    * Manage security
+* Build creation page
+    * Choose and assemble parts to createa build
+    * Display price summary
+* Part browse page, per category basis
+    * Filter through price, rating, manufacturer, chipset, memory, hdmi ports, display ports, etc.
+        * complex logic used
+    * Support for searching
+    * Select and add to build
+* Part detail page 
+    * view pricing, comments, reviews
 - Part Filter
 
 Project Phase 1: (COMPLETE)
@@ -41,8 +55,8 @@ Project Phase 3: (COMPLETE)
 - Finish adding in other types of components aside from GPUs if desired
 - Bring project online on VPS
 
-Project Phase 4: (PENDING)
-- Integrate Amazon API
+Project Phase 4: (COMPLETE)
+- Integrate Amazon API (SCRAPPED) => Could not get access to Amazon Product API
 
 manage.py runserver  --settings=bapccanada.settings.local
 django-admin runserver --settings=bapccanada.settings.dev
