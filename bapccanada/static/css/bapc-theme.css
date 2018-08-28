@@ -176,3 +176,11 @@
 }
 
 /* END HIGHLGIHT */
+
+
+/* FOOTER */
+.footer a.text-muted {
+    color: black!important;
+}
+
+/* END FOOTER*/
