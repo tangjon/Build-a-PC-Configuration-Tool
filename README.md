@@ -1,4 +1,4 @@
-# Build a PC Part Picker (Project-PFA-Stack)
+# Build a PC Part Picker (Built with Django)
 
 Our site is focused on featuring computer hardware and components. Our goal is to provide information to consumers who are in the market for buying new computers or components with the information they need. We hope give more structure to building computer parts and offer recommendations and easily direct users to the components they need. We also hope to provide price statistics on whether it is a good time to buy or simply an historical low.
 
@@ -35,7 +35,7 @@ Site structure (Rough Road Project Road Map)
     * Display price summary
 * Part browse page, per category basis
     * Filter through price, rating, manufacturer, chipset, memory, hdmi ports, display ports, etc.
-        * complex logic used
+        * complex logic and backend processing used
     * Support for searching
     * Select and add to build
 * Part detail page 
