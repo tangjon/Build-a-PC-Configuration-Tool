@@ -72,7 +72,9 @@
                 <tbody>
                 {% for price in prices %}
                     <tr>
-                        <th scope="row">{{ price.store }}</th>
+                        <th scope="row" class="storeEntry">
+                            <a class="storeTitle" href="{{ price.store_link }}">
+                            {{ price.store }}</a></th>
                         <td class="price">${{ price.price }}</td>
                         <td class="shipping">
                             {% if price.shipping > 0.0 %}

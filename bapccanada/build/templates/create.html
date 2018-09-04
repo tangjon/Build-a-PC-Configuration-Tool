@@ -100,7 +100,9 @@
                     {% else %}
                         <td class="productImage">
                             <div class="imageWrapper">
-                                <img src="{% static 'assets/gpu.jpg' %}">
+                                {% if component.thumbnail %}
+                                <img src="{{ component.thumbnail }}">
+                                {% endif %}
                             </div>
                         </td>
                         <td><a class="productTitle"

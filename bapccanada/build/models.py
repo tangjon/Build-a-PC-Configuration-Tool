@@ -146,47 +146,56 @@ class Build(models.Model):
             "Video Card": {
                 "object": self.gpu,
                 "category_link": "products:gpu",
-                "detail_link": "products:gpu_detail"
+                "detail_link": "products:gpu_detail",
+                "thumbnail": self.gpu.get_thumbnail() if self.gpu else ""
             },
             "Processor": {
                 "object": self.cpu,
                 "category_link": "products:cpu",
-                "detail_link": "products:cpu_detail"
+                "detail_link": "products:cpu_detail",
+                "thumbnail": self.cpu.get_thumbnail() if self.cpu else ""
             },
             "Monitor": {
                 "object": self.monitor,
                 "category_link": "products:monitors",
-                "detail_link": "products:monitor_detail"
+                "detail_link": "products:monitor_detail",
+                "thumbnail": self.monitor.get_thumbnail() if self.monitor else ""
             },
             "Memory": {
                 "object": self.ram,
                 "category_link": "products:ram",
-                "detail_link": "products:ram_detail"
+                "detail_link": "products:ram_detail",
+                "thumbnail": self.ram.get_thumbnail() if self.ram else ""
             },
             "Motherboard": {
                 "object": self.motherboard,
                 "category_link": "products:motherboard",
-                "detail_link": "products:motherboard_detail"
+                "detail_link": "products:motherboard_detail",
+                "thumbnail": self.motherboard.get_thumbnail() if self.motherboard else ""
             },
             "Power Supply": {
                 "object": self.power_supply,
                 "category_link": "products:power_supply",
-                "detail_link": "products:power_supply_detail"
+                "detail_link": "products:power_supply_detail",
+                "thumbnail": self.power_supply.get_thumbnail() if self.power_supply else ""
             },
             "Storage": {
                 "object": self.storage,
                 "category_link": "products:storage",
-                "detail_link": "products:storage_detail"
+                "detail_link": "products:storage_detail",
+                "thumbnail": self.storage.get_thumbnail() if self.storage else ""
             },
             "Case": {
                 "object": self.case,
                 "category_link": "products:case",
-                "detail_link": "products:case_detail"
+                "detail_link": "products:case_detail",
+                "thumbnail": self.case.get_thumbnail() if self.case else ""
             },
             "CPU Cooler": {
                 "object": self.cooler,
                 "category_link": "products:cooler",
-                "detail_link": "products:cooler_detail"
+                "detail_link": "products:cooler_detail",
+                "thumbnail": self.cooler.get_thumbnail() if self.cooler else ""
             }
         }
 

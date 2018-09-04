@@ -83,7 +83,10 @@ class Component(PolymorphicModel):
     def get_polymorphic_class_id(self):
         return self.polymorphic_ctype_id
 
-    # used for component detail title
+    def get_thumbnail(self):
+        return self.image_set.first().image_link
+
+    #   used for component detail title
     def get_page_title(self):
         pass
 
