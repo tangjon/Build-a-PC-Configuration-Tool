@@ -22,7 +22,8 @@
                 {% endif %}
             </div>
             <div class="mr-2" aria-label="Toolbar Controls">
-                <button type="button" class="btn btn-secondary save-as-button" {% if build.is_pristine %}disabled{% endif %}>
+                <button type="button" class="btn btn-secondary save-as-button"
+                        {% if build.is_pristine %}disabled{% endif %}>
                     Save as Copy
                 </button>
                 <div class="modal fade save-as-modal" tabindex="-1" role="dialog">
@@ -87,7 +88,9 @@
                                            href="{% url component.category_link %}">{{ category }}</a></th>
                         <td class="productImage">
                             <div class="imageWrapper">
-                                <img src="{% static 'assets/gpu.jpg' %}">
+                                {% if component.thumbnail %}
+                                    <img src="{{ component.thumbnail }}">
+                                {% endif %}
                             </div>
                         </td>
                         <td><a class="productTitle"
