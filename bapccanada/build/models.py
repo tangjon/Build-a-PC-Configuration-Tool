@@ -1,13 +1,13 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 
 from functools import reduce
 from decimal import Decimal
 
-from django.utils import timezone
 
 from bapccanada.utils import create_shortcode
-from products.models import GPU, CPU, RAM, Monitor, Motherboard, PowerSupply, Case, Storage, Cooler
+from products.models import GPU, CPU, RAM, Monitor, Motherboard, PowerSupply, Case, Storage, Cooler, Image
 from user.models import UserProfile
 
 

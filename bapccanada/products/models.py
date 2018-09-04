@@ -640,3 +640,11 @@ class Review(models.Model):
 
     def test(self):
         return self.objects.all()
+
+
+class Image(models.Model):
+    component = models.ForeignKey(Component, on_delete=models.CASCADE, null=True)
+    image_link = models.URLField()
+
+    def __str__(self):
+        return "{} : {}".format(self.id, self.image_link)

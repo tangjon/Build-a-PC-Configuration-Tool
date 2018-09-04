@@ -3,3 +3,4 @@ django-static-precompiler==1.8.2
 django-polymorphic==2.0.2
 django-widget-tweaks==1.4.2
 Pillow==5.1.0
+requests=2.19.1

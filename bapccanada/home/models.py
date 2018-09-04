@@ -36,10 +36,3 @@ class Price(models.Model):
             "selected_max": maximum
         }
 
-
-class Image(models.Model):
-    component = models.ForeignKey(Component, on_delete=models.CASCADE, null=True)
-    image_link = models.URLField()
-
-    def __str__(self):
-        return "{} : {}".format(self.id, self.image_link)
